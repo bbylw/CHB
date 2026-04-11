@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>慢性乙肝循证科普 | CHB Evidence-Based Guide（简化科普版）</title>
+  <meta name="description" content="基于WHO 2024、EASL 2025、AASLD 2025循证指南的慢性乙肝患者科普网站（简化版），含自我筛查工具">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: { DEFAULT: '#1A6FB5', dark: '#0F4C81', light: '#2E8BC0' },
+            bg: { DEFAULT: '#0A1628', card: '#111D35', light: '#F0F4F8' },
+          },
+          fontFamily: {
+            sans: ['Noto Sans SC', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+<body class="bg-bg text-slate-200">
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- ========== 导航栏 ========== -->
+  <nav id="navbar" class="navbar">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2 text-lg font-bold" style="background: linear-gradient(135deg, #fff, #2E8BC0); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+        <svg class="w-7 h-7" style="-webkit-text-fill-color: #2E8BC0;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+        CHB循证科普
+      </a>
+      <!-- 桌面导航 -->
+      <div class="hidden md:flex items-center gap-6">
+        <a href="#goals">治疗目标</a>
+        <a href="#indications">治疗指征</a>
+        <a href="#drugs">一线药物</a>
+        <a href="#screening">自我筛查</a>
+        <a href="#followup">复查趋势</a>
+      </div>
+      <!-- 移动端菜单按钮 -->
+      <button id="mobile-menu-btn" class="md:hidden text-slate-200 p-2">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+    <!-- 移动端菜单 -->
+    <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4 flex flex-col gap-3">
+      <a href="#goals" class="py-2 px-4 rounded-lg hover:bg-white/5">治疗目标</a>
+      <a href="#indications" class="py-2 px-4 rounded-lg hover:bg-white/5">治疗指征</a>
+      <a href="#drugs" class="py-2 px-4 rounded-lg hover:bg-white/5">一线药物</a>
+      <a href="#screening" class="py-2 px-4 rounded-lg hover:bg-white/5">自我筛查</a>
+      <a href="#followup" class="py-2 px-4 rounded-lg hover:bg-white/5">复查趋势</a>
+    </div>
+  </nav>
+
+  <!-- ========== Hero 区域 ========== -->
+  <section class="hero-bg min-h-screen flex items-center justify-center relative pt-20">
+    <div class="noise-overlay"></div>
+    <!-- 装饰粒子 -->
+    <div class="floating-particle w-64 h-64 top-20 left-10" style="animation-delay: 0s;"></div>
+    <div class="floating-particle w-40 h-40 bottom-32 right-20" style="animation-delay: -5s;"></div>
+    <div class="floating-particle w-24 h-24 top-1/2 right-1/3" style="animation-delay: -10s;"></div>
+
+    <div class="max-w-4xl mx-auto text-center px-6 relative z-10">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] text-sm text-primary-light mb-8 animate-on-scroll">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot"></span>
+        基于 WHO 2024 · EASL 2025 · AASLD 2025 循证指南（简化科普版）
+      </div>
+      <h1 class="text-4xl md:text-6xl font-extrabold mb-6 animate-on-scroll animate-delay-1 tracking-tight text-white">
+        慢性乙肝循证科普
+      </h1>
+      <p class="text-lg md:text-xl text-slate-300 mb-4 animate-on-scroll animate-delay-2 leading-relaxed max-w-2xl mx-auto">
+        用循证医学证据，帮助你理解慢性乙肝的治疗目标、指征和方案
+      </p>
+      <p class="text-sm text-slate-400 mb-10 animate-on-scroll animate-delay-3">
+        不是简单"转阴"，而是科学抑制病毒、延缓纤维化、降低肝癌风险
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-on-scroll animate-delay-4">
+        <a href="#screening" class="btn-primary text-lg px-8 py-3 inline-flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          开始自我筛查
+        </a>
+        <a href="#goals" class="btn-secondary inline-flex items-center gap-2">
+          了解治疗目标
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- 底部波浪过渡 -->
+    <div class="absolute bottom-0 left-0 right-0">
+      <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#0A1628"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ========== 治疗目标 ========== -->
+  <section id="goals" class="py-20 px-6 bg-bg">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 animate-on-scroll">
+        <h2 class="section-title">治疗目标</h2>
+        <p class="section-subtitle">慢性乙肝治疗不是简单"转阴"，循证上分三个层次</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- 目标1：长期抑制HBV复制 -->
+        <div class="glass-card animate-on-scroll animate-delay-1 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/15 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <span class="inline-block px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-semibold mb-3">现实主要目标 · 最高证据</span>
+          <h3 class="text-xl font-bold text-white mb-3">长期抑制HBV复制</h3>
+          <ul class="space-y-2 text-slate-300 text-sm">
+            <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> HBV DNA 持续不可测</li>
+            <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> ALT 恢复正常</li>
+            <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> 延缓肝纤维化进展</li>
+            <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> 预防肝硬化发生</li>
+            <li class="flex items-start gap-2"><span class="text-emerald-400 mt-0.5">✓</span> 降低HCC（肝癌）风险</li>
+          </ul>
+          <button class="toggle-content mt-4 text-primary-light text-sm font-medium flex items-center gap-1 hover:underline">
+            了解更多 <span class="toggle-icon">▼</span>
+          </button>
+          <div class="expandable-content">
+            <p class="mt-3 text-sm text-slate-400 leading-relaxed">
+              这是目前最成熟、证据最强的治疗目标。所有国际指南一致推荐：通过长期口服核苷类似物（ETV/TDF/TAF），使HBV DNA持续低于检测下限，ALT恢复正常，可显著延缓疾病进展。多项RCT和长期队列研究证实：抗病毒治疗可显著降低肝衰竭、HCC和死亡风险。
+            </p>
+            <p class="mt-2 text-xs text-slate-500">证据来源：WHO 2024（强推荐，高质量证据）· EASL 2025 · AASLD 2025</p>
+          </div>
+        </div>
+
+        <!-- 目标2：HBeAg血清学转换 -->
+        <div class="glass-card animate-on-scroll animate-delay-2 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-amber-500/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+          <div class="w-12 h-12 rounded-xl bg-amber-500/15 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+          </div>
+          <span class="inline-block px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 text-xs font-semibold mb-3">理想目标 · 中等证据</span>
+          <h3 class="text-xl font-bold text-white mb-3">HBeAg血清学转换</h3>
+          <ul class="space-y-2 text-slate-300 text-sm">
+            <li class="flex items-start gap-2"><span class="text-amber-400 mt-0.5">✓</span> HBeAg消失</li>
+            <li class="flex items-start gap-2"><span class="text-amber-400 mt-0.5">✓</span> HBeAb出现（抗-HBe阳性）</li>
+            <li class="flex items-start gap-2"><span class="text-amber-400 mt-0.5">✓</span> 提示免疫控制增强</li>
+            <li class="flex items-start gap-2"><span class="text-amber-400 mt-0.5">✓</span> 适用于HBeAg阳性患者</li>
+          </ul>
+          <button class="toggle-content mt-4 text-primary-light text-sm font-medium flex items-center gap-1 hover:underline">
+            了解更多 <span class="toggle-icon">▼</span>
+          </button>
+          <div class="expandable-content">
+            <p class="mt-3 text-sm text-slate-400 leading-relaxed">
+              HBeAg血清学转换意味着机体从免疫耐受期进入免疫控制期，是疾病好转的重要标志。核苷类似物治疗1年HBeAg转换率约20%，延长疗程可提高。转换后可考虑停药（需密切随访），但部分患者可能出现逆转。
+            </p>
+            <p class="mt-2 text-xs text-slate-500">证据来源：EASL 2025 · AASLD 2025</p>
+          </div>
+        </div>
+
+        <!-- 目标3：HBsAg清除 -->
+        <div class="glass-card animate-on-scroll animate-delay-3 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-blue-500/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+          <div class="w-12 h-12 rounded-xl bg-blue-500/15 flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+          </div>
+          <span class="inline-block px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold mb-3">最高目标 · 功能性治愈</span>
+          <h3 class="text-xl font-bold text-white mb-3">HBsAg清除</h3>
+          <ul class="space-y-2 text-slate-300 text-sm">
+            <li class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">✓</span> HBsAg转阴</li>
+            <li class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">✓</span> ± HBsAb阳性（抗-HBs出现）</li>
+            <li class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">✓</span> 国际指南公认最佳终点</li>
+            <li class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">✓</span> 临床实现率仍不高（1-3%/年）</li>
+          </ul>
+          <button class="toggle-content mt-4 text-primary-light text-sm font-medium flex items-center gap-1 hover:underline">
+            了解更多 <span class="toggle-icon">▼</span>
+          </button>
+          <div class="expandable-content">
+            <p class="mt-3 text-sm text-slate-400 leading-relaxed">
+              HBsAg清除被称为"功能性治愈"，是目前国际指南公认的最佳治疗终点。达到此目标的患者HCC风险显著降低，可安全停药。但核苷类似物单药治疗HBsAg清除率仅1-3%/年，干扰素略高。新型ASO药物（如bepirovirsen）正在研究阶段，有望提高功能性治愈率。
+            </p>
+            <p class="mt-2 text-xs text-slate-500">证据来源：EASL 2025 · AASLD 2025</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 治疗指征 ========== -->
+  <section id="indications" class="py-20 px-6 bg-gradient-to-b from-bg via-bg-card/30 to-bg">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 animate-on-scroll">
+        <h2 class="section-title">谁需要治疗</h2>
+        <p class="section-subtitle">有纤维化、肝硬化、高病毒复制或高危因素者应尽早治疗——这是三大指南的重叠共识</p>
+      </div>
+
+      <!-- 指征1：肝硬化 -->
+      <div class="glass-card mb-6 animate-on-scroll animate-delay-1 border-l-4 border-l-red-500">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-xl bg-red-500/15 flex items-center justify-center flex-shrink-0">
+            <span class="text-2xl">🚨</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center gap-3 flex-wrap mb-2">
+              <h3 class="text-lg font-bold text-white">所有肝硬化患者——必须治疗</h3>
+              <span class="evidence-badge" style="background: #EF4444;">最高证据</span>
+            </div>
+            <p class="text-slate-300 text-sm mb-3">无论ALT是否正常，只要HBV DNA可测，无论代偿或失代偿期肝硬化，均应立即启动抗病毒治疗。这是全球完全一致共识。</p>
+            <div class="grid sm:grid-cols-2 gap-3 mt-4">
+              <div class="p-3 rounded-lg bg-red-500/5 border border-red-500/10">
+                <p class="text-xs text-red-300 font-medium mb-1">RCT和长期队列证实可显著降低：</p>
+                <ul class="text-xs text-slate-400 space-y-1">
+                  <li>• 肝衰竭风险</li>
+                  <li>• 食管胃静脉曲张出血</li>
+                  <li>• 肝细胞癌（HCC）</li>
+                  <li>• 死亡率</li>
+                </ul>
+              </div>
+              <div class="p-3 rounded-lg bg-white/5 border border-white/10">
+                <p class="text-xs text-slate-400">参考：WHO 2024 · EASL 2025 · AASLD 2025 —— 三大指南完全一致推荐</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 指征2：DNA+ALT升高 -->
+      <div class="glass-card mb-6 animate-on-scroll animate-delay-2 border-l-4 border-l-amber-500">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-xl bg-amber-500/15 flex items-center justify-center flex-shrink-0">
+            <span class="text-2xl">📋</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center gap-3 flex-wrap mb-2">
+              <h3 class="text-lg font-bold text-white">HBV DNA升高 + ALT升高——建议治疗</h3>
+              <span class="evidence-badge" style="background: #F59E0B;">高质量证据</span>
+            </div>
+            <p class="text-slate-300 text-sm mb-4">最经典的治疗指征，证据最成熟的人群。长期治疗可明显减少肝纤维化进展。</p>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div class="p-4 rounded-lg bg-amber-500/5 border border-amber-500/10">
+                <h4 class="text-sm font-semibold text-amber-300 mb-2">HBeAg阳性</h4>
+                <p class="text-sm text-slate-300">HBV DNA ≥ <strong class="text-white">20,000 IU/mL</strong></p>
+                <p class="text-sm text-slate-300 mt-1">ALT > ULN（AASLD强调 ≥2×ULN）</p>
+              </div>
+              <div class="p-4 rounded-lg bg-amber-500/5 border border-amber-500/10">
+                <h4 class="text-sm font-semibold text-amber-300 mb-2">HBeAg阴性</h4>
+                <p class="text-sm text-slate-300">HBV DNA ≥ <strong class="text-white">2,000 IU/mL</strong></p>
+                <p class="text-sm text-slate-300 mt-1">ALT > ULN</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 指征3：显著纤维化 -->
+      <div class="glass-card mb-6 animate-on-scroll animate-delay-3 border-l-4 border-l-blue-500">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-xl bg-blue-500/15 flex items-center justify-center flex-shrink-0">
+            <span class="text-2xl">💡</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center gap-3 flex-wrap mb-2">
+              <h3 class="text-lg font-bold text-white">即使ALT正常，但已有显著纤维化——倾向治疗</h3>
+              <span class="evidence-badge" style="background: #3B82F6;">中等证据</span>
+            </div>
+            <p class="text-slate-300 text-sm mb-3">肝穿METAVIR ≥F2 或瞬时弹性成像LSM >7 kPa。国际指南越来越重视这类患者，这是过去漏治的重点人群。</p>
+            <div class="p-3 rounded-lg bg-blue-500/5 border border-blue-500/10 text-xs text-slate-400">
+              <strong class="text-blue-300">EASL 2025更倾向早治</strong>：很多患者ALT正常但肝脏炎症持续存在，延误治疗可导致不可逆纤维化进展。LSM >7 kPa是EASL推荐的无创纤维化阈值。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 指征4：年龄+高危 -->
+      <div class="glass-card mb-6 animate-on-scroll animate-delay-4 border-l-4 border-l-purple-500">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-xl bg-purple-500/15 flex items-center justify-center flex-shrink-0">
+            <span class="text-2xl">⏳</span>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-center gap-3 flex-wrap mb-2">
+              <h3 class="text-lg font-bold text-white">年龄偏大 + 高病毒载量 + 其他高危因素——风险修饰因素</h3>
+              <span class="evidence-badge" style="background: #8B5CF6;">风险修饰因素</span>
+            </div>
+            <p class="text-slate-300 text-sm mb-3">年龄本身非独立核心治疗指征，属风险修饰/共同决策因素。EASL倾向对30岁以上高病毒载量患者更积极，AASLD对免疫耐受期>40岁才考虑：</p>
+            <ul class="text-sm text-slate-300 space-y-1">
+              <li class="flex items-start gap-2"><span class="text-purple-400 mt-0.5">•</span> 年龄 > 30-40岁 + HBeAg阳性 + HBV DNA高</li>
+              <li class="flex items-start gap-2"><span class="text-purple-400 mt-0.5">•</span> 有肝癌家族史</li>
+              <li class="flex items-start gap-2"><span class="text-purple-400 mt-0.5">•</span> 真实世界研究发现这类患者HCC风险并不低</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 核心原则提示 -->
+      <div class="mt-12 p-6 rounded-2xl bg-gradient-to-r from-primary-dark/20 to-primary/10 border border-primary/20 animate-on-scroll">
+        <p class="text-center text-lg font-medium text-white leading-relaxed">
+          💡 <strong>国际循证核心原则</strong>：有纤维化、肝硬化、高病毒复制、共感染/免疫抑制、或HCC/肝硬化家族史者，应尽早治疗，而不是单纯盯ALT。年龄属于风险修饰因素，需结合其他条件综合判断。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 一线药物 ========== -->
+  <section id="drugs" class="py-20 px-6 bg-bg">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 animate-on-scroll">
+        <h2 class="section-title">一线药物</h2>
+        <p class="section-subtitle">三大指南重叠一线核苷类似物为TDF/ETV；TAF为EASL/AASLD常用一线；Peg-IFN为特定人群有限疗程选项</p>
+      </div>
+
+      <div class="overflow-x-auto rounded-2xl animate-on-scroll">
+        <table class="drug-comparison-table">
+          <thead>
+            <tr>
+              <th>药物</th>
+              <th>类型</th>
+              <th>抗病毒强度</th>
+              <th>耐药屏障</th>
+              <th>优点</th>
+              <th>注意事项</th>
+              <th>适合人群</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="font-semibold text-white">TDF<br><span class="text-xs text-slate-400">替诺福韦二吡呋酯</span></td>
+              <td><span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 text-xs">核苷类似物</span></td>
+              <td>⭐⭐⭐⭐⭐</td>
+              <td>⭐⭐⭐⭐⭐</td>
+              <td class="text-sm">抗病毒最强之一<br>几乎不耐药</td>
+              <td class="text-sm text-amber-300">长期可影响肾功能<br>可降低骨密度</td>
+              <td class="text-sm">一般初治患者<br>无骨肾风险者</td>
+            </tr>
+            <tr>
+              <td class="font-semibold text-white">TAF<br><span class="text-xs text-slate-400">替诺福韦艾拉酚胺</span></td>
+              <td><span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 text-xs">核苷类似物</span></td>
+              <td>⭐⭐⭐⭐⭐</td>
+              <td>⭐⭐⭐⭐⭐</td>
+              <td class="text-sm">与TDF等效<br>骨肾安全性更好</td>
+              <td class="text-sm text-slate-400">价格相对较高</td>
+              <td class="text-sm">老年人<br>CKD患者<br>骨质疏松风险者</td>
+            </tr>
+            <tr>
+              <td class="font-semibold text-white">ETV<br><span class="text-xs text-slate-400">恩替卡韦</span></td>
+              <td><span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 text-xs">核苷类似物</span></td>
+              <td>⭐⭐⭐⭐</td>
+              <td>⭐⭐⭐⭐</td>
+              <td class="text-sm">经典一线药<br>耐药率极低<br>安全性好</td>
+              <td class="text-sm text-slate-400">既往拉米夫定耐药者<br>耐药风险增加</td>
+              <td class="text-sm">初治患者<br>肾功能一般者</td>
+            </tr>
+            <tr>
+              <td class="font-semibold text-white">Peg-IFN<br><span class="text-xs text-slate-400">聚乙二醇干扰素</span></td>
+              <td><span class="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 text-xs">干扰素</span></td>
+              <td>⭐⭐⭐</td>
+              <td>—</td>
+              <td class="text-sm">疗程有限（48周）<br>HBsAg清除率更高</td>
+              <td class="text-sm text-red-300">副作用大：发热、抑郁<br>骨髓抑制<br>需注射给药</td>
+              <td class="text-sm">年轻患者<br>高ALT低DNA<br>无禁忌症者</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="mt-8 p-4 rounded-xl bg-white/5 border border-white/10 text-sm text-slate-400 animate-on-scroll">
+        <p><strong class="text-slate-300">⚠️ 重要提醒：</strong>拉米夫定（LAM）和阿德福韦（ADV）因耐药率高，已不作为一线推荐。若正在使用，建议在医生指导下换用一线药物。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 自我筛查工具 ========== -->
+  <section id="screening" class="py-20 px-6 bg-gradient-to-b from-bg via-bg-card/30 to-bg relative">
+    <div class="floating-particle w-48 h-48 top-10 right-10" style="animation-delay: -3s;"></div>
+    <div class="max-w-4xl mx-auto relative z-10">
+      <div class="text-center mb-12 animate-on-scroll">
+        <h2 class="section-title">自我筛查工具</h2>
+        <p class="section-subtitle">根据您的检查结果，初步评估是否需要启动抗病毒治疗</p>
+      </div>
+
+      <!-- 免责声明 -->
+      <div class="mb-8 p-4 rounded-xl bg-amber-500/5 border border-amber-500/20 text-sm animate-on-scroll">
+        <div class="flex items-start gap-3">
+          <span class="text-xl flex-shrink-0">⚕️</span>
+          <div>
+            <p class="text-amber-200 font-medium mb-1">免责声明</p>
+            <p class="text-amber-300/80">本工具为循证科普参考工具，采用三大指南重叠共识逻辑，但因各指南在ALT ULN定义、DNA阈值等方面存在差异，本工具无法完全忠实复现任何单一指南的全部判定路径。结果不构成医疗诊断或治疗建议，请务必前往正规医院肝病科/感染科就诊。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 筛查表单 -->
+      <div id="screening-form" class="glass-card animate-on-scroll">
+        <!-- 进度条 -->
+        <div class="mb-8">
+          <div class="h-1.5 bg-white/5 rounded-full overflow-hidden mb-4">
+            <div id="step-progress" class="h-full bg-gradient-to-r from-primary-dark to-primary-light rounded-full transition-all duration-500" style="width: 14%"></div>
+          </div>
+          <!-- 步骤指示器 -->
+          <div class="flex items-center justify-between">
+            <div class="step-indicator active">1</div>
+            <div class="step-connector"></div>
+            <div class="step-indicator">2</div>
+            <div class="step-connector"></div>
+            <div class="step-indicator">3</div>
+            <div class="step-connector"></div>
+            <div class="step-indicator">4</div>
+            <div class="step-connector"></div>
+            <div class="step-indicator">5</div>
+            <div class="step-connector"></div>
+            <div class="step-indicator">6</div>
+            <div class="step-connector"></div>
+            <div class="step-indicator">7</div>
+          </div>
+          <div class="flex justify-between mt-2 text-xs text-slate-500">
+            <span>肝硬化</span>
+            <span>病毒</span>
+            <span>肝功能</span>
+            <span>纤维化</span>
+            <span>家族史</span>
+            <span>合并症</span>
+            <span>个人</span>
+          </div>
+        </div>
+
+        <!-- 步骤1：肝硬化状态 -->
+        <div id="step-1" class="form-step active">
+          <div class="mb-6">
+            <div class="form-question-title">
+              <span class="w-6 h-6 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center text-xs font-bold">1</span>
+              您是否已被诊断为肝硬化？
+            </div>
+            <div class="form-question-help">
+              肝硬化是慢性乙肝最严重的纤维化阶段，可表现为代偿期（肝功能基本正常）或失代偿期（出现腹水、黄疸、消化道出血等并发症）。B超、CT或FibroScan可帮助诊断。
+            </div>
+            <div class="form-radio-group">
+              <label class="form-radio-label">
+                <input type="radio" name="cirrhosis" value="yes" required> 是，已确诊肝硬化
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="cirrhosis" value="no"> 否，无肝硬化
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="cirrhosis" value="unknown"> 不确定
+              </label>
+            </div>
+          </div>
+
+          <div id="cirrhosis-type-group" class="mb-6" style="display: none;">
+            <div class="form-question-title">
+              <span class="w-6 h-6 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center text-xs font-bold">1b</span>
+              肝硬化类型？
+            </div>
+            <div class="form-question-help">
+              代偿期肝硬化：肝功能基本正常，无腹水等并发症。失代偿期：已出现腹水、消化道出血、肝性脑病等。
+            </div>
+            <div class="form-radio-group">
+              <label class="form-radio-label">
+                <input type="radio" name="cirrhosis-type" value="compensated"> 代偿期肝硬化
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="cirrhosis-type" value="decompensated"> 失代偿期肝硬化
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="cirrhosis-type" value="unknown"> 不确定
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 步骤2：病毒指标 -->
+        <div id="step-2" class="form-step">
+          <div class="mb-6">
+            <div class="form-question-title">
+              <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs font-bold">2</span>
+              HBeAg状态？
+            </div>
+            <div class="form-question-help">
+              HBeAg（乙型肝炎e抗原）是病毒复制活跃的标志。阳性表示病毒复制活跃，阴性需结合DNA判断。"大三阳"通常HBeAg阳性，"小三阳"通常HBeAg阴性。
+            </div>
+            <div class="form-radio-group">
+              <label class="form-radio-label">
+                <input type="radio" name="hbeag" value="positive" required> HBeAg阳性
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="hbeag" value="negative"> HBeAg阴性
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="hbeag" value="unknown"> 不确定/未查
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <div class="form-question-title">
+              <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs font-bold">2b</span>
+              HBV DNA水平
+            </div>
+            <div class="form-question-help">
+              HBV DNA是衡量病毒复制最直接的指标，单位通常为IU/mL。若您知道具体数值请填入；若只知道"可测/不可测"请在下方选择。
+            </div>
+            <div class="flex gap-4 flex-wrap mb-3">
+              <div class="flex-1 min-w-[200px]">
+                <input type="number" id="hbv-dna-value" class="form-input" placeholder="输入HBV DNA数值" min="0" step="any">
+                <p class="form-input-hint">单位：IU/mL（如20000、2000等）</p>
+              </div>
+            </div>
+            <div class="form-question-title text-sm mt-4">如果不知道具体数值：<span style="font-size: 0.75rem; color: #F59E0B; font-weight: normal;">（注：建议尽量填写精确数值，否则系统将出于安全考虑，默认按较高病毒活性进行初步评估）</span></div>
+            <div class="form-radio-group mt-2">
+              <label class="form-radio-label">
+                <input type="radio" name="hbv-dna-detectable" value="yes"> DNA可测（高于检测下限）
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="hbv-dna-detectable" value="no"> DNA不可测（低于检测下限）
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 步骤3：肝功能 -->
+        <div id="step-3" class="form-step">
+          <div class="mb-6">
+            <div class="form-question-title">
+              <span class="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs font-bold">3</span>
+              ALT（丙氨酸氨基转移酶）水平
+            </div>
+            <div class="form-question-help">
+              ALT是反映肝细胞炎症损伤最敏感的指标。<strong>注意：ALT正常上限(ULN)因性别和指南而异</strong>——WHO/EASL: 男30/女19 IU/L；AASLD: 男35/女25 IU/L。许多医院报告单的"正常范围"上限可能偏高（如40 IU/L），可能导致实际已升高者被判为"正常"。ALT > ULN提示肝细胞损伤，≥2×ULN时免疫清除可能性大（AASLD的immune active硬指标）。
+            </div>
+            <div class="mb-4">
+              <div class="form-question-title text-sm mb-2">ALT值的表达方式：</div>
+              <div class="form-radio-group mb-3">
+                <label class="form-radio-label">
+                  <input type="radio" name="alt-unit" value="iu" checked> IU/L具体数值（推荐）
+                </label>
+                <label class="form-radio-label">
+                  <input type="radio" name="alt-unit" value="uln"> ULN倍数（如1.5、2.0等）
+                </label>
+              </div>
+            </div>
+            <div class="flex gap-4 flex-wrap">
+              <div class="flex-1 min-w-[200px]">
+                <input type="number" id="alt-value" class="form-input" placeholder="输入ALT值" min="0" step="0.1">
+                <p class="form-input-hint" id="alt-hint">输入ALT的IU/L数值（系统将根据性别自动计算ULN倍数）</p>
+              </div>
+              <div id="uln-input-group" class="flex-1 min-w-[200px]">
+                <input type="number" id="uln-value" class="form-input" placeholder="如已知实验室ULN可填入" min="1" step="1">
+                <p class="form-input-hint">选填：如填写将优先使用您的ULN值，否则按指南性别特异性ULN计算</p>
+              </div>
+            </div>
+            <div class="mt-3 p-3 rounded-lg bg-amber-500/5 border border-amber-500/10 text-xs text-amber-300/80">
+              💡 <strong>重要提示：</strong>若选择IU/L输入且未填ULN，系统将按您填写的性别自动采用指南ULN（男30/女19，取最严格值）。若您的检验报告"正常上限"为40 IU/L，实际可能已有ALT升高而被漏判。
+            </div>
+          </div>
+        </div>
+
+        <!-- 步骤4：纤维化评估 -->
+        <div id="step-4" class="form-step">
+          <div class="mb-6">
+            <div class="form-question-title">
+              <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold">4</span>
+              肝纤维化分期（肝穿/METAVIR或FibroScan结果）
+            </div>
+            <div class="form-question-help">
+              纤维化分期反映肝脏"疤痕"程度。肝穿刺活检（METAVIR评分）是金标准；FibroScan（瞬时弹性成像）是无创替代，输出肝硬度值（LSM，单位kPa）。F0-F1为无/轻度纤维化，F2为显著纤维化（EASL: LSM >7 kPa，治疗阈值），F3为重度纤维化，F4即为肝硬化。
+            </div>
+            <div class="form-radio-group">
+              <label class="form-radio-label">
+                <input type="radio" name="fibrosis" value="F0" required> F0（无纤维化）
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="fibrosis" value="F1"> F1（轻度纤维化）
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="fibrosis" value="F2"> F2（显著纤维化）
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="fibrosis" value="F3"> F3（重度纤维化）
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="fibrosis" value="F4"> F4（即肝硬化）
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="fibrosis" value="unknown"> 不确定/未查
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 步骤5：家族史 -->
+        <div id="step-5" class="form-step">
+          <div class="mb-6">
+            <div class="form-question-title">
+              <span class="w-6 h-6 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center text-xs font-bold">5a</span>
+              是否有肝癌（HCC）家族史？
+            </div>
+            <div class="form-question-help">
+              一级亲属（父母、兄弟姐妹、子女）中有人患肝细胞癌（HCC）。WHO 2024明确将HCC家族史列为独立治疗指征。
+            </div>
+            <div class="form-radio-group">
+              <label class="form-radio-label">
+                <input type="radio" name="family-hcc" value="yes" required> 是，有肝癌家族史
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="family-hcc" value="no"> 否，无肝癌家族史
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="family-hcc" value="unknown"> 不确定
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <div class="form-question-title">
+              <span class="w-6 h-6 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center text-xs font-bold">5b</span>
+              是否有肝硬化家族史？
+            </div>
+            <div class="form-question-help">
+              一级亲属中有人被诊断为肝硬化。WHO 2024将HCC或肝硬化家族史均列为治疗指征。
+            </div>
+            <div class="form-radio-group">
+              <label class="form-radio-label">
+                <input type="radio" name="family-cirrhosis" value="yes"> 是，有肝硬化家族史
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="family-cirrhosis" value="no"> 否，无肝硬化家族史
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="family-cirrhosis" value="unknown"> 不确定
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 步骤6：合并症/特殊状况（WHO 2024独立指征） -->
+        <div id="step-6" class="form-step">
+          <div class="mb-6">
+            <div class="form-question-title">
+              <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs font-bold">6a</span>
+              是否合并其他肝炎或HIV感染？
+            </div>
+            <div class="form-question-help">
+              WHO 2024将合并HIV、HDV（丁型肝炎）、HCV（丙型肝炎）感染列为独立的抗病毒治疗指征。
+            </div>
+            <div class="form-radio-group">
+              <label class="form-radio-label">
+                <input type="radio" name="coinfection" value="yes" required> 是，有合并感染
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="coinfection" value="no"> 否
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="coinfection" value="unknown"> 不确定/未查
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <div class="form-question-title">
+              <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs font-bold">6b</span>
+              是否正在接受免疫抑制/化疗/生物制剂治疗？
+            </div>
+            <div class="form-question-help">
+              包括器官移植后免疫抑制、肿瘤化疗、自身免疫病生物制剂等。WHO/EASL均推荐预防性抗病毒治疗。
+            </div>
+            <div class="form-radio-group">
+              <label class="form-radio-label">
+                <input type="radio" name="immunosuppressed" value="yes"> 是
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="immunosuppressed" value="no"> 否
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="immunosuppressed" value="unknown"> 不确定
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <div class="form-question-title">
+              <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs font-bold">6c</span>
+              是否有乙肝相关肝外表现？
+            </div>
+            <div class="form-question-help">
+              如结节性多动脉炎、肾小球肾炎、冷球蛋白血症等。WHO 2024列为独立治疗指征。
+            </div>
+            <div class="form-radio-group">
+              <label class="form-radio-label">
+                <input type="radio" name="extrahepatic" value="yes"> 是，有肝外表现
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="extrahepatic" value="no"> 否
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="extrahepatic" value="unknown"> 不确定
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <div class="form-question-title">
+              <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs font-bold">6d</span>
+              ALT是否在多次复查中持续异常？
+            </div>
+            <div class="form-question-help">
+              WHO 2024简化路径：若DNA检测不可得，持续ALT异常（至少2次复查异常）也可作为治疗指征。
+            </div>
+            <div class="form-radio-group">
+              <label class="form-radio-label">
+                <input type="radio" name="alt-persistent" value="yes"> 是，ALT持续异常
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="alt-persistent" value="no"> 否，ALT仅一次异常或正常
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="alt-persistent" value="unknown"> 不确定
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 步骤7：个人因素 -->
+        <div id="step-7" class="form-step">
+          <div class="mb-6">
+            <div class="form-question-title">
+              <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-xs font-bold">7a</span>
+              您的性别
+            </div>
+            <div class="form-question-help">
+              性别影响ALT正常上限(ULN)的判定。WHO/EASL: 男30/女19 IU/L；AASLD: 男35/女25 IU/L。若您在第3步以IU/L输入ALT，系统将根据性别自动计算ULN倍数。
+            </div>
+            <div class="form-radio-group">
+              <label class="form-radio-label">
+                <input type="radio" name="gender" value="male" required> 男
+              </label>
+              <label class="form-radio-label">
+                <input type="radio" name="gender" value="female"> 女
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <div class="form-question-title">
+              <span class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center text-xs font-bold">7b</span>
+              您的年龄
+            </div>
+            <div class="form-question-help">
+              年龄本身属于风险修饰因素，非独立核心治疗指征。EASL倾向对30岁以上高病毒载量患者更积极，AASLD对免疫耐受期>40岁才考虑。年龄需结合其他因素综合评估。
+            </div>
+            <input type="number" id="age" class="form-input max-w-xs" placeholder="输入年龄" min="1" max="120">
+          </div>
+        </div>
+
+        <!-- 导航按钮 -->
+        <div class="flex justify-between mt-8 pt-6 border-t border-white/10">
+          <button id="prev-btn" class="btn-secondary" style="display: none;">
+            ← 上一步
+          </button>
+          <div class="flex-1"></div>
+          <button id="next-btn" class="btn-primary">
+            下一步 →
+          </button>
+          <button id="submit-btn" class="btn-primary" style="display: none;">
+            <span class="flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+              提交评估
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 筛查结果 -->
+      <div id="screening-result" class="mt-8"></div>
+
+      <!-- 重新评估按钮 -->
+      <div id="reset-container" class="text-center mt-6" style="display: none;">
+        <button id="reset-btn" class="btn-secondary">
+          ← 重新评估
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 复查与趋势 ========== -->
+  <section id="followup" class="py-20 px-6 bg-bg">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 animate-on-scroll">
+        <h2 class="section-title">复查与趋势</h2>
+        <p class="section-subtitle">慢性乙肝需要长期管理，了解停药争议与未来方向</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8">
+        <!-- 停药争议 -->
+        <div class="glass-card animate-on-scroll animate-delay-1">
+          <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-amber-500/15 flex items-center justify-center text-sm">⏸️</span>
+            终身治疗还是可以停药？
+          </h3>
+          <p class="text-sm text-slate-300 mb-4 leading-relaxed">
+            核苷类似物（ETV/TDF/TAF）多数患者需要<strong class="text-amber-300">长期甚至终身治疗</strong>，尤其肝硬化患者和HBeAg阴性慢乙肝。
+          </p>
+
+          <div class="space-y-3">
+            <div class="p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/10">
+              <h4 class="text-sm font-semibold text-emerald-300 mb-1">EASL 2025 — 较积极</h4>
+              <p class="text-xs text-slate-400">HBeAg阴性非肝硬化患者：DNA不可测≥3年 + qHBsAg&lt;100 IU/mL(亚洲)/&lt;1000(白种人) + 密切随访能力</p>
+            </div>
+            <div class="p-3 rounded-lg bg-blue-500/5 border border-blue-500/10">
+              <h4 class="text-sm font-semibold text-blue-300 mb-1">AASLD 2025 — 相对保守</h4>
+              <p class="text-xs text-slate-400">HBeAg阴性非肝硬化：DNA抑制≥3年 + HBsAg&lt;100 IU/mL + 密切监测。强调停药后复发风险</p>
+            </div>
+          </div>
+
+          <div class="mt-4 p-3 rounded-lg bg-white/5 text-xs text-slate-400">
+            <strong class="text-slate-300">重要：</strong>停药必须在医生指导下进行，自行停药可导致病毒反弹、肝功能恶化甚至肝衰竭。
+          </div>
+        </div>
+
+        <!-- 最新研究方向 -->
+        <div class="glass-card animate-on-scroll animate-delay-2">
+          <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            <span class="w-8 h-8 rounded-lg bg-blue-500/15 flex items-center justify-center text-sm">🔬</span>
+            最新循证趋势——功能性治愈
+          </h3>
+          <p class="text-sm text-slate-300 mb-4 leading-relaxed">
+            目前国际研究的核心方向是<strong class="text-blue-300">功能性治愈</strong>（HBsAg清除），这可能是未来5年乙肝治疗最大的突破。
+          </p>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <h4 class="text-sm font-semibold text-white">ASO药物 —— bepirovirsen</h4>
+              <p class="text-xs text-slate-400 mt-1">GSK开发的反义寡核苷酸药物，已进入关键III期研究阶段。II期研究显示部分患者可实现HBsAg清除。</p>
+              <span class="text-xs text-blue-400 mt-1 inline-block">Reuters 2026.01 — 两项关键研究达到主要终点</span>
+            </div>
+            <div class="timeline-item">
+              <h4 class="text-sm font-semibold text-white">联合治疗策略</h4>
+              <p class="text-xs text-slate-400 mt-1">核苷类似物 + 干扰素 + 新型药物（ASO/SI）的联合方案正在多项临床试验中探索，有望提高功能性治愈率。</p>
+            </div>
+            <div class="timeline-item">
+              <h4 class="text-sm font-semibold text-white">新型生物标志物</h4>
+              <p class="text-xs text-slate-400 mt-1">EASL 2025推荐监测qHBsAg（HBsAg定量）、HBcrAg（乙肝核心相关抗原）、HBV RNA等新型标志物，用于指导治疗决策和停药评估。qHBsAg基线水平和动态变化是预测功能性治愈的重要指标。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 常规复查建议 -->
+      <div class="mt-12 glass-card animate-on-scroll">
+        <h3 class="text-lg font-bold text-white mb-6 text-center">📋 慢性乙肝常规复查项目</h3>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-center">
+            <div class="w-10 h-10 rounded-full bg-red-500/15 flex items-center justify-center mx-auto mb-3">
+              <span class="text-lg">🩸</span>
+            </div>
+            <h4 class="text-sm font-semibold text-white mb-2">每3-6个月</h4>
+            <ul class="text-xs text-slate-400 space-y-1">
+              <li>• HBV DNA定量</li>
+              <li>• 肝功能（ALT/AST）</li>
+              <li>• HBeAg/HBeAb</li>
+              <li>• HBsAg定量</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-center">
+            <div class="w-10 h-10 rounded-full bg-amber-500/15 flex items-center justify-center mx-auto mb-3">
+              <span class="text-lg">📡</span>
+            </div>
+            <h4 class="text-sm font-semibold text-white mb-2">每6个月</h4>
+            <ul class="text-xs text-slate-400 space-y-1">
+              <li>• 腹部超声</li>
+              <li>• 甲胎蛋白(AFP)</li>
+              <li>• 肝脏弹性检测</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-center">
+            <div class="w-10 h-10 rounded-full bg-blue-500/15 flex items-center justify-center mx-auto mb-3">
+              <span class="text-lg">🏥</span>
+            </div>
+            <h4 class="text-sm font-semibold text-white mb-2">每年</h4>
+            <ul class="text-xs text-slate-400 space-y-1">
+              <li>• 血常规</li>
+              <li>• 凝血功能</li>
+              <li>• 肾功能</li>
+              <li>• 骨密度（TDF使用者）</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10 text-center">
+            <div class="w-10 h-10 rounded-full bg-purple-500/15 flex items-center justify-center mx-auto mb-3">
+              <span class="text-lg">⚠️</span>
+            </div>
+            <h4 class="text-sm font-semibold text-white mb-2">肝硬化患者</h4>
+            <ul class="text-xs text-slate-400 space-y-1">
+              <li>• 每3个月复查</li>
+              <li>• 增加胃镜检查</li>
+              <li>• 密切监测AFP</li>
+              <li>• 评估HCC风险</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 页脚 ========== -->
+  <footer class="py-16 px-6 bg-bg-card/50 border-t border-white/5">
+    <div class="max-w-6xl mx-auto">
+      <!-- 免责声明 -->
+      <div class="mb-10 p-6 rounded-2xl bg-amber-500/5 border border-amber-500/15">
+        <h3 class="text-lg font-bold text-amber-200 mb-3 flex items-center gap-2">
+          <span>⚕️</span> 重要免责声明
+        </h3>
+        <p class="text-sm text-amber-300/80 leading-relaxed">
+          本网站所有内容仅供健康科普参考，不构成医疗诊断或治疗建议。慢性乙肝的诊治需由专业肝病科/感染科医师根据患者完整病史、体格检查和辅助检查综合判断。请勿依据本站信息自行更改治疗方案或停药。如有健康问题，请及时前往正规医疗机构就诊。
+        </p>
+      </div>
+
+      <!-- 参考指南 -->
+      <div class="mb-10">
+        <h3 class="text-sm font-semibold text-slate-400 mb-4">参考循证指南</h3>
+        <div class="grid sm:grid-cols-3 gap-6">
+          <a href="https://www.who.int/publications/i/item/9789240090903" target="_blank" rel="noopener" class="footer-link p-3 rounded-lg bg-white/5 hover:bg-white/10 transition block">
+            <div class="font-medium text-slate-200 mb-1">WHO 2024 指南</div>
+            <div class="text-xs text-slate-500">Guidelines for the prevention, diagnosis, care and treatment for people with chronic hepatitis B infection</div>
+          </a>
+          <a href="https://doi.org/10.1016/j.jhep.2025.01.018" target="_blank" rel="noopener" class="footer-link p-3 rounded-lg bg-white/5 hover:bg-white/10 transition block">
+            <div class="font-medium text-slate-200 mb-1">EASL 2025 临床实践指南</div>
+            <div class="text-xs text-slate-500">EASL Clinical Practice Guidelines on chronic hepatitis B (J Hepatol, 2025)</div>
+          </a>
+          <a href="https://doi.org/10.1097/hep.0000000000001033" target="_blank" rel="noopener" class="footer-link p-3 rounded-lg bg-white/5 hover:bg-white/10 transition block">
+            <div class="font-medium text-slate-200 mb-1">AASLD 2025 Practice Guideline</div>
+            <div class="text-xs text-slate-500">AASLD Practice Guideline on Treatment of Chronic Hepatitis B (Hepatology, 2025)</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- 底部信息 -->
+      <div class="text-center">
+        <p class="text-xs text-slate-600">
+          CHB Evidence-Based Guide · 基于国际循证指南的慢性乙肝科普
+        </p>
+        <p class="text-xs text-slate-700 mt-2">
+          本站内容更新至2026年4月，指南可能随时更新，请以最新版本为准
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS Scripts -->
+  <script src="js/screening-logic.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
