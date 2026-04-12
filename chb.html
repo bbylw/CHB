@@ -55,14 +55,17 @@ a:hover{text-decoration:underline}
 .nav-links a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:1.5px;background:var(--pri-l);transition:width .35s var(--ease)}
 .nav-links a:hover{color:#fff}
 .nav-links a:hover::after{width:100%}
-.nav-mob-btn{display:none;background:none;border:none;color:#D6DEE8;cursor:pointer}
-.nav-mob{display:none;padding:1rem 0}
-.nav-mob a{display:block;padding:.6rem 1rem;color:#A0B4C8;font-size:.9rem;border-radius:8px}
+.nav-mob-btn{display:none;background:none;border:none;color:#D6DEE8;cursor:pointer;padding:4px}
+.nav-mob{display:none;padding:1rem 0;position:absolute;top:100%;left:0;right:0;background:rgba(6,13,25,0.96);backdrop-filter:blur(24px) saturate(1.2);-webkit-backdrop-filter:blur(24px) saturate(1.2);border-top:1px solid rgba(46,139,192,0.1);box-shadow:0 12px 40px rgba(0,0,0,0.3);border-radius:0 0 16px 16px;max-height:70vh;overflow-y:auto;z-index:999}
+.nav-mob a{display:block;padding:.7rem 1.5rem;color:#A0B4C8;font-size:.9rem;border-radius:8px}
 .nav-mob a:hover{background:rgba(255,255,255,0.04);color:#fff}
 @media(max-width:768px){
+  .nav{padding:.7rem 1rem}
+  .nav.s{padding:.5rem 1rem}
+  .nav-inner{padding:0}
   .nav-links{display:none}
   .nav-mob-btn{display:block}
-  .nav-mob.open{display:flex;flex-direction:column;gap:.25rem}
+  .nav-mob.open{display:flex;flex-direction:column;gap:.15rem;padding:.8rem .75rem}
 }
 
 /* ========== Hero ========== */
@@ -1216,8 +1219,18 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('s',window.scrollY>40
 // === Mobile menu ===
 const mobBtn=document.getElementById('mobBtn');
 const mobMenu=document.getElementById('mobMenu');
-mobBtn.addEventListener('click',()=>mobMenu.classList.toggle('open'));
-mobMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mobMenu.classList.remove('open')));
+const hamburgerSVG='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
+const closeSVG='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+mobBtn.addEventListener('click',()=>{
+  const isOpen=mobMenu.classList.toggle('open');
+  mobBtn.innerHTML=isOpen?closeSVG:hamburgerSVG;
+  mobBtn.setAttribute('aria-label',isOpen?'关闭菜单':'菜单');
+});
+mobMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+  mobMenu.classList.remove('open');
+  mobBtn.innerHTML=hamburgerSVG;
+  mobBtn.setAttribute('aria-label','菜单');
+}));
 
 // === Scroll animations ===
 const animEls=document.querySelectorAll('.anim');
