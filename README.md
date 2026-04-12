@@ -1,15 +1,16 @@
 # 慢性乙肝循证科普 | CHB Evidence-Based Guide
 
-基于 **WHO 2024 · EASL 2025 · AASLD-IDSA 2025/2026** 三大国际循证指南的慢性乙肝（CHB）患者科普网站，含交互式自我筛查工具与详细科普全文。
+基于 **WHO 2024 · EASL 2025 · AASLD-IDSA 2025/2026** 三大国际循证指南的慢性乙肝（CHB）患者科普网站，含交互式自我筛查工具、详细科普全文与科普视频。
 
 ## 站点结构
 
-本站包含两个页面，互为补充：
+本站包含两个页面及配套视频，互为补充：
 
 | 页面 | 文件 | 定位 |
 |------|------|------|
 | 简化科普 + 筛查 | `index.html` | 精简版科普 + 7步交互筛查表单 |
 | 详细科普全文 | `chb.html` | 完整循证科普，覆盖所有专题 |
+| 科普视频 | [Bilibili](https://www.bilibili.com/video/BV11oDXBQE1M/) | 视频版科普讲解 |
 
 ## 内容覆盖
 
@@ -32,6 +33,16 @@
 - **干扰素**：Peg-IFN 优缺点、适合人群
 - **特殊人群**：妊娠期、儿童、肾功能不全、肝移植、家属筛查、免疫抑制相关 HBV 再激活预防
 - **总结**：DO / DON'T 清单
+
+## 科普视频
+
+配套视频讲解已发布于 Bilibili 和 YouTube，两个页面导航栏均可直达 Bilibili 版：
+
+| 平台 | 语言 | 链接 |
+|------|------|------|
+| Bilibili | 中文 | 👉 [慢性乙肝循证科普视频](https://www.bilibili.com/video/BV11oDXBQE1M/) |
+| YouTube | 中文 | 👉 [慢性乙肝循证科普视频（中文）](https://www.youtube.com/watch?v=vosr4Nce4Sg) |
+| YouTube | English | 👉 [CHB Evidence-Based Guide (English)](https://www.youtube.com/watch?v=aCN5xzM9-IU) |
 
 ## 筛查引擎
 
