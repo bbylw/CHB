@@ -55,8 +55,10 @@ a:hover{text-decoration:underline}
 .nav-menu a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:1.5px;background:var(--pri-l);transition:width .35s var(--ease)}
 .nav-menu a:hover{color:#fff}
 .nav-menu a:hover::after{width:100%}
-.nav-mob-btn{display:none;background:none;border:none;color:#D6DEE8;cursor:pointer;width:40px;height:40px;align-items:center;justify-content:center;border-radius:10px;transition:background .2s}
-.nav-mob-btn:hover{background:rgba(255,255,255,0.06)}
+.nav-mob-btn{display:none;background:rgba(46,139,192,0.12);border:1px solid rgba(46,139,192,0.2);color:#D6DEE8;cursor:pointer;width:44px;height:44px;align-items:center;justify-content:center;border-radius:12px;transition:all .3s var(--ease);position:relative;overflow:hidden}
+.nav-mob-btn:hover,.nav-mob-btn:active{background:rgba(46,139,192,0.25);border-color:rgba(46,139,192,0.35);color:#fff}
+.nav-mob-btn::after{content:'';position:absolute;inset:0;border-radius:12px;box-shadow:0 0 0 0 rgba(46,139,192,0.4);animation:mobPulse 2.5s ease-out 1.5s 3;opacity:0}
+@keyframes mobPulse{0%{opacity:.7;box-shadow:0 0 0 0 rgba(46,139,192,0.5)}70%{opacity:0;box-shadow:0 0 0 12px rgba(46,139,192,0)}100%{opacity:0;box-shadow:0 0 0 0 rgba(46,139,192,0)}}
 .nav-more-btn{display:none}
 /* Mobile overlay */
 .nav-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s}
@@ -1246,6 +1248,17 @@ function closeMenu(){
 mobBtn.addEventListener('click',()=>navMenu.classList.contains('open')?closeMenu():openMenu());
 backdrop.addEventListener('click',closeMenu);
 navMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
+
+// Mobile: auto-hint nav on first visit
+if(window.innerWidth<=768){
+  const hinted=sessionStorage.getItem('navHinted');
+  if(!hinted){
+    setTimeout(()=>{
+      openMenu();
+      setTimeout(()=>{closeMenu();sessionStorage.setItem('navHinted','1')},1800);
+    },1200);
+  }
+}
 // Nav more toggle
 const navMoreBtn=document.getElementById('navMoreBtn');
 const navMore=document.getElementById('navMore');
