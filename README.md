@@ -1,14 +1,37 @@
 # 慢性乙肝循证科普 | CHB Evidence-Based Guide
 
-基于 **WHO 2024 · EASL 2025 · AASLD 2025** 三大国际循证指南的慢性乙肝（CHB）患者科普网站，含交互式自我筛查工具。
+基于 **WHO 2024 · EASL 2025 · AASLD-IDSA 2025/2026** 三大国际循证指南的慢性乙肝（CHB）患者科普网站，含交互式自我筛查工具与详细科普全文。
 
-## 功能
+## 站点结构
+
+本站包含两个页面，互为补充：
+
+| 页面 | 文件 | 定位 |
+|------|------|------|
+| 简化科普 + 筛查 | `index.html` | 精简版科普 + 7步交互筛查表单 |
+| 详细科普全文 | `chb.html` | 完整循证科普，覆盖所有专题 |
+
+## 内容覆盖
+
+### 简化科普页（`index.html`）
 
 - **治疗目标**：三层循证目标体系（病毒抑制 → HBeAg 转换 → HBsAg 清除）
 - **治疗指征**：肝硬化、DNA+ALT、纤维化、家族史等分层指征说明
 - **一线药物**：TDF / TAF / ETV / Peg-IFN 对比表
 - **自我筛查工具**：7 步交互表单，基于三大指南重叠共识逻辑生成个性化评估
-- **复查建议**：停药争议、功能性治愈进展、常规复查项目
+- **复查趋势**：停药争议、功能性治愈进展、常规复查项目
+
+### 详细科普全文页（`chb.html`）
+
+- **治疗目标**：纠正"转阴"误区，强调持续病毒抑制才是核心获益
+- **国际趋势**：WHO 2024 / EASL 2025 / AASLD 2025 各自的关键变化
+- **分层治疗决策**：四级优先级金字塔（绝对适应症 → 标准适应症 → 扩展适应症 → 监测人群）
+- **复查管理**：抗病毒治疗复查表、HCC 监测、肝硬化/携带者/停药后监测方案、停药后重启阈值
+- **保肝药真相**：循证评价常见保肝药，核心比喻——"关掉烟雾报警器 ≠ 灭火"
+- **药物选择**：TDF vs TAF vs ETV 详细对比卡片、药理差异与5年数据、临床决策框架
+- **干扰素**：Peg-IFN 优缺点、适合人群
+- **特殊人群**：妊娠期、儿童、肾功能不全、肝移植、家属筛查、免疫抑制相关 HBV 再激活预防
+- **总结**：DO / DON'T 清单
 
 ## 筛查引擎
 
@@ -29,20 +52,26 @@
 
 ## 技术栈
 
-- HTML + Tailwind CSS (CDN) + 自定义 CSS
-- 原生 JavaScript，无框架依赖
+- `index.html`：HTML + Tailwind CSS (CDN) + 自定义 CSS + 原生 JS
+- `chb.html`：HTML + 纯自定义 CSS（内联）+ 原生 JS
+- 无框架依赖，纯静态站点
 - 状态驱动表单（`formState.sync()` 模式）
 - XSS 防护（`escapeHtml` / `sanitizeNumber`）
+- 滚动动画（IntersectionObserver）
 
 ## 文件结构
 
 ```
-├── index.html              # 主页面
+├── index.html                                    # 简化科普 + 自我筛查工具
+├── chb.html                                      # 详细科普全文
 ├── css/
-│   └── custom.css          # 设计系统（深蓝医学主题）
+│   └── custom.css                                # 设计系统（深蓝医学主题）
 ├── js/
-│   ├── app.js              # 页面交互、表单状态管理、动画
-│   └── screening-logic.js  # 筛查判定引擎、结果渲染
+│   ├── app.js                                    # 页面交互、表单状态管理、动画
+│   └── screening-logic.js                        # 筛查判定引擎、结果渲染
+├── 慢性乙肝循证科普-何时启动抗病毒治疗.md           # Markdown 科普全文
+├── 慢性乙肝循证科普-何时启动抗病毒治疗.docx         # Word 文档
+├── 慢性乙肝循证科普-何时启动抗病毒治疗.pdf          # PDF 文档
 └── README.md
 ```
 
@@ -61,5 +90,5 @@ npx serve .
 ## 参考指南
 
 - [WHO 2024 Guidelines](https://www.who.int/publications/i/item/9789240090903)
-- [EASL 2025 Clinical Practice Guidelines](https://doi.org/10.1016/j.jhep.2025.01.018)
-- [AASLD 2025 Practice Guideline](https://doi.org/10.1097/hep.0000000000001033)
+- [EASL 2025 Clinical Practice Guidelines](https://doi.org/10.1016/j.jhep.2025.03.018)
+- [AASLD-IDSA 2025/2026 Practice Guideline](https://doi.org/10.1097/HEP.0000000000001549)
