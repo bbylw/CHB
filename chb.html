@@ -8,675 +8,316 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={theme:{extend:{colors:{
+  bg:{DEFAULT:'#060D19',card:'#0B1829',el:'#10203A'},
+  pri:{DEFAULT:'#1A6FB5',l:'#2E8BC0',d:'#0E4474'},
+  acc:'#38BDF8',em:'#10B981',am:'#F59E0B',rd:'#EF4444',pu:'#8B5CF6',
+  tx:{DEFAULT:'#D6DEE8',m:'#7E8FA3',d:'#4A5A70'},
+},fontFamily:{sans:['Noto Sans SC','-apple-system','BlinkMacSystemFont','sans-serif']}}}}
+</script>
 <style>
-/* ========== CSS Variables ========== */
-:root {
-  --bg: #060D19;
-  --bg-card: #0B1829;
-  --bg-el: #10203A;
-  --pri: #1A6FB5;
-  --pri-l: #2E8BC0;
-  --pri-d: #0E4474;
-  --acc: #38BDF8;
-  --em: #10B981;
-  --am: #F59E0B;
-  --rd: #EF4444;
-  --pu: #8B5CF6;
-  --tx: #D6DEE8;
-  --tx-m: #7E8FA3;
-  --tx-d: #4A5A70;
-  --bd: rgba(46,139,192,0.1);
-  --ease: cubic-bezier(0.16,1,0.3,1);
-}
-/* ========== Reset ========== */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:80px}
-body{font-family:'Noto Sans SC',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--tx);overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.75}
-::selection{background:rgba(46,139,192,0.3);color:#fff}
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(46,139,192,0.25);border-radius:3px}
-img{max-width:100%;display:block}
-a{color:var(--acc);text-decoration:none}
-a:hover{text-decoration:underline}
-
-/* ========== Grain ========== */
-.grain{position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:0.022;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-
-/* ========== Nav ========== */
-.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1rem 2rem;transition:all .4s var(--ease);background:transparent}
-.nav.s{background:rgba(6,13,25,0.88);backdrop-filter:blur(24px) saturate(1.2);-webkit-backdrop-filter:blur(24px) saturate(1.2);box-shadow:0 1px 0 rgba(46,139,192,0.08),0 8px 40px rgba(0,0,0,0.25);padding:.65rem 2rem}
-.nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
-.nav-brand{display:flex;align-items:center;gap:.5rem;font-weight:800;font-size:1.05rem;color:#fff;flex-shrink:0}
-.nav-brand svg{color:var(--pri-l)}
-.nav-menu{display:flex;align-items:center;gap:1.8rem}
-.nav-menu a{color:#A0B4C8;font-size:.84rem;font-weight:500;transition:color .25s var(--ease);position:relative;white-space:nowrap}
-.nav-menu a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:1.5px;background:var(--pri-l);transition:width .35s var(--ease)}
-.nav-menu a:hover{color:#fff}
-.nav-menu a:hover::after{width:100%}
-.nav-mob-btn{display:none;background:rgba(46,139,192,0.12);border:1px solid rgba(46,139,192,0.2);color:#D6DEE8;cursor:pointer;width:44px;height:44px;align-items:center;justify-content:center;border-radius:12px;transition:all .3s var(--ease);position:relative;overflow:hidden}
-.nav-mob-btn:hover,.nav-mob-btn:active{background:rgba(46,139,192,0.25);border-color:rgba(46,139,192,0.35);color:#fff}
-.nav-mob-btn::after{content:'';position:absolute;inset:0;border-radius:12px;box-shadow:0 0 0 0 rgba(46,139,192,0.4);animation:mobPulse 2.5s ease-out 1.5s 3;opacity:0}
-@keyframes mobPulse{0%{opacity:.7;box-shadow:0 0 0 0 rgba(46,139,192,0.5)}70%{opacity:0;box-shadow:0 0 0 12px rgba(46,139,192,0)}100%{opacity:0;box-shadow:0 0 0 0 rgba(46,139,192,0)}}
-/* Mobile overlay */
-.nav-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s}
-.nav-backdrop.open{opacity:1;visibility:visible}
-/* Tablet: show hamburger, hide overflow nav */
-@media(max-width:1100px){
-  .nav{padding:.7rem 1rem}
-  .nav.s{padding:.55rem 1rem}
-  .nav-mob-btn{display:flex}
-  .nav-menu{position:fixed;top:0;right:0;bottom:0;width:min(85vw,360px);background:rgba(8,16,30,0.98);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);flex-direction:column;align-items:stretch;gap:2px;padding:calc(5rem + env(safe-area-inset-top)) 1.25rem calc(2rem + env(safe-area-inset-bottom));z-index:1001;transform:translateX(100%);transition:transform .4s var(--ease);box-shadow:-8px 0 40px rgba(0,0,0,0.4);overflow-y:auto;-webkit-overflow-scrolling:touch}
-  .nav-menu.open{transform:translateX(0)}
-  .nav-menu a{font-size:.95rem;padding:.75rem .85rem;border-radius:10px;transition:background .2s,color .2s}
-  .nav-menu a::after{display:none}
-  .nav-menu a:hover,.nav-menu a:active{background:rgba(255,255,255,0.06);color:#fff}
-  body.menu-open{overflow:hidden}
-}
-@media(max-width:768px){
-  .nav-menu{width:min(88vw,320px)}
-}
-
-/* ========== Hero ========== */
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:6rem 1.5rem 4rem;
-  background:radial-gradient(ellipse 80% 60% at 70% 30%,rgba(15,76,129,0.35) 0%,transparent 70%),radial-gradient(ellipse 60% 80% at 20% 80%,rgba(26,111,181,0.2) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 50% 50%,rgba(46,139,192,0.08) 0%,transparent 50%),linear-gradient(165deg,#060D19 0%,#0B1A30 30%,#0E2D4F 55%,#060D19 100%)}
-.hero::before{content:'';position:absolute;top:-50%;right:-25%;width:80%;height:200%;background:radial-gradient(ellipse,rgba(46,139,192,0.07) 0%,transparent 65%);animation:hp 12s ease-in-out infinite}
-.hero::after{content:'';position:absolute;bottom:-40%;left:-15%;width:65%;height:160%;background:radial-gradient(ellipse,rgba(14,76,129,0.1) 0%,transparent 65%);animation:hp 16s ease-in-out infinite reverse}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{background:#060D19;color:#D6DEE8;overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.75}
+::selection{background:rgba(46,139,192,.3);color:#fff}::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(46,139,192,.25);border-radius:3px}
+a{color:#38BDF8;text-decoration:none}a:hover{text-decoration:underline}
+.grain{position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.022;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1rem 2rem;transition:all .4s cubic-bezier(.16,1,.3,1);background:transparent}
+.nav.s{background:rgba(6,13,25,.88);backdrop-filter:blur(24px) saturate(1.2);-webkit-backdrop-filter:blur(24px) saturate(1.2);box-shadow:0 1px 0 rgba(46,139,192,.08),0 8px 40px rgba(0,0,0,.25);padding:.65rem 2rem}
+.nav-menu a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:1.5px;background:#2E8BC0;transition:width .35s cubic-bezier(.16,1,.3,1)}
+.nav-menu a:hover{color:#fff;text-decoration:none}.nav-menu a:hover::after{width:100%}
+.mob-btn::after{content:'';position:absolute;inset:0;border-radius:12px;box-shadow:0 0 0 0 rgba(46,139,192,.4);animation:mp 2.5s ease-out 1.5s 3;opacity:0}
+@keyframes mp{0%{opacity:.7;box-shadow:0 0 0 0 rgba(46,139,192,.5)}70%{opacity:0;box-shadow:0 0 0 12px rgba(46,139,192,0)}100%{opacity:0}}
+.nav-bd{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}.nav-bd.open{opacity:1;visibility:visible}
+@media(max-width:1100px){.nav{padding:.7rem 1rem}.nav.s{padding:.55rem 1rem}.mob-btn{display:flex!important}
+  .nav-menu{position:fixed;top:0;right:0;bottom:0;width:min(85vw,360px);background:rgba(8,16,30,.98);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);flex-direction:column;align-items:stretch;gap:2px;padding:calc(5rem + env(safe-area-inset-top)) 1.25rem calc(2rem + env(safe-area-inset-bottom));z-index:1001;transform:translateX(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);box-shadow:-8px 0 40px rgba(0,0,0,.4);overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .nav-menu.open{transform:translateX(0)}.nav-menu a{font-size:.95rem;padding:.75rem .85rem;border-radius:10px;transition:background .2s,color .2s}.nav-menu a::after{display:none}
+  .nav-menu a:hover,.nav-menu a:active{background:rgba(255,255,255,.06);color:#fff}body.menu-open{overflow:hidden}}
+@media(max-width:768px){.nav-menu{width:min(88vw,320px)}}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:6rem 1.5rem 4rem;background:radial-gradient(ellipse 80% 60% at 70% 30%,rgba(15,76,129,.35) 0%,transparent 70%),radial-gradient(ellipse 60% 80% at 20% 80%,rgba(26,111,181,.2) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 50% 50%,rgba(46,139,192,.08) 0%,transparent 50%),linear-gradient(165deg,#060D19 0%,#0B1A30 30%,#0E2D4F 55%,#060D19 100%)}
+.hero::before{content:'';position:absolute;top:-50%;right:-25%;width:80%;height:200%;background:radial-gradient(ellipse,rgba(46,139,192,.07) 0%,transparent 65%);animation:hp 12s ease-in-out infinite}
+.hero::after{content:'';position:absolute;bottom:-40%;left:-15%;width:65%;height:160%;background:radial-gradient(ellipse,rgba(14,76,129,.1) 0%,transparent 65%);animation:hp 16s ease-in-out infinite reverse}
 @keyframes hp{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.9;transform:scale(1.08)}}
-.hero-content{max-width:800px;text-align:center;position:relative;z-index:2}
-.hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.45rem 1.1rem;border-radius:9999px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);font-size:.82rem;color:var(--pri-l);margin-bottom:2rem}
-.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--em);position:relative}
-.hero-badge .dot::after{content:'';position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--em);animation:pring 2.5s ease-out infinite}
-@keyframes pring{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.8);opacity:0}}
-.hero h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:900;color:#fff;letter-spacing:-0.03em;line-height:1.15;margin-bottom:1.2rem}
-.hero p{font-size:clamp(1rem,2vw,1.2rem);color:#94A8BE;margin-bottom:.6rem;max-width:600px;margin-left:auto;margin-right:auto}
-.hero .sub{font-size:.88rem;color:#5A6A80;margin-bottom:2.5rem}
-.hero-btns{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center}
-.btn-p{background:linear-gradient(135deg,var(--pri-d),var(--pri));color:#fff;border:none;padding:.75rem 2rem;border-radius:12px;font-size:.92rem;font-weight:600;cursor:pointer;transition:all .3s var(--ease);box-shadow:0 2px 8px rgba(14,68,116,0.3);display:inline-flex;align-items:center;gap:.5rem}
-.btn-p:hover{background:linear-gradient(135deg,var(--pri),var(--pri-l));box-shadow:0 6px 24px rgba(26,111,181,0.35);transform:translateY(-1px);text-decoration:none}
-.btn-s{background:transparent;color:#7DBBDF;border:1px solid rgba(46,139,192,0.2);padding:.75rem 2rem;border-radius:12px;font-size:.92rem;font-weight:500;cursor:pointer;transition:all .25s var(--ease);display:inline-flex;align-items:center;gap:.5rem}
-.btn-s:hover{background:rgba(46,139,192,0.08);border-color:rgba(46,139,192,0.35);color:#A5D4EF;text-decoration:none}
-.hero-wave{position:absolute;bottom:0;left:0;right:0;line-height:0}
-
-/* ========== Sections ========== */
-.sec{padding:5rem 1.5rem}
-.sec-inner{max-width:1200px;margin:0 auto}
-.sec-title{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:#fff;letter-spacing:-0.02em;text-align:center;margin-bottom:.5rem;position:relative}
-.sec-title::after{content:'';display:block;width:40px;height:3px;background:linear-gradient(90deg,var(--pri-l),rgba(46,139,192,0.2));border-radius:2px;margin:.7rem auto 0}
-.sec-sub{text-align:center;color:var(--tx-m);font-size:.95rem;max-width:640px;margin:0 auto 3.5rem;line-height:1.7}
-
-/* ========== Cards ========== */
-.card{background:rgba(11,24,41,0.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--bd);border-radius:var(--radius-lg);padding:2rem;transition:border-color .35s var(--ease),box-shadow .35s var(--ease),transform .35s var(--ease);box-shadow:0 1px 2px rgba(0,0,0,0.12),inset 0 1px 0 rgba(255,255,255,0.02)}
-.card:hover{border-color:var(--border-hover);box-shadow:0 12px 48px rgba(10,60,110,0.2),0 2px 8px rgba(0,0,0,0.15);transform:translateY(-2px)}
-.card-bl{border-left:4px solid var(--rd)}
-.card-bl.amber{border-left-color:var(--am)}
-.card-bl.blue{border-left-color:var(--pri)}
-.card-bl.purple{border-left-color:var(--pu)}
-.card-bl.emerald{border-left-color:var(--em)}
-
-/* ========== Grid ========== */
-.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr));gap:1.5rem}
-.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:1.5rem}
-.grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:1.5rem}
-
-/* ========== Badge ========== */
-.badge{display:inline-flex;align-items:center;padding:3px 12px;border-radius:9999px;font-size:.7rem;font-weight:600;color:#fff;letter-spacing:.01em}
-.badge-rd{background:var(--rd)}
-.badge-am{background:var(--am)}
-.badge-bl{background:var(--pri)}
-.badge-pu{background:var(--pu)}
-.badge-em{background:var(--em)}
-
-/* ========== Evidence ========== */
-.ev-box{padding:1rem 1.2rem;border-radius:12px;font-size:.84rem;line-height:1.7;margin-top:1rem}
-.ev-box.red{background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.15)}
-.ev-box.amber{background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.15)}
-.ev-box.blue{background:rgba(46,139,192,0.06);border:1px solid rgba(46,139,192,0.15)}
-.ev-box.green{background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.15)}
-.ev-src{font-size:.75rem;color:var(--tx-d);margin-top:.5rem}
-
-/* ========== Table ========== */
-.tbl-wrap{overflow-x:auto;border-radius:16px;border:1px solid var(--bd)}
-.tbl{width:100%;border-collapse:collapse;font-size:.84rem}
-.tbl th{background:rgba(10,30,55,0.7);color:#C4D0DC;padding:.75rem 1rem;font-weight:600;text-align:left;border-bottom:1px solid rgba(46,139,192,0.12);white-space:nowrap}
-.tbl td{padding:.7rem 1rem;color:#B0BFCF;border-bottom:1px solid rgba(46,139,192,0.06);background:rgba(11,24,41,0.3)}
-.tbl tbody tr:nth-child(even) td{background:rgba(11,24,41,0.45)}
-.tbl tbody tr:hover td{background:rgba(46,139,192,0.06)}
-
-/* ========== Blockquote ========== */
-.bq{padding:1.2rem 1.5rem;border-left:4px solid var(--pri-l);background:rgba(46,139,192,0.04);border-radius:0 12px 12px 0;font-size:.95rem;color:#C4D0DC;line-height:1.8;margin:1.5rem 0}
-.bq strong{color:#fff}
-.bq.warn{border-left-color:var(--am);background:rgba(245,158,11,0.04)}
-.bq.danger{border-left-color:var(--rd);background:rgba(239,68,68,0.04)}
-
-/* ========== Icon circle ========== */
-.ic{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.3rem}
-.ic-rd{background:rgba(239,68,68,0.12)}
-.ic-am{background:rgba(245,158,11,0.12)}
-.ic-bl{background:rgba(46,139,192,0.12)}
-.ic-em{background:rgba(16,185,129,0.12)}
-.ic-pu{background:rgba(139,92,246,0.12)}
-
-/* ========== Layer pyramid ========== */
-.pyramid{max-width:720px;margin:0 auto;position:relative}
-.pyr-layer{position:relative;border-radius:16px;padding:1.5rem 2rem;margin-bottom:0;transition:transform .3s var(--ease),box-shadow .3s var(--ease);cursor:default}
-.pyr-layer:hover{transform:scale(1.02);z-index:2}
-.pyr-1{background:linear-gradient(135deg,rgba(239,68,68,0.15),rgba(239,68,68,0.05));border:1px solid rgba(239,68,68,0.25);margin-left:auto;margin-right:auto;width:100%}
-.pyr-2{background:linear-gradient(135deg,rgba(245,158,11,0.12),rgba(245,158,11,0.04));border:1px solid rgba(245,158,11,0.2);width:92%;margin-left:auto;margin-right:auto}
-.pyr-3{background:linear-gradient(135deg,rgba(46,139,192,0.1),rgba(46,139,192,0.03));border:1px solid rgba(46,139,192,0.18);width:84%;margin-left:auto;margin-right:auto}
-.pyr-4{background:linear-gradient(135deg,rgba(16,185,129,0.1),rgba(16,185,129,0.03));border:1px solid rgba(16,185,129,0.18);width:76%;margin-left:auto;margin-right:auto}
-.pyr-title{font-weight:700;color:#fff;font-size:1.05rem;display:flex;align-items:center;gap:.5rem}
-.pyr-desc{font-size:.85rem;color:var(--tx-m);margin-top:.35rem;line-height:1.6}
-.pyr-arrow{text-align:center;color:var(--tx-d);font-size:1.2rem;margin:.3rem 0;line-height:1}
-
-/* ========== Drug cards ========== */
-.drug-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1.25rem}
-.drug-card{border-radius:18px;padding:1.8rem;border:1px solid var(--bd);background:rgba(11,24,41,0.6);transition:all .3s var(--ease)}
-.drug-card:hover{border-color:var(--border-hover);transform:translateY(-2px);box-shadow:0 8px 32px rgba(10,60,110,0.15)}
-.drug-name{font-size:1.3rem;font-weight:800;color:#fff}
-.drug-sub{font-size:.78rem;color:var(--tx-d);margin-bottom:1rem}
-.drug-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid rgba(46,139,192,0.06);font-size:.84rem}
-.drug-row:last-child{border-bottom:none}
-.drug-label{color:var(--tx-m)}
-.drug-val{color:#fff;font-weight:600}
-.drug-val.warn{color:var(--am)}
-.drug-val.good{color:var(--em)}
-.drug-val.bad{color:var(--rd)}
-.drug-who{margin-top:1rem;padding:.8rem 1rem;border-radius:10px;font-size:.82rem;line-height:1.6}
-.drug-who.best{background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.12);color:#6EE7B7}
-.drug-who.note{background:rgba(46,139,192,0.05);border:1px solid rgba(46,139,192,0.1);color:#7DBBDF}
-
-/* ========== Comparison visual ========== */
-.compare-bar{margin:.6rem 0}
-.compare-bar-label{font-size:.78rem;color:var(--tx-m);margin-bottom:.3rem}
-.compare-bar-track{height:8px;border-radius:4px;background:rgba(255,255,255,0.04);overflow:hidden;position:relative}
-.compare-bar-fill{height:100%;border-radius:4px;transition:width 1s var(--ease)}
-
-/* ========== Timeline ========== */
-.tl{position:relative;padding-left:2.25rem}
-.tl::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1.5px;background:linear-gradient(180deg,rgba(46,139,192,0.4),rgba(46,139,192,0.06))}
-.tl-item{position:relative;margin-bottom:2rem;padding-left:1.5rem}
-.tl-item:last-child{margin-bottom:0}
-.tl-item::before{content:'';position:absolute;left:calc(-2.25rem + 0px);top:.45rem;width:10px;height:10px;border-radius:50%;background:var(--pri-l);border:2.5px solid var(--bg);box-shadow:0 0 0 3px rgba(46,139,192,0.15)}
-.tl-item h4{font-size:.95rem;font-weight:600;color:#fff}
-.tl-item p{font-size:.82rem;color:var(--tx-m);margin-top:.3rem;line-height:1.6}
-
-/* ========== Summary DO/DONT ========== */
-.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
-@media(max-width:640px){.summary-grid{grid-template-columns:1fr}}
-.summary-col{border-radius:18px;padding:2rem}
-.summary-col.do{background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.12)}
-.summary-col.dont{background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.12)}
-.summary-col h3{font-size:1.15rem;font-weight:700;display:flex;align-items:center;gap:.5rem;margin-bottom:1.2rem}
-.summary-col.do h3{color:var(--em)}
-.summary-col.dont h3{color:var(--rd)}
-.summary-item{display:flex;align-items:flex-start;gap:.6rem;padding:.55rem 0;font-size:.9rem;line-height:1.6}
-.summary-col.do .summary-item span{color:var(--em);flex-shrink:0;margin-top:2px}
-.summary-col.dont .summary-item span{color:var(--rd);flex-shrink:0;margin-top:2px}
-
-/* ========== Analogy box ========== */
-.analogy{padding:2rem;border-radius:18px;background:linear-gradient(135deg,rgba(245,158,11,0.06),rgba(239,68,68,0.04));border:1px solid rgba(245,158,11,0.15);margin:2rem 0}
-.analogy h4{color:var(--am);font-weight:700;font-size:1.05rem;margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem}
-.analogy p{font-size:.92rem;line-height:1.8;color:#C4D0DC}
-
-/* ========== Disclaim ========== */
-.disclaim{padding:1.5rem;border-radius:16px;background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.15);margin:2rem 0}
-.disclaim h4{color:var(--am);font-weight:700;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
-.disclaim p{font-size:.85rem;color:#D4A84A;line-height:1.7}
-
-/* ========== Scroll Anim ========== */
-.anim{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.anim.in{opacity:1;transform:translateY(0)}
-.anim-d1{transition-delay:.08s}
-.anim-d2{transition-delay:.16s}
-.anim-d3{transition-delay:.24s}
-.anim-d4{transition-delay:.32s}
-
-/* ========== Section divider ========== */
-.sec-div{height:1px;background:linear-gradient(90deg,transparent,rgba(46,139,192,0.15),transparent);margin:0 auto;max-width:600px}
-
-/* ========== Floating particles ========== */
-.fp{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(46,139,192,0.06),transparent 70%);animation:flt 20s infinite ease-in-out;will-change:transform;pointer-events:none}
-@keyframes flt{0%,100%{transform:translate(0,0) rotate(0deg)}33%{transform:translate(25px,-25px) rotate(120deg)}66%{transform:translate(-18px,18px) rotate(240deg)}}
-
-/* ========== Footer ========== */
-.footer{padding:4rem 1.5rem 2rem;border-top:1px solid rgba(255,255,255,0.04);background:rgba(11,24,41,0.4)}
-.footer-inner{max-width:1200px;margin:0 auto}
-.footer-refs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:1.25rem;margin:2rem 0}
-.footer-ref{padding:1rem;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);transition:background .25s}
-.footer-ref:hover{background:rgba(255,255,255,0.06)}
-.footer-ref .title{font-weight:600;color:#D6DEE8;font-size:.88rem;margin-bottom:.3rem}
-.footer-ref .desc{font-size:.75rem;color:var(--tx-d);line-height:1.5}
-.footer-copy{text-align:center;font-size:.75rem;color:var(--tx-d);margin-top:2rem}
-
-/* ========== Responsive ========== */
-@media(max-width:768px){
-  .sec{padding:3.5rem 1rem}
-  .card{padding:1.35rem;border-radius:16px}
-  .pyr-2,.pyr-3,.pyr-4{width:100%}
-  .drug-grid{grid-template-columns:1fr}
-  .btn-p,.btn-s{padding:.65rem 1.4rem;font-size:.86rem}
-}
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  .anim{opacity:1;transform:none}
-  .fp{display:none}
-  html{scroll-behavior:auto}
-}
+.dot::after{content:'';position:absolute;inset:0;border-radius:50%;border:1.5px solid #10B981;animation:pr 2.5s ease-out infinite}
+@keyframes pr{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.8);opacity:0}}
+.btn-p{background:linear-gradient(135deg,#0E4474,#1A6FB5);box-shadow:0 2px 8px rgba(14,68,116,.3)}.btn-p:hover{background:linear-gradient(135deg,#1A6FB5,#2E8BC0);box-shadow:0 6px 24px rgba(26,111,181,.35);transform:translateY(-1px);text-decoration:none}
+.btn-s:hover{background:rgba(46,139,192,.08);border-color:rgba(46,139,192,.35);color:#A5D4EF;text-decoration:none}
+.stl::after{content:'';display:block;width:40px;height:3px;background:linear-gradient(90deg,#2E8BC0,rgba(46,139,192,.2));border-radius:2px;margin:.7rem auto 0}
+.card{background:rgba(11,24,41,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(46,139,192,.1);border-radius:18px;padding:2rem;transition:border-color .35s,box-shadow .35s,transform .35s;box-shadow:0 1px 2px rgba(0,0,0,.12),inset 0 1px 0 rgba(255,255,255,.02)}
+.card:hover{border-color:rgba(46,139,192,.25);box-shadow:0 12px 48px rgba(10,60,110,.2);transform:translateY(-2px)}
+.ev{padding:1rem 1.2rem;border-radius:12px;font-size:.84rem;line-height:1.7;margin-top:1rem}
+.ev-r{background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15)}.ev-a{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15)}
+.ev-b{background:rgba(46,139,192,.06);border:1px solid rgba(46,139,192,.15)}.ev-g{background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.15)}
+.ev-p{background:rgba(139,92,246,.05);border:1px solid rgba(139,92,246,.12)}
+.tbl{width:100%;border-collapse:collapse;font-size:.84rem}.tbl th{background:rgba(10,30,55,.7);color:#C4D0DC;padding:.75rem 1rem;font-weight:600;text-align:left;border-bottom:1px solid rgba(46,139,192,.12);white-space:nowrap}
+.tbl td{padding:.7rem 1rem;color:#B0BFCF;border-bottom:1px solid rgba(46,139,192,.06);background:rgba(11,24,41,.3)}.tbl tr:nth-child(even) td{background:rgba(11,24,41,.45)}.tbl tr:hover td{background:rgba(46,139,192,.06)}
+.bq{padding:1.2rem 1.5rem;border-left:4px solid #2E8BC0;background:rgba(46,139,192,.04);border-radius:0 12px 12px 0;font-size:.95rem;color:#C4D0DC;line-height:1.8;margin:1.5rem 0}.bq strong{color:#fff}
+.bq.warn{border-left-color:#F59E0B;background:rgba(245,158,11,.04)}.bq.danger{border-left-color:#EF4444;background:rgba(239,68,68,.04)}
+.pyr{position:relative;border-radius:16px;padding:1.5rem 2rem;transition:transform .3s,box-shadow .3s;cursor:default}.pyr:hover{transform:scale(1.02);z-index:2}
+.p1{background:linear-gradient(135deg,rgba(239,68,68,.15),rgba(239,68,68,.05));border:1px solid rgba(239,68,68,.25);width:100%}
+.p2{background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(245,158,11,.04));border:1px solid rgba(245,158,11,.2);width:92%}
+.p3{background:linear-gradient(135deg,rgba(46,139,192,.1),rgba(46,139,192,.03));border:1px solid rgba(46,139,192,.18);width:84%}
+.p4{background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(16,185,129,.03));border:1px solid rgba(16,185,129,.18);width:76%}
+.dc{border-radius:18px;padding:1.8rem;border:1px solid rgba(46,139,192,.1);background:rgba(11,24,41,.6);transition:all .3s}.dc:hover{border-color:rgba(46,139,192,.25);transform:translateY(-2px);box-shadow:0 8px 32px rgba(10,60,110,.15)}
+.anim{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}.anim.in{opacity:1;transform:translateY(0)}
+.anim-d1{transition-delay:.08s}.anim-d2{transition-delay:.16s}.anim-d3{transition-delay:.24s}.anim-d4{transition-delay:.32s}
+.fp{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(46,139,192,.06),transparent 70%);animation:fl 20s infinite ease-in-out;will-change:transform;pointer-events:none}
+@keyframes fl{0%,100%{transform:translate(0,0) rotate(0)}33%{transform:translate(25px,-25px) rotate(120deg)}66%{transform:translate(-18px,18px) rotate(240deg)}}
+@media(max-width:768px){.card{padding:1.35rem;border-radius:16px}.p2,.p3,.p4{width:100%}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.anim{opacity:1;transform:none}.fp{display:none}html{scroll-behavior:auto}}
 </style>
 </head>
-<body>
+<body class="font-sans">
 <div class="grain" aria-hidden="true"></div>
 
-<!-- ===== NAV ===== -->
+<!-- NAV -->
 <nav class="nav" id="nav">
-  <div class="nav-inner">
-    <a href="#" class="nav-brand">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+  <div class="max-w-[1280px] mx-auto flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2 font-extrabold text-[1.05rem] text-white shrink-0">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-pri-l"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
       CHB循证科普
     </a>
-    <div class="nav-menu" id="navMenu">
-      <a href="index.html" style="color:#38BDF8">🩺 自我筛查</a>
-      <a href="#goal">🎯 治疗目标</a>
-      <a href="#who">📋 分层决策</a>
-      <a href="#drug">💉 一线药物</a>
-      <a href="#trend">📈 国际趋势</a>
-      <a href="#followup">🔄 复查管理</a>
-      <a href="#liver">💊 保肝药真相</a>
-      <a href="#special">👥 特殊人群</a>
-      <a href="慢性乙肝循证科普-何时启动抗病毒治疗.pdf" target="_blank" style="color:var(--acc)">📄 科普全文</a>
-      <a href="https://www.bilibili.com/video/BV11oDXBQE1M/?vd_source=e10f8a317b6dc3ad48e9516cdc77beee" target="_blank" style="color:var(--acc)">🎬 科普视频</a>
+    <div class="nav-menu flex items-center gap-7" id="navMenu">
+      <a href="index.html" class="text-acc relative text-sm font-medium whitespace-nowrap transition-colors">🩺 自我筛查</a>
+      <a href="#goal" class="text-[#A0B4C8] relative text-sm font-medium whitespace-nowrap transition-colors">🎯 治疗目标</a>
+      <a href="#who" class="text-[#A0B4C8] relative text-sm font-medium whitespace-nowrap transition-colors">📋 分层决策</a>
+      <a href="#drug" class="text-[#A0B4C8] relative text-sm font-medium whitespace-nowrap transition-colors">💉 一线药物</a>
+      <a href="#trend" class="text-[#A0B4C8] relative text-sm font-medium whitespace-nowrap transition-colors">📈 国际趋势</a>
+      <a href="#followup" class="text-[#A0B4C8] relative text-sm font-medium whitespace-nowrap transition-colors">🔄 复查管理</a>
+      <a href="#liver" class="text-[#A0B4C8] relative text-sm font-medium whitespace-nowrap transition-colors">💊 保肝药真相</a>
+      <a href="#special" class="text-[#A0B4C8] relative text-sm font-medium whitespace-nowrap transition-colors">👥 特殊人群</a>
+      <a href="慢性乙肝循证科普-何时启动抗病毒治疗.pdf" target="_blank" class="text-acc relative text-sm font-medium whitespace-nowrap transition-colors">📄 科普全文</a>
+      <a href="https://www.bilibili.com/video/BV11oDXBQE1M/?vd_source=e10f8a317b6dc3ad48e9516cdc77beee" target="_blank" class="text-acc relative text-sm font-medium whitespace-nowrap transition-colors">🎬 科普视频</a>
     </div>
-    <button class="nav-mob-btn" id="mobBtn" aria-label="菜单">
+    <button class="mob-btn hidden bg-pri-l/10 border border-pri-l/20 text-tx cursor-pointer w-11 h-11 items-center justify-center rounded-xl transition-all relative overflow-hidden hover:bg-pri-l/25 hover:text-white" id="mobBtn" aria-label="菜单">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
   </div>
 </nav>
-<div class="nav-backdrop" id="navBackdrop"></div>
+<div class="nav-bd" id="navBackdrop"></div>
 
-<!-- ===== HERO ===== -->
+<!-- HERO -->
 <section class="hero">
-  <div class="fp" style="width:280px;height:280px;top:15%;left:8%;animation-delay:0s"></div>
+  <div class="fp" style="width:280px;height:280px;top:15%;left:8%"></div>
   <div class="fp" style="width:180px;height:180px;bottom:20%;right:12%;animation-delay:-5s"></div>
   <div class="fp" style="width:120px;height:120px;top:50%;right:30%;animation-delay:-10s"></div>
-  <div class="hero-content">
-    <div class="hero-badge anim">
-      <span class="dot"></span>
+  <div class="max-w-[800px] text-center relative z-[2]">
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[.03] border border-white/[.08] text-[.82rem] text-pri-l mb-8 anim">
+      <span class="dot w-[7px] h-[7px] rounded-full bg-em relative"></span>
       基于 WHO 2024 · EASL 2025 · AASLD 2025/2026 循证指南
     </div>
-    <h1 class="anim anim-d1">慢性乙肝<br>何时启动抗病毒治疗</h1>
-    <p class="anim anim-d2">治疗的目的不是"转阴"——而是长期抑制病毒复制，延缓纤维化进展、预防肝硬化和肝癌、降低死亡风险</p>
-    <p class="sub anim anim-d3">涵盖治疗目标、分层指征、复查管理、保肝药真相、药物选择、特殊人群</p>
-    <div class="hero-btns anim anim-d4">
-      <a href="#who" class="btn-p">
+    <h1 class="text-[clamp(2.2rem,6vw,3.8rem)] font-black text-white tracking-tight leading-[1.15] mb-5 anim anim-d1">慢性乙肝<br>何时启动抗病毒治疗</h1>
+    <p class="text-[clamp(1rem,2vw,1.2rem)] text-[#94A8BE] mb-2 max-w-[600px] mx-auto anim anim-d2">治疗的目的不是"转阴"——而是长期抑制病毒复制，延缓纤维化进展、预防肝硬化和肝癌、降低死亡风险</p>
+    <p class="text-sm text-[#5A6A80] mb-10 anim anim-d3">涵盖治疗目标、分层指征、复查管理、保肝药真相、药物选择、特殊人群</p>
+    <div class="flex flex-wrap gap-4 justify-center anim anim-d4">
+      <a href="#who" class="btn-p text-white border-none py-3 px-8 rounded-xl text-sm font-semibold cursor-pointer inline-flex items-center gap-2">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
         查看治疗指征
       </a>
-      <a href="#goal" class="btn-s">了解治疗目标 ↓</a>
+      <a href="#goal" class="btn-s bg-transparent text-[#7DBBDF] border border-pri-l/20 py-3 px-8 rounded-xl text-sm font-medium cursor-pointer inline-flex items-center gap-2 transition-all">了解治疗目标 ↓</a>
     </div>
   </div>
-  <div class="hero-wave">
-    <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="width:100%;height:60px">
+  <div class="absolute bottom-0 left-0 right-0 leading-[0]">
+    <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" class="w-full h-[60px]">
       <path d="M0 100L60 90C120 80 240 60 360 50C480 40 600 40 720 45C840 50 960 60 1080 65C1200 70 1320 70 1380 70L1440 70V100H0Z" fill="#060D19"/>
     </svg>
   </div>
 </section>
 
-<!-- ===== 写在最前面：治疗目标 ===== -->
-<section class="sec" id="goal" style="background:var(--bg)">
-  <div class="sec-inner">
-    <h2 class="sec-title anim">治疗的目标不是"转阴"</h2>
-    <p class="sec-sub anim">三大国际指南的共识非常明确——抗病毒治疗的核心目标是长期抑制病毒复制</p>
-
-    <div class="bq anim">
-      <strong>抗病毒治疗的核心目标——长期抑制病毒复制，从而延缓纤维化进展、预防肝硬化和肝癌、降低死亡风险。</strong>
-    </div>
-
-    <div class="grid-3" style="margin-top:2rem">
-      <!-- 卡1 -->
+<!-- 治疗目标 -->
+<section class="py-20 px-6 md:py-12 md:px-4 bg-bg" id="goal">
+  <div class="max-w-[1200px] mx-auto">
+    <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">治疗的目标不是"转阴"</h2>
+    <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">三大国际指南的共识非常明确——抗病毒治疗的核心目标是长期抑制病毒复制</p>
+    <div class="bq anim"><strong>抗病毒治疗的核心目标——长期抑制病毒复制，从而延缓纤维化进展、预防肝硬化和肝癌、降低死亡风险。</strong></div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
       <div class="card anim anim-d1">
-        <div class="ic ic-em" style="margin-bottom:1rem">
+        <div class="w-12 h-12 rounded-[14px] flex items-center justify-center shrink-0 bg-em/10 mb-4">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </div>
-        <span class="badge badge-em" style="margin-bottom:.75rem">现实主要目标 · 最高证据</span>
-        <h3 style="font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:.6rem">长期抑制HBV复制</h3>
-        <ul style="font-size:.88rem;color:var(--tx);line-height:1.9;list-style:none">
-          <li>✓ HBV DNA 持续不可测（&lt; 检测下限）</li>
-          <li>✓ ALT 正常化</li>
-          <li>✓ 肝纤维化逆转或稳定</li>
-          <li>✓ HCC（肝细胞癌）风险显著降低</li>
+        <span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-em mb-3">现实主要目标 · 最高证据</span>
+        <h3 class="text-lg font-bold text-white mb-2">长期抑制HBV复制</h3>
+        <ul class="text-sm text-tx leading-loose list-none">
+          <li>✓ HBV DNA 持续不可测（&lt; 检测下限）</li><li>✓ ALT 正常化</li><li>✓ 肝纤维化逆转或稳定</li><li>✓ HCC（肝细胞癌）风险显著降低</li>
         </ul>
-        <div class="ev-box green" style="margin-top:1rem">
-          多项长期队列研究和真实世界数据（如台湾REVEAL-HBV队列、韩国大规模队列）提示：抗病毒治疗可显著降低HCC风险、肝衰竭和死亡率。<strong>这些——才是真正拯救生命的证据。</strong>
-        </div>
+        <div class="ev ev-g mt-4">多项长期队列研究和真实世界数据（如台湾REVEAL-HBV队列、韩国大规模队列）提示：抗病毒治疗可显著降低HCC风险、肝衰竭和死亡率。<strong>这些——才是真正拯救生命的证据。</strong></div>
       </div>
-
-      <!-- 卡2 -->
       <div class="card anim anim-d2">
-        <div class="ic ic-am" style="margin-bottom:1rem">
+        <div class="w-12 h-12 rounded-[14px] flex items-center justify-center shrink-0 bg-am/10 mb-4">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><path d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
         </div>
-        <span class="badge badge-am" style="margin-bottom:.75rem">理想终点 · 实现率低</span>
-        <h3 style="font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:.6rem">HBsAg清除（功能性治愈）</h3>
-        <ul style="font-size:.88rem;color:var(--tx);line-height:1.9;list-style:none">
-          <li>✓ 表面抗原转阴</li>
-          <li>✓ 国际指南公认最佳终点</li>
-          <li>✓ 达成后HCC风险显著降低</li>
-          <li>⚠ 核苷类似物实现率仅 <strong style="color:var(--am)">1-3%/年</strong></li>
+        <span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-am mb-3">理想终点 · 实现率低</span>
+        <h3 class="text-lg font-bold text-white mb-2">HBsAg清除（功能性治愈）</h3>
+        <ul class="text-sm text-tx leading-loose list-none">
+          <li>✓ 表面抗原转阴</li><li>✓ 国际指南公认最佳终点</li><li>✓ 达成后HCC风险显著降低</li><li>⚠ 核苷类似物实现率仅 <strong class="text-am">1-3%/年</strong></li>
         </ul>
-        <div class="ev-box amber" style="margin-top:1rem">
-          干扰素略高，但副作用大且适用人群有限。绝大多数患者真正的获益来自长期病毒抑制。
-        </div>
+        <div class="ev ev-a mt-4">干扰素略高，但副作用大且适用人群有限。绝大多数患者真正的获益来自长期病毒抑制。</div>
       </div>
-
-      <!-- 卡3 -->
       <div class="card anim anim-d3">
-        <div class="ic ic-bl" style="margin-bottom:1rem">
+        <div class="w-12 h-12 rounded-[14px] flex items-center justify-center shrink-0 bg-pri/10 mb-4">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2E8BC0" stroke-width="2"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
         </div>
-        <span class="badge badge-bl" style="margin-bottom:.75rem">关键认知</span>
-        <h3 style="font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:.6rem">持续病毒抑制 = 真正获益</h3>
-        <ul style="font-size:.88rem;color:var(--tx);line-height:1.9;list-style:none">
-          <li>✓ HBV DNA 持续不可测</li>
-          <li>✓ ALT 正常化</li>
-          <li>✓ 纤维化逆转或稳定</li>
-          <li>✓ HCC风险显著降低</li>
+        <span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-pri mb-3">关键认知</span>
+        <h3 class="text-lg font-bold text-white mb-2">持续病毒抑制 = 真正获益</h3>
+        <ul class="text-sm text-tx leading-loose list-none">
+          <li>✓ HBV DNA 持续不可测</li><li>✓ ALT 正常化</li><li>✓ 纤维化逆转或稳定</li><li>✓ HCC风险显著降低</li>
         </ul>
-        <div class="ev-box blue" style="margin-top:1rem">
-          <strong>不要盯着"表面抗原转阴"</strong>——持续病毒抑制才是真正降低肝硬化和肝癌风险的循证获益。
-        </div>
+        <div class="ev ev-b mt-4"><strong>不要盯着"表面抗原转阴"</strong>——持续病毒抑制才是真正降低肝硬化和肝癌风险的循证获益。</div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="sec-div"></div>
+<div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
 
-<!-- ===== 第一部分：国际趋势 ===== -->
-<section class="sec" id="trend" style="background:linear-gradient(180deg,var(--bg),rgba(11,24,41,0.3),var(--bg))">
-  <div class="sec-inner">
-    <h2 class="sec-title anim">2024-2025 国际趋势：扩大治疗</h2>
-    <p class="sec-sub anim">过去治少了，现在要治更多人——WHO 2024 和 EASL 2025 的最大变化是大幅降低治疗门槛</p>
-
-    <div class="bq anim">
-      过去很多被归为"免疫耐受期"而不治疗的患者，现在被发现存在<strong>隐匿性肝纤维化进展和HCC风险</strong>。越来越多的观察性研究和真实世界数据支持扩大治疗适应症。
-    </div>
-
-    <div class="grid-3" style="margin-top:2rem">
-      <!-- WHO -->
-      <div class="card anim anim-d1" style="border-top:3px solid #0EA5E9">
-        <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1rem">
-          <span class="badge" style="background:#0EA5E9">WHO 2024</span>
-        </div>
-        <h3 style="font-weight:700;color:#fff;margin-bottom:.75rem;font-size:1.05rem">简化治疗路径</h3>
-        <ul style="font-size:.85rem;color:var(--tx);line-height:1.9;list-style:none">
-          <li>▸ DNA &gt; 2,000 IU/mL + ALT异常即可治疗</li>
-          <li>▸ <strong style="color:var(--rd)">家族史升格为独立治疗指征</strong></li>
-          <li>▸ 资源有限场景：持续ALT异常也可治疗</li>
-          <li>▸ 共感染、免疫抑制、肝外表现列为独立指征</li>
-          <li>▸ 合并代谢性疾病纳入扩展治疗资格</li>
+<!-- 国际趋势 -->
+<section class="py-20 px-6 md:py-12 md:px-4" id="trend" style="background:linear-gradient(180deg,#060D19,rgba(11,24,41,.3),#060D19)">
+  <div class="max-w-[1200px] mx-auto">
+    <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">2024-2025 国际趋势：扩大治疗</h2>
+    <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">过去治少了，现在要治更多人——WHO 2024 和 EASL 2025 的最大变化是大幅降低治疗门槛</p>
+    <div class="bq anim">过去很多被归为"免疫耐受期"而不治疗的患者，现在被发现存在<strong>隐匿性肝纤维化进展和HCC风险</strong>。越来越多的观察性研究和真实世界数据支持扩大治疗适应症。</div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+      <div class="card border-t-[3px] border-t-sky-500 anim anim-d1">
+        <div class="flex items-center gap-2 mb-4"><span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-sky-500">WHO 2024</span></div>
+        <h3 class="font-bold text-white mb-3">简化治疗路径</h3>
+        <ul class="text-sm text-tx leading-loose list-none">
+          <li>▸ DNA &gt; 2,000 IU/mL + ALT异常即可治疗</li><li>▸ <strong class="text-rd">家族史升格为独立治疗指征</strong></li><li>▸ 资源有限场景：持续ALT异常也可治疗</li><li>▸ 共感染、免疫抑制、肝外表现列为独立指征</li><li>▸ 合并代谢性疾病纳入扩展治疗资格</li>
         </ul>
       </div>
-
-      <!-- EASL -->
-      <div class="card anim anim-d2" style="border-top:3px solid #6366F1">
-        <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1rem">
-          <span class="badge" style="background:#6366F1">EASL 2025</span>
-        </div>
-        <h3 style="font-weight:700;color:#fff;margin-bottom:.75rem;font-size:1.05rem">扩大治疗资格</h3>
-        <ul style="font-size:.85rem;color:var(--tx);line-height:1.9;list-style:none">
-          <li>▸ <strong style="color:var(--am)">30岁以上</strong>高DNA患者，ALT正常也倾向治疗</li>
-          <li>▸ LSM &gt; 7 kPa权重升高，成为独立治疗考量</li>
-          <li>▸ 强调 qHBsAg 监测指导治疗决策</li>
-          <li>▸ HBeAg阴性患者停药条件更积极</li>
-          <li>▸ 向更积极方向发展，但尚未达"treat-all"</li>
+      <div class="card border-t-[3px] border-t-indigo-500 anim anim-d2">
+        <div class="flex items-center gap-2 mb-4"><span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-indigo-500">EASL 2025</span></div>
+        <h3 class="font-bold text-white mb-3">扩大治疗资格</h3>
+        <ul class="text-sm text-tx leading-loose list-none">
+          <li>▸ <strong class="text-am">30岁以上</strong>高DNA患者，ALT正常也倾向治疗</li><li>▸ LSM &gt; 7 kPa权重升高，成为独立治疗考量</li><li>▸ 强调 qHBsAg 监测指导治疗决策</li><li>▸ HBeAg阴性患者停药条件更积极</li><li>▸ 向更积极方向发展，但尚未达"treat-all"</li>
         </ul>
       </div>
-
-      <!-- AASLD -->
-      <div class="card anim anim-d3" style="border-top:3px solid #F59E0B">
-        <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1rem">
-          <span class="badge badge-am">AASLD 2025/2026</span>
-        </div>
-        <h3 style="font-weight:700;color:#fff;margin-bottom:.75rem;font-size:1.05rem">更新ULN标准</h3>
-        <ul style="font-size:.85rem;color:var(--tx);line-height:1.9;list-style:none">
-          <li>▸ ALT ULN: <strong style="color:#fff">男35 / 女25 IU/L</strong></li>
-          <li>▸ 免疫耐受期 &gt;40岁 考虑治疗</li>
-          <li>▸ 简化HBeAg阴性治疗路径</li>
-          <li>▸ 强调<strong style="color:var(--acc)">共同决策</strong>（shared decision-making）</li>
-          <li>▸ 灰区患者也可通过共同决策考虑治疗</li>
+      <div class="card border-t-[3px] border-t-am anim anim-d3">
+        <div class="flex items-center gap-2 mb-4"><span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-am">AASLD 2025/2026</span></div>
+        <h3 class="font-bold text-white mb-3">更新ULN标准</h3>
+        <ul class="text-sm text-tx leading-loose list-none">
+          <li>▸ ALT ULN: <strong class="text-white">男35 / 女25 IU/L</strong></li><li>▸ 免疫耐受期 &gt;40岁 考虑治疗</li><li>▸ 简化HBeAg阴性治疗路径</li><li>▸ 强调<strong class="text-acc">共同决策</strong>（shared decision-making）</li><li>▸ 灰区患者也可通过共同决策考虑治疗</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<div class="sec-div"></div>
+<div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
 
-<!-- ===== 第二部分：分层治疗决策 ===== -->
-<section class="sec" id="who" style="background:var(--bg)">
-  <div class="sec-inner">
-    <h2 class="sec-title anim">分层治疗决策</h2>
-    <p class="sec-sub anim">谁必须治？谁可以等？——按优先级从高到低排列，优先级越高，越需要立即治疗</p>
-
+<!-- 分层治疗决策 -->
+<section class="py-20 px-6 md:py-12 md:px-4 bg-bg" id="who">
+  <div class="max-w-[1200px] mx-auto">
+    <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">分层治疗决策</h2>
+    <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">谁必须治？谁可以等？——按优先级从高到低排列，优先级越高，越需要立即治疗</p>
     <!-- 金字塔 -->
-    <div class="pyramid anim">
-      <!-- 第1层 -->
-      <div class="pyr-layer pyr-1">
-        <div class="pyr-title">
-          <span style="font-size:1.2rem">🚨</span> 第一层：绝对适应症——必须立即治疗
-          <span class="badge badge-rd">最高证据</span>
-        </div>
-        <div class="pyr-desc">三大指南完全一致，最高质量证据</div>
-      </div>
-      <div class="pyr-arrow">▼</div>
-
-      <!-- 第2层 -->
-      <div class="pyr-layer pyr-2">
-        <div class="pyr-title">
-          <span style="font-size:1.2rem">📋</span> 第二层：标准适应症——强烈建议治疗
-          <span class="badge badge-am">高质量证据</span>
-        </div>
-        <div class="pyr-desc">三大指南高度一致</div>
-      </div>
-      <div class="pyr-arrow">▼</div>
-
-      <!-- 第3层 -->
-      <div class="pyr-layer pyr-3">
-        <div class="pyr-title">
-          <span style="font-size:1.2rem">💡</span> 第三层：扩展适应症——倾向治疗或密切随访
-          <span class="badge badge-bl">中等证据</span>
-        </div>
-        <div class="pyr-desc">指南间有差异</div>
-      </div>
-      <div class="pyr-arrow">▼</div>
-
-      <!-- 第4层 -->
-      <div class="pyr-layer pyr-4">
-        <div class="pyr-title">
-          <span style="font-size:1.2rem">👁️</span> 第四层：暂可监测人群——必须定期复查
-          <span class="badge badge-em">监测</span>
-        </div>
-        <div class="pyr-desc">目前证据不支持立即治疗，但需每6-12个月复查</div>
-      </div>
+    <div class="max-w-[720px] mx-auto relative anim">
+      <div class="pyr p1 mx-auto"><div class="font-bold text-white flex items-center gap-2 flex-wrap"><span class="text-xl">🚨</span> 第一层：绝对适应症——必须立即治疗 <span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-rd">最高证据</span></div><p class="text-sm text-tx-m mt-1 leading-relaxed">三大指南完全一致，最高质量证据</p></div>
+      <p class="text-center text-tx-d text-xl my-1 leading-none">▼</p>
+      <div class="pyr p2 mx-auto"><div class="font-bold text-white flex items-center gap-2 flex-wrap"><span class="text-xl">📋</span> 第二层：标准适应症——强烈建议治疗 <span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-am">高质量证据</span></div><p class="text-sm text-tx-m mt-1 leading-relaxed">三大指南高度一致</p></div>
+      <p class="text-center text-tx-d text-xl my-1 leading-none">▼</p>
+      <div class="pyr p3 mx-auto"><div class="font-bold text-white flex items-center gap-2 flex-wrap"><span class="text-xl">💡</span> 第三层：扩展适应症——倾向治疗或密切随访 <span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-pri">中等证据</span></div><p class="text-sm text-tx-m mt-1 leading-relaxed">指南间有差异</p></div>
+      <p class="text-center text-tx-d text-xl my-1 leading-none">▼</p>
+      <div class="pyr p4 mx-auto"><div class="font-bold text-white flex items-center gap-2 flex-wrap"><span class="text-xl">👁️</span> 第四层：暂可监测人群——必须定期复查 <span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-em">监测</span></div><p class="text-sm text-tx-m mt-1 leading-relaxed">目前证据不支持立即治疗，但需每6-12个月复查</p></div>
     </div>
-
     <!-- 详细卡片 -->
-    <div style="margin-top:3rem">
-
-      <!-- 第一层详情 -->
-      <div class="card card-bl anim" style="margin-bottom:1.5rem">
-        <div style="display:flex;align-items:flex-start;gap:1rem">
-          <div class="ic ic-rd">🚨</div>
-          <div style="flex:1">
-            <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.5rem">
-              <h3 style="font-size:1.1rem;font-weight:700;color:#fff">① 所有肝硬化患者（代偿期 + 失代偿期）</h3>
-              <span class="badge badge-rd">必须立即治疗</span>
+    <div class="mt-12">
+      <div class="card border-l-4 border-l-rd mb-6 anim">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-[14px] flex items-center justify-center shrink-0 bg-rd/10 text-xl">🚨</div>
+          <div class="flex-1">
+            <div class="flex items-center gap-2 flex-wrap mb-2"><h3 class="text-lg font-bold text-white">① 所有肝硬化患者（代偿期 + 失代偿期）</h3><span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-rd">必须立即治疗</span></div>
+            <div class="bq danger my-3"><strong>无论HBV DNA是否可测、无论ALT是否正常——只要有肝硬化诊断，就必须抗病毒治疗。</strong></div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+              <div class="ev ev-r"><strong class="text-red-300">失代偿期肝硬化</strong>（已出现腹水/黄疸/消化道出血/肝性脑病）：紧急治疗，同时评估肝移植</div>
+              <div class="ev ev-r"><strong class="text-red-300">代偿期肝硬化</strong>（尚无并发症但已确诊）：立即治疗，可显著降低失代偿和HCC风险</div>
             </div>
-            <div class="bq danger" style="margin:.75rem 0">
-              <strong>无论HBV DNA是否可测、无论ALT是否正常——只要有肝硬化诊断，就必须抗病毒治疗。</strong>
-            </div>
-            <div class="grid-2" style="margin-top:1rem">
-              <div class="ev-box red">
-                <strong style="color:#FCA5A5">失代偿期肝硬化</strong>（已出现腹水/黄疸/消化道出血/肝性脑病）：紧急治疗，同时评估肝移植
-              </div>
-              <div class="ev-box red">
-                <strong style="color:#FCA5A5">代偿期肝硬化</strong>（尚无并发症但已确诊）：立即治疗，可显著降低失代偿和HCC风险
-              </div>
-            </div>
-            <div class="ev-box red" style="margin-top:.75rem">
-              RCT和长期队列证实，抗病毒治疗可显著降低：肝衰竭风险 · 食管胃静脉曲张出血 · HCC发生率 · 全因死亡率
-            </div>
-            <p class="ev-src">证据来源：WHO 2024（强推荐，高质量证据）· EASL 2025 · AASLD 2025/2026</p>
+            <div class="ev ev-r mt-3">RCT和长期队列证实，抗病毒治疗可显著降低：肝衰竭风险 · 食管胃静脉曲张出血 · HCC发生率 · 全因死亡率</div>
+            <p class="text-xs text-tx-d mt-2">证据来源：WHO 2024（强推荐，高质量证据）· EASL 2025 · AASLD 2025/2026</p>
           </div>
         </div>
       </div>
-
-      <!-- 第二层详情 -->
-      <div class="card card-bl amber anim" style="margin-bottom:1.5rem">
-        <div style="display:flex;align-items:flex-start;gap:1rem">
-          <div class="ic ic-am">📋</div>
-          <div style="flex:1">
-            <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.5rem">
-              <h3 style="font-size:1.1rem;font-weight:700;color:#fff">② 合并 HIV/HDV/HCV · 免疫抑制/化疗 · 肝外表现</h3>
-              <span class="badge badge-am">独立指征</span>
-            </div>
-            <p style="font-size:.88rem;color:var(--tx);margin-bottom:.75rem">WHO 2024将以下情况列为<strong style="color:#fff">独立的抗病毒治疗指征</strong>，不论DNA和ALT水平：</p>
-            <ul style="font-size:.86rem;color:var(--tx);line-height:1.9;list-style:none;padding-left:0">
-              <li style="margin-bottom:.4rem">▸ <strong style="color:#fff">HIV/HBV合并感染</strong>：应选择含TDF或TAF的方案。⚠ 未控制HIV时ETV不能单独用于HBV</li>
-              <li style="margin-bottom:.4rem">▸ <strong style="color:#fff">HDV共感染</strong>：WHO建议对所有HBsAg阳性者筛查HDV</li>
-              <li style="margin-bottom:.4rem">▸ <strong style="color:#fff">免疫抑制治疗前</strong>：必须筛查HBsAg和anti-HBc，阳性者需预防性抗病毒。不治疗可致HBV再激活，致命性肝衰竭死亡率5-50%</li>
-              <li>▸ <strong style="color:#fff">肝外表现</strong>：HBV相关肾小球肾炎、结节性多动脉炎等</li>
+      <div class="card border-l-4 border-l-am mb-6 anim">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-[14px] flex items-center justify-center shrink-0 bg-am/10 text-xl">📋</div>
+          <div class="flex-1">
+            <div class="flex items-center gap-2 flex-wrap mb-2"><h3 class="text-lg font-bold text-white">② 合并 HIV/HDV/HCV · 免疫抑制/化疗 · 肝外表现</h3><span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-am">独立指征</span></div>
+            <p class="text-sm text-tx mb-3">WHO 2024将以下情况列为<strong class="text-white">独立的抗病毒治疗指征</strong>，不论DNA和ALT水平：</p>
+            <ul class="text-sm text-tx leading-loose list-none">
+              <li class="mb-1.5">▸ <strong class="text-white">HIV/HBV合并感染</strong>：应选择含TDF或TAF的方案。⚠ 未控制HIV时ETV不能单独用于HBV</li>
+              <li class="mb-1.5">▸ <strong class="text-white">HDV共感染</strong>：WHO建议对所有HBsAg阳性者筛查HDV</li>
+              <li class="mb-1.5">▸ <strong class="text-white">免疫抑制治疗前</strong>：必须筛查HBsAg和anti-HBc，阳性者需预防性抗病毒。不治疗可致HBV再激活，致命性肝衰竭死亡率5-50%</li>
+              <li>▸ <strong class="text-white">肝外表现</strong>：HBV相关肾小球肾炎、结节性多动脉炎等</li>
             </ul>
           </div>
         </div>
       </div>
-
-      <!-- ③ DNA+ALT -->
-      <div class="card card-bl amber anim" style="margin-bottom:1.5rem">
-        <div style="display:flex;align-items:flex-start;gap:1rem">
-          <div class="ic ic-am">🔬</div>
-          <div style="flex:1">
-            <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.5rem">
-              <h3 style="font-size:1.1rem;font-weight:700;color:#fff">③ HBV DNA升高 + ALT升高（"免疫清除期"）</h3>
-              <span class="badge badge-am">经典指征</span>
-            </div>
-            <p style="font-size:.88rem;color:var(--tx);margin-bottom:.75rem">最经典的治疗指征——机体正在攻击被感染的肝细胞，病毒在复制，肝脏在损伤。此时治疗获益最确定。</p>
-
-            <div class="tbl-wrap" style="margin-top:1rem">
+      <div class="card border-l-4 border-l-am mb-6 anim">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-[14px] flex items-center justify-center shrink-0 bg-am/10 text-xl">🔬</div>
+          <div class="flex-1">
+            <div class="flex items-center gap-2 flex-wrap mb-2"><h3 class="text-lg font-bold text-white">③ HBV DNA升高 + ALT升高（"免疫清除期"）</h3><span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-am">经典指征</span></div>
+            <p class="text-sm text-tx mb-3">最经典的治疗指征——机体正在攻击被感染的肝细胞，病毒在复制，肝脏在损伤。此时治疗获益最确定。</p>
+            <div class="overflow-x-auto rounded-2xl border border-pri/10 mt-4">
               <table class="tbl">
-                <thead>
-                  <tr><th>指南</th><th>HBeAg阳性 DNA阈值</th><th>HBeAg阴性 DNA阈值</th><th>ALT标准</th><th>ALT ULN定义</th></tr>
-                </thead>
+                <thead><tr><th>指南</th><th>HBeAg阳性 DNA阈值</th><th>HBeAg阴性 DNA阈值</th><th>ALT标准</th><th>ALT ULN定义</th></tr></thead>
                 <tbody>
-                  <tr><td style="font-weight:600;color:#fff">WHO 2024</td><td>&gt; 2,000 IU/mL</td><td>&gt; 2,000 IU/mL</td><td>&gt; ULN（持续异常）</td><td>倾向男30/女19</td></tr>
-                  <tr><td style="font-weight:600;color:#fff">EASL 2025</td><td>≥ 20,000 IU/mL</td><td>≥ 2,000 IU/mL</td><td>&gt; ULN</td><td>结合综合判断</td></tr>
-                  <tr><td style="font-weight:600;color:#fff">AASLD 2025</td><td>≥ 20,000 IU/mL</td><td>≥ 2,000 IU/mL</td><td>≥ 2×ULN</td><td>男35 / 女25</td></tr>
+                  <tr><td class="font-semibold text-white">WHO 2024</td><td>&gt; 2,000 IU/mL</td><td>&gt; 2,000 IU/mL</td><td>&gt; ULN（持续异常）</td><td>倾向男30/女19</td></tr>
+                  <tr><td class="font-semibold text-white">EASL 2025</td><td>≥ 20,000 IU/mL</td><td>≥ 2,000 IU/mL</td><td>&gt; ULN</td><td>结合综合判断</td></tr>
+                  <tr><td class="font-semibold text-white">AASLD 2025</td><td>≥ 20,000 IU/mL</td><td>≥ 2,000 IU/mL</td><td>≥ 2×ULN</td><td>男35 / 女25</td></tr>
                 </tbody>
               </table>
             </div>
-            <div class="ev-box amber" style="margin-top:.75rem">
-              <strong>关键差异：</strong>WHO不按HBeAg分层，统一&gt;2,000 IU/mL即可——门槛最低。AASLD将≥2×ULN作为核心阈值，但灰区患者可通过共同决策治疗。<strong>ULN定义不同——用错可能导致"明明ALT异常却被误判为正常"。</strong>
+            <div class="ev ev-a mt-3"><strong>关键差异：</strong>WHO不按HBeAg分层，统一&gt;2,000 IU/mL即可——门槛最低。AASLD将≥2×ULN作为核心阈值，但灰区患者可通过共同决策治疗。<strong>ULN定义不同——用错可能导致"明明ALT异常却被误判为正常"。</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="card border-l-4 border-l-pri mb-6 anim">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-[14px] flex items-center justify-center shrink-0 bg-pri/10 text-xl">💡</div>
+          <div class="flex-1">
+            <div class="flex items-center gap-2 flex-wrap mb-2"><h3 class="text-lg font-bold text-white">④ 显著纤维化（METAVIR ≥F2 或 LSM &gt; 7 kPa）——即使ALT正常</h3><span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-pri">重要更新</span></div>
+            <div class="bq my-3"><strong>ALT 正常 ≠ 肝脏没有损伤。</strong>约15-30%的ALT正常CHB患者在肝穿中发现≥F2纤维化。</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+              <div class="ev ev-b"><strong class="text-[#7DBBDF]">FibroScan（瞬时弹性成像）</strong><br>LSM &gt; 7 kPa 提示显著纤维化<br>LSM &gt; 12.5 kPa 提示肝硬化</div>
+              <div class="ev ev-b"><strong class="text-[#7DBBDF]">APRI（WHO 2024推荐）</strong><br>APRI &gt; 0.5 提示显著纤维化（≥F2）<br>APRI &gt; 1.0 提示肝硬化（F4）</div>
+            </div>
+            <div class="ev ev-g mt-3">三大指南共识：有显著纤维化证据者，<strong>即使ALT正常、即使DNA水平未达传统阈值，也应考虑治疗。</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="card border-l-4 border-l-pri mb-6 anim">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-[14px] flex items-center justify-center shrink-0 bg-pri/10 text-xl">👨‍👩‍👧</div>
+          <div class="flex-1">
+            <div class="flex items-center gap-2 flex-wrap mb-2"><h3 class="text-lg font-bold text-white">⑤ HCC或肝硬化家族史</h3><span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-pri">独立指征</span></div>
+            <p class="text-sm text-tx">WHO 2024将一级亲属HCC或肝硬化家族史升格为<strong class="text-white">独立的治疗考量因素</strong>——无论年龄、DNA水平和ALT，均应积极考虑治疗。</p>
+            <div class="ev ev-b mt-3">HCC家族史使HCC风险增加<strong class="text-white">2-5倍</strong>（REVEAL队列数据）。这种风险独立于DNA水平和ALT，是遗传易感性与病毒交互的结果。家族史权重可突破年龄门槛。</div>
+          </div>
+        </div>
+      </div>
+      <div class="card border-l-4 border-l-pu mb-6 anim">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-[14px] flex items-center justify-center shrink-0 bg-pu/10 text-xl">⏳</div>
+          <div class="flex-1">
+            <div class="flex items-center gap-2 flex-wrap mb-2"><h3 class="text-lg font-bold text-white">⑥ ⑦ ⑧ 第三层：扩展适应症</h3><span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-pu">倾向治疗/密切随访</span></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+              <div class="ev ev-p"><strong class="text-violet-300">⑥ 年龄偏大 + 高病毒载量</strong><br><span class="text-[.82rem] text-tx-m">EASL: 30岁+倾向治疗<br>AASLD: &gt;40岁才考虑<br>WHO: 年龄属风险修饰因素</span></div>
+              <div class="ev ev-p"><strong class="text-violet-300">⑦ ALT灰区（1-2×ULN）</strong><br><span class="text-[.82rem] text-tx-m">WHO/EASL: &gt;ULN即考虑<br>AASLD: 需排除波动<br>建议连续监测3-6个月</span></div>
+              <div class="ev ev-p"><strong class="text-violet-300">⑧ HBeAg阴性 + DNA≥2000</strong><br><span class="text-[.82rem] text-tx-m">需鉴别"非活动携带"<br>每3月复查DNA+ALT<br>连续监测至少12个月</span></div>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- ④ 显著纤维化 -->
-      <div class="card card-bl blue anim" style="margin-bottom:1.5rem">
-        <div style="display:flex;align-items:flex-start;gap:1rem">
-          <div class="ic ic-bl">💡</div>
-          <div style="flex:1">
-            <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.5rem">
-              <h3 style="font-size:1.1rem;font-weight:700;color:#fff">④ 显著纤维化（METAVIR ≥F2 或 LSM &gt; 7 kPa）——即使ALT正常</h3>
-              <span class="badge badge-bl">重要更新</span>
-            </div>
-            <div class="bq" style="margin:.75rem 0">
-              <strong>ALT 正常 ≠ 肝脏没有损伤。</strong>约15-30%的ALT正常CHB患者在肝穿中发现≥F2纤维化。
-            </div>
-            <div class="grid-2" style="margin-top:1rem">
-              <div class="ev-box blue">
-                <strong style="color:#7DBBDF">FibroScan（瞬时弹性成像）</strong><br>
-                LSM &gt; 7 kPa 提示显著纤维化<br>
-                LSM &gt; 12.5 kPa 提示肝硬化
-              </div>
-              <div class="ev-box blue">
-                <strong style="color:#7DBBDF">APRI（WHO 2024推荐）</strong><br>
-                APRI &gt; 0.5 提示显著纤维化（≥F2）<br>
-                APRI &gt; 1.0 提示肝硬化（F4）
-              </div>
-            </div>
-            <div class="ev-box green" style="margin-top:.75rem">
-              三大指南共识：有显著纤维化证据者，<strong>即使ALT正常、即使DNA水平未达传统阈值，也应考虑治疗。</strong>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ⑤ 家族史 -->
-      <div class="card card-bl blue anim" style="margin-bottom:1.5rem">
-        <div style="display:flex;align-items:flex-start;gap:1rem">
-          <div class="ic ic-bl">👨‍👩‍👧</div>
-          <div style="flex:1">
-            <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.5rem">
-              <h3 style="font-size:1.1rem;font-weight:700;color:#fff">⑤ HCC或肝硬化家族史</h3>
-              <span class="badge badge-bl">独立指征</span>
-            </div>
-            <p style="font-size:.88rem;color:var(--tx)">WHO 2024将一级亲属HCC或肝硬化家族史升格为<strong style="color:#fff">独立的治疗考量因素</strong>——无论年龄、DNA水平和ALT，均应积极考虑治疗。</p>
-            <div class="ev-box blue" style="margin-top:.75rem">
-              HCC家族史使HCC风险增加<strong style="color:#fff">2-5倍</strong>（REVEAL队列数据）。这种风险独立于DNA水平和ALT，是遗传易感性与病毒交互的结果。家族史权重可突破年龄门槛。
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 第三层 -->
-      <div class="card card-bl purple anim" style="margin-bottom:1.5rem">
-        <div style="display:flex;align-items:flex-start;gap:1rem">
-          <div class="ic ic-pu">⏳</div>
-          <div style="flex:1">
-            <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.5rem">
-              <h3 style="font-size:1.1rem;font-weight:700;color:#fff">⑥ ⑦ ⑧ 第三层：扩展适应症</h3>
-              <span class="badge badge-pu">倾向治疗/密切随访</span>
-            </div>
-            <div class="grid-3" style="margin-top:1rem">
-              <div class="ev-box" style="background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.12)">
-                <strong style="color:#C4B5FD">⑥ 年龄偏大 + 高病毒载量</strong><br>
-                <span style="font-size:.82rem;color:var(--tx-m)">EASL: 30岁+倾向治疗<br>AASLD: &gt;40岁才考虑<br>WHO: 年龄属风险修饰因素</span>
-              </div>
-              <div class="ev-box" style="background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.12)">
-                <strong style="color:#C4B5FD">⑦ ALT灰区（1-2×ULN）</strong><br>
-                <span style="font-size:.82rem;color:var(--tx-m)">WHO/EASL: &gt;ULN即考虑<br>AASLD: 需排除波动<br>建议连续监测3-6个月</span>
-              </div>
-              <div class="ev-box" style="background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.12)">
-                <strong style="color:#C4B5FD">⑧ HBeAg阴性 + DNA≥2000</strong><br>
-                <span style="font-size:.82rem;color:var(--tx-m)">需鉴别"非活动携带"<br>每3月复查DNA+ALT<br>连续监测至少12个月</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 第四层 -->
-      <div class="card card-bl emerald anim">
-        <div style="display:flex;align-items:flex-start;gap:1rem">
-          <div class="ic ic-em">👁️</div>
-          <div style="flex:1">
-            <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.5rem">
-              <h3 style="font-size:1.1rem;font-weight:700;color:#fff">第四层：暂可监测人群</h3>
-              <span class="badge badge-em">定期复查</span>
-            </div>
-            <ul style="font-size:.86rem;color:var(--tx);line-height:1.9;list-style:none">
-              <li>▸ HBV DNA 不可测或极低（&lt; 2,000 IU/mL）</li>
-              <li>▸ ALT 持续正常（按更新后的ULN标准）</li>
-              <li>▸ 无纤维化证据（LSM &lt; 7 kPa 或 F0-F1）</li>
-              <li>▸ 无家族史</li>
-              <li>▸ 年龄较轻（&lt; 30岁）</li>
+      <div class="card border-l-4 border-l-em anim">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-[14px] flex items-center justify-center shrink-0 bg-em/10 text-xl">👁️</div>
+          <div class="flex-1">
+            <div class="flex items-center gap-2 flex-wrap mb-2"><h3 class="text-lg font-bold text-white">第四层：暂可监测人群</h3><span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-em">定期复查</span></div>
+            <ul class="text-sm text-tx leading-loose list-none">
+              <li>▸ HBV DNA 不可测或极低（&lt; 2,000 IU/mL）</li><li>▸ ALT 持续正常（按更新后的ULN标准）</li><li>▸ 无纤维化证据（LSM &lt; 7 kPa 或 F0-F1）</li><li>▸ 无家族史</li><li>▸ 年龄较轻（&lt; 30岁）</li>
             </ul>
-            <div class="bq warn" style="margin-top:.75rem">
-              即使暂不治疗，这些患者仍需<strong>每6-12个月定期复查</strong>，因为慢性乙肝的自然史可以在任何时间点发生变化。
-            </div>
+            <div class="bq warn mt-3">即使暂不治疗，这些患者仍需<strong>每6-12个月定期复查</strong>，因为慢性乙肝的自然史可以在任何时间点发生变化。</div>
           </div>
         </div>
       </div>
@@ -684,580 +325,264 @@ a:hover{text-decoration:underline}
   </div>
 </section>
 
-<div class="sec-div"></div>
+<div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
 
-<!-- ===== 第三部分：复查 ===== -->
-<section class="sec" id="followup" style="background:linear-gradient(180deg,var(--bg),rgba(11,24,41,0.3),var(--bg))">
-  <div class="sec-inner">
-    <h2 class="sec-title anim">慢性乙肝是终身管理</h2>
-    <p class="sec-sub anim">复查至关重要——疾病自然史可以在任何阶段发生转变</p>
-
-    <!-- 复查表格 -->
-    <div class="anim" style="margin-bottom:2.5rem">
-      <h3 style="font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem">
-        <span class="ic ic-bl" style="width:36px;height:36px;font-size:1rem;border-radius:10px">💊</span>
-        正在接受抗病毒治疗的患者
-      </h3>
-      <div class="tbl-wrap">
-        <table class="tbl">
-          <thead><tr><th>检查项目</th><th>频率</th><th>适用人群/备注</th></tr></thead>
-          <tbody>
-            <tr><td>HBV DNA 定量</td><td>每3-6个月</td><td>所有治疗者，初期每3个月</td></tr>
-            <tr><td>肝功能（ALT/AST/胆红素）</td><td>每3-6个月</td><td>所有治疗者</td></tr>
-            <tr><td>HBeAg / anti-HBe</td><td>每6-12个月</td><td>初始HBeAg阳性者</td></tr>
-            <tr><td>HBsAg 定量（qHBsAg）</td><td>每6-12个月</td><td>停药评估/功能性治愈判断时</td></tr>
-            <tr><td>肾功能（肌酐、eGFR）</td><td>TDF:每6月;其他:每年</td><td>TDF使用者更需密切监测</td></tr>
-            <tr><td>骨密度（DEXA）</td><td>基线+酌情复查</td><td>有骨风险因素/长期TDF使用者</td></tr>
-            <tr><td>血脂</td><td>每年</td><td>TAF使用者</td></tr>
-          </tbody>
-        </table>
+<!-- 复查管理 -->
+<section class="py-20 px-6 md:py-12 md:px-4" id="followup" style="background:linear-gradient(180deg,#060D19,rgba(11,24,41,.3),#060D19)">
+  <div class="max-w-[1200px] mx-auto">
+    <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">慢性乙肝是终身管理</h2>
+    <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">复查至关重要——疾病自然史可以在任何阶段发生转变</p>
+    <div class="anim mb-10">
+      <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><span class="w-9 h-9 rounded-[10px] flex items-center justify-center bg-pri/10 text-base">💊</span> 正在接受抗病毒治疗的患者</h3>
+      <div class="overflow-x-auto rounded-2xl border border-pri/10"><table class="tbl"><thead><tr><th>检查项目</th><th>频率</th><th>适用人群/备注</th></tr></thead><tbody>
+        <tr><td>HBV DNA 定量</td><td>每3-6个月</td><td>所有治疗者，初期每3个月</td></tr><tr><td>肝功能（ALT/AST/胆红素）</td><td>每3-6个月</td><td>所有治疗者</td></tr><tr><td>HBeAg / anti-HBe</td><td>每6-12个月</td><td>初始HBeAg阳性者</td></tr><tr><td>HBsAg 定量（qHBsAg）</td><td>每6-12个月</td><td>停药评估/功能性治愈判断时</td></tr><tr><td>肾功能（肌酐、eGFR）</td><td>TDF:每6月;其他:每年</td><td>TDF使用者更需密切监测</td></tr><tr><td>骨密度（DEXA）</td><td>基线+酌情复查</td><td>有骨风险因素/长期TDF使用者</td></tr><tr><td>血脂</td><td>每年</td><td>TAF使用者</td></tr>
+      </tbody></table></div>
+    </div>
+    <div class="anim mb-10">
+      <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2"><span class="w-9 h-9 rounded-[10px] flex items-center justify-center bg-rd/10 text-base">🔍</span> HCC监测（高危人群每6个月）</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="ev ev-r"><strong class="text-red-300">高危人群定义：</strong><br>• 所有肝硬化患者（三大指南一致，必须筛查）<br>• HCC家族史（一级亲属）<br>• 男性 &gt; 40岁、女性 &gt; 50岁（流行地区）<br>• HDV/HIV共感染<br>• 肝硬化 + PAGE-B评分 ≥10分（EASL 2025）</div>
+        <div class="ev ev-r"><strong class="text-red-300">筛查方式与频率：</strong><br>• <strong>超声</strong>是核心筛查工具（三大指南一致）<br>• <strong>AFP（甲胎蛋白）</strong>：AASLD支持超声+AFP联合<br>• 高危人群：<strong>每6个月</strong>常规筛查<br><br>早期发现HCC 5年生存率 <strong class="text-em">50-70%</strong><br>晚期HCC中位生存仅 <strong class="text-rd">6-9个月</strong></div>
       </div>
     </div>
-
-    <!-- HCC监测 -->
-    <div class="anim" style="margin-bottom:2.5rem">
-      <h3 style="font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem">
-        <span class="ic ic-rd" style="width:36px;height:36px;font-size:1rem;border-radius:10px">🔍</span>
-        HCC监测（高危人群每6个月）
-      </h3>
-      <div class="grid-2">
-        <div class="ev-box red">
-          <strong style="color:#FCA5A5">高危人群定义：</strong><br>
-          • 所有肝硬化患者（三大指南一致，必须筛查）<br>
-          • HCC家族史（一级亲属）<br>
-          • 男性 &gt; 40岁、女性 &gt; 50岁（流行地区）<br>
-          • HDV/HIV共感染<br>
-          • 肝硬化 + PAGE-B评分 ≥10分（EASL 2025）
-        </div>
-        <div class="ev-box red">
-          <strong style="color:#FCA5A5">筛查方式与频率：</strong><br>
-          • <strong>超声</strong>是核心筛查工具（三大指南一致）<br>
-          • <strong>AFP（甲胎蛋白）</strong>：AASLD支持超声+AFP联合<br>
-          • 高危人群：<strong>每6个月</strong>常规筛查<br><br>
-          早期发现HCC 5年生存率 <strong style="color:var(--em)">50-70%</strong><br>
-          晚期HCC中位生存仅 <strong style="color:var(--rd)">6-9个月</strong>
-        </div>
-      </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 anim">
+      <div class="card"><h4 class="font-bold text-rd text-[.95rem] mb-3 flex items-center gap-1.5"><span>🏥</span> 肝硬化患者</h4><ul class="text-[.82rem] text-tx leading-relaxed list-none"><li>• DNA+肝功能+血常规+凝血：每3个月</li><li>• 腹部超声±AFP：每6个月</li><li>• 胃镜：基线评估静脉曲张，之后每1-2年</li><li>• MELD评分（失代偿期）：每次就诊</li></ul></div>
+      <div class="card"><h4 class="font-bold text-am text-[.95rem] mb-3 flex items-center gap-1.5"><span>📋</span> 暂不治疗的携带者</h4><ul class="text-[.82rem] text-tx leading-relaxed list-none"><li>• HBV DNA：每6-12个月</li><li>• 肝功能（ALT/AST）：每6个月</li><li>• HBeAg/anti-HBe：每年</li><li>• HBsAg定量：每年</li><li>• FibroScan：每年（尤其&gt;30岁者）</li></ul></div>
+      <div class="card"><h4 class="font-bold text-pu text-[.95rem] mb-3 flex items-center gap-1.5"><span>⏸️</span> 停药后监测</h4><ul class="text-[.82rem] text-tx leading-relaxed list-none"><li>• 前6个月：每1-3个月 DNA+ALT</li><li>• 6-12个月：每3个月</li><li>• 12个月后：每3-6个月</li><li>• 任何肝炎发作证据：立即就诊</li></ul></div>
     </div>
-
-    <!-- 肝硬化+携带者+停药 -->
-    <div class="grid-3 anim">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 anim">
       <div class="card">
-        <h4 style="font-weight:700;color:var(--rd);font-size:.95rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem">
-          <span>🏥</span> 肝硬化患者
-        </h4>
-        <ul style="font-size:.82rem;color:var(--tx);line-height:1.8;list-style:none">
-          <li>• DNA+肝功能+血常规+凝血：每3个月</li>
-          <li>• 腹部超声±AFP：每6个月</li>
-          <li>• 胃镜：基线评估静脉曲张，之后每1-2年</li>
-          <li>• MELD评分（失代偿期）：每次就诊</li>
-        </ul>
+        <h3 class="font-bold text-white mb-4">终身治疗还是可以停药？</h3>
+        <p class="text-sm text-tx mb-3">核苷类似物多数患者需要<strong class="text-am">长期甚至终身治疗</strong></p>
+        <div class="ev ev-r mb-3"><strong class="text-red-300">绝对不能停药：</strong><br>• 肝硬化患者（代偿期和失代偿期）——终身治疗<br>• 合并HIV感染者——终身治疗</div>
+        <div class="ev ev-a"><strong class="text-yellow-300">有条件考虑停药（须在专科医生指导下）：</strong><br><strong>EASL 2025（较积极）：</strong>HBeAg阴性非肝硬化 + DNA不可测≥3年 + qHBsAg&lt;100(亚洲)/&lt;1000(白种人)<br><strong>AASLD 2025（默认不停药）：</strong>仅在高度选择且能高频复查的患者中讨论停药</div>
+        <div class="bq danger mt-3 text-sm"><strong>自行停药可导致病毒反弹、ALT暴发、肝功能恶化甚至致命性肝衰竭。停药必须在专科医师指导下进行。</strong></div>
       </div>
       <div class="card">
-        <h4 style="font-weight:700;color:var(--am);font-size:.95rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem">
-          <span>📋</span> 暂不治疗的携带者
-        </h4>
-        <ul style="font-size:.82rem;color:var(--tx);line-height:1.8;list-style:none">
-          <li>• HBV DNA：每6-12个月</li>
-          <li>• 肝功能（ALT/AST）：每6个月</li>
-          <li>• HBeAg/anti-HBe：每年</li>
-          <li>• HBsAg定量：每年</li>
-          <li>• FibroScan：每年（尤其&gt;30岁者）</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h4 style="font-weight:700;color:var(--pu);font-size:.95rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem">
-          <span>⏸️</span> 停药后监测
-        </h4>
-        <ul style="font-size:.82rem;color:var(--tx);line-height:1.8;list-style:none">
-          <li>• 前6个月：每1-3个月 DNA+ALT</li>
-          <li>• 6-12个月：每3个月</li>
-          <li>• 12个月后：每3-6个月</li>
-          <li>• 任何肝炎发作证据：立即就诊</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- 停药问题 -->
-    <div class="grid-2 anim" style="margin-top:2rem">
-      <div class="card">
-        <h3 style="font-weight:700;color:#fff;margin-bottom:1rem;font-size:1.05rem">终身治疗还是可以停药？</h3>
-        <p style="font-size:.88rem;color:var(--tx);margin-bottom:.75rem">核苷类似物多数患者需要<strong style="color:var(--am)">长期甚至终身治疗</strong></p>
-        <div class="ev-box red" style="margin-bottom:.75rem">
-          <strong style="color:#FCA5A5">绝对不能停药：</strong><br>
-          • 肝硬化患者（代偿期和失代偿期）——终身治疗<br>
-          • 合并HIV感染者——终身治疗
-        </div>
-        <div class="ev-box amber">
-          <strong style="color:#FCD34D">有条件考虑停药（须在专科医生指导下）：</strong><br>
-          <strong>EASL 2025（较积极）：</strong>HBeAg阴性非肝硬化 + DNA不可测≥3年 + qHBsAg&lt;100(亚洲)/&lt;1000(白种人)<br>
-          <strong>AASLD 2025（默认不停药）：</strong>仅在高度选择且能高频复查的患者中讨论停药
-        </div>
-        <div class="bq danger" style="margin-top:.75rem;font-size:.85rem">
-          <strong>自行停药可导致病毒反弹、ALT暴发、肝功能恶化甚至致命性肝衰竭。停药必须在专科医师指导下进行。</strong>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3 style="font-weight:700;color:#fff;margin-bottom:1rem;font-size:1.05rem">停药后重启阈值</h3>
-        <div class="ev-box amber" style="margin-bottom:.75rem">
-          <strong style="color:#FCD34D">EASL 2025：</strong><br>
-          HBV DNA &gt; 10,000 IU/mL时应考虑重启治疗
-        </div>
-        <div class="ev-box blue">
-          <strong style="color:#7DBBDF">AASLD 2025/2026——以下任一需立即重启：</strong><br>
-          • HBV DNA ≥ 10,000 IU/mL（不管ALT水平）<br>
-          • ALT ≥ 5×ULN<br>
-          • 总胆红素 &gt; 2.5 mg/dL<br>
-          • 出现失代偿证据
-        </div>
-        <div class="ev-box" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);margin-top:.75rem">
-          <strong>重要提示：</strong>停药策略在不同地区和人种间证据异质性较大。对于亚洲患者，停药后复发风险可能更高，切勿简单套用某一指南的停药标准。
-        </div>
+        <h3 class="font-bold text-white mb-4">停药后重启阈值</h3>
+        <div class="ev ev-a mb-3"><strong class="text-yellow-300">EASL 2025：</strong><br>HBV DNA &gt; 10,000 IU/mL时应考虑重启治疗</div>
+        <div class="ev ev-b"><strong class="text-[#7DBBDF]">AASLD 2025/2026——以下任一需立即重启：</strong><br>• HBV DNA ≥ 10,000 IU/mL（不管ALT水平）<br>• ALT ≥ 5×ULN<br>• 总胆红素 &gt; 2.5 mg/dL<br>• 出现失代偿证据</div>
+        <div class="ev mt-3" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)"><strong>重要提示：</strong>停药策略在不同地区和人种间证据异质性较大。对于亚洲患者，停药后复发风险可能更高，切勿简单套用某一指南的停药标准。</div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="sec-div"></div>
+<div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
 
-<!-- ===== 第四部分：保肝药 ===== -->
-<section class="sec" id="liver" style="background:var(--bg)">
-  <div class="sec-inner">
-    <h2 class="sec-title anim">关于"保肝药"——循证医学的结论</h2>
-    <p class="sec-sub anim">这一节可能颠覆很多人的认知</p>
-
-    <div class="bq danger anim" style="font-size:1.05rem">
-      翻遍 WHO 2024、EASL 2025、AASLD-IDSA 2025/2026 三大指南全文：<strong>没有任何一项"保肝药"被推荐用于慢性乙肝的治疗。一个字都没提。</strong>这不是"疏忽"——如果有高质量证据支持，它一定会被纳入。没有纳入，就是因为证据不支持。
+<!-- 保肝药 -->
+<section class="py-20 px-6 md:py-12 md:px-4 bg-bg" id="liver">
+  <div class="max-w-[1200px] mx-auto">
+    <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">关于"保肝药"——循证医学的结论</h2>
+    <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">这一节可能颠覆很多人的认知</p>
+    <div class="bq danger anim text-base">翻遍 WHO 2024、EASL 2025、AASLD-IDSA 2025/2026 三大指南全文：<strong>没有任何一项"保肝药"被推荐用于慢性乙肝的治疗。一个字都没提。</strong>这不是"疏忽"——如果有高质量证据支持，它一定会被纳入。没有纳入，就是因为证据不支持。</div>
+    <div class="p-8 rounded-[18px] border border-am/15 my-8 anim" style="background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(239,68,68,.04))">
+      <h4 class="text-am font-bold text-base mb-2 flex items-center gap-2">🔥 核心比喻：关掉烟雾报警器 ≠ 灭火</h4>
+      <p class="text-[.92rem] leading-relaxed text-[#C4D0DC]">房子着火了（HBV引起的肝炎），烟雾报警器响了（ALT升高）。保肝药做的事情是——<strong class="text-rd">关掉烟雾报警器</strong>（降ALT），而不是灭火（抗病毒）。火还在烧，只是你听不到警报了。</p>
     </div>
-
-    <!-- 比喻 -->
-    <div class="analogy anim">
-      <h4>🔥 核心比喻：关掉烟雾报警器 ≠ 灭火</h4>
-      <p>房子着火了（HBV引起的肝炎），烟雾报警器响了（ALT升高）。保肝药做的事情是——<strong style="color:var(--rd)">关掉烟雾报警器</strong>（降ALT），而不是灭火（抗病毒）。火还在烧，只是你听不到警报了。</p>
-    </div>
-
-    <!-- 为什么无效 -->
-    <div class="grid-2 anim" style="margin-top:2rem">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 anim">
       <div class="card">
-        <h3 style="font-weight:700;color:#fff;margin-bottom:1rem;font-size:1.05rem">为什么"保肝药"没有循证依据？</h3>
-        <div class="ev-box red" style="margin-bottom:.75rem">
-          <strong style="color:#FCA5A5">1. 没有改善硬终点的RCT证据</strong><br>
-          循证医学评价标准是"硬终点"：全因死亡率、肝硬化发生率、HCC发生率、肝衰竭发生率。截至目前，<strong>没有任何一种保肝药在RCT中被证实可以降低以上任何一个硬终点。</strong>
-        </div>
-        <div class="ev-box red">
-          <strong style="color:#FCA5A5">2. "降酶"不等于"保肝"</strong><br>
-          ALT升高根本原因是HBV复制引起的免疫介导肝损伤。使用药物人为压ALT：<br>
-          ❌ 没有消除病因（HBV仍在复制）<br>
-          ❌ 没有阻止纤维化进展<br>
-          ❌ 没有降低HCC风险<br>
-          ❌ 反而可能<strong>掩盖病情</strong>，延误真正的抗病毒治疗
-        </div>
+        <h3 class="font-bold text-white mb-4">为什么"保肝药"没有循证依据？</h3>
+        <div class="ev ev-r mb-3"><strong class="text-red-300">1. 没有改善硬终点的RCT证据</strong><br>循证医学评价标准是"硬终点"：全因死亡率、肝硬化发生率、HCC发生率、肝衰竭发生率。截至目前，<strong>没有任何一种保肝药在RCT中被证实可以降低以上任何一个硬终点。</strong></div>
+        <div class="ev ev-r"><strong class="text-red-300">2. "降酶"不等于"保肝"</strong><br>ALT升高根本原因是HBV复制引起的免疫介导肝损伤。使用药物人为压ALT：<br>❌ 没有消除病因（HBV仍在复制）<br>❌ 没有阻止纤维化进展<br>❌ 没有降低HCC风险<br>❌ 反而可能<strong>掩盖病情</strong>，延误真正的抗病毒治疗</div>
       </div>
-
       <div class="card">
-        <h3 style="font-weight:700;color:#fff;margin-bottom:1rem;font-size:1.05rem">常见"保肝药"循证评价</h3>
-        <div class="ev-box amber" style="margin-bottom:.6rem">
-          <strong style="color:#FCD34D">甘草酸制剂</strong>：仅有降ALT的非RCT低质量研究。长期使用可致低钾血症、高血压、水钠潴留——对肝硬化腹水患者有害
-        </div>
-        <div class="ev-box amber" style="margin-bottom:.6rem">
-          <strong style="color:#FCD34D">水飞蓟素</strong>：Cochrane Meta分析纳入13项RCT——对肝脏相关死亡率、组织学、病毒学反应均无显著获益
-        </div>
-        <div class="ev-box amber" style="margin-bottom:.6rem">
-          <strong style="color:#FCD34D">多烯磷脂酰胆碱</strong>：最大RCT（1,789名酒精性肝病患者）显示与安慰剂组在纤维化进展上无显著差异。在CHB领域缺乏任何有意义的RCT
-        </div>
-        <div class="ev-box amber" style="margin-bottom:.6rem">
-          <strong style="color:#FCD34D">双环醇</strong>：缺乏大样本多中心双盲RCT，未被任何国际指南纳入
-        </div>
-        <div class="ev-box amber">
-          <strong style="color:#FCD34D">熊去氧胆酸(UDCA)</strong>：在PBC中有高质量证据，但在慢性乙肝中：没有RCT证据支持可改善预后
-        </div>
+        <h3 class="font-bold text-white mb-4">常见"保肝药"循证评价</h3>
+        <div class="ev ev-a mb-2"><strong class="text-yellow-300">甘草酸制剂</strong>：仅有降ALT的非RCT低质量研究。长期使用可致低钾血症、高血压、水钠潴留——对肝硬化腹水患者有害</div>
+        <div class="ev ev-a mb-2"><strong class="text-yellow-300">水飞蓟素</strong>：Cochrane Meta分析纳入13项RCT——对肝脏相关死亡率、组织学、病毒学反应均无显著获益</div>
+        <div class="ev ev-a mb-2"><strong class="text-yellow-300">多烯磷脂酰胆碱</strong>：最大RCT（1,789名酒精性肝病患者）显示与安慰剂组在纤维化进展上无显著差异。在CHB领域缺乏任何有意义的RCT</div>
+        <div class="ev ev-a mb-2"><strong class="text-yellow-300">双环醇</strong>：缺乏大样本多中心双盲RCT，未被任何国际指南纳入</div>
+        <div class="ev ev-a"><strong class="text-yellow-300">熊去氧胆酸(UDCA)</strong>：在PBC中有高质量证据，但在慢性乙肝中：没有RCT证据支持可改善预后</div>
       </div>
     </div>
-
-    <!-- 真实危害 + 唯一有效方式 -->
-    <div class="grid-2 anim" style="margin-top:1.5rem">
-      <div class="card" style="border-top:3px solid var(--rd)">
-        <h3 style="font-weight:700;color:var(--rd);margin-bottom:1rem">保肝药的真实危害</h3>
-        <ul style="font-size:.86rem;color:var(--tx);line-height:1.9;list-style:none">
-          <li style="margin-bottom:.4rem"><strong style="color:#fff">1. 延误抗病毒治疗</strong>：看到ALT"降下来"以为好转</li>
-          <li style="margin-bottom:.4rem"><strong style="color:#fff">2. 掩盖病情进展</strong>：ALT被压低，医生可能误判</li>
-          <li style="margin-bottom:.4rem"><strong style="color:#fff">3. 增加经济负担</strong>：费用本可用于有效抗病毒药物</li>
-          <li style="margin-bottom:.4rem"><strong style="color:#fff">4. 药物相互作用</strong>：多药叠加增加肝脏代谢负担</li>
-          <li><strong style="color:#fff">5. 药物本身副作用</strong>：低钾、水钠潴留、胃肠道反应等</li>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 anim">
+      <div class="card border-t-[3px] border-t-rd">
+        <h3 class="font-bold text-rd mb-4">保肝药的真实危害</h3>
+        <ul class="text-sm text-tx leading-loose list-none">
+          <li class="mb-1.5"><strong class="text-white">1. 延误抗病毒治疗</strong>：看到ALT"降下来"以为好转</li><li class="mb-1.5"><strong class="text-white">2. 掩盖病情进展</strong>：ALT被压低，医生可能误判</li><li class="mb-1.5"><strong class="text-white">3. 增加经济负担</strong>：费用本可用于有效抗病毒药物</li><li class="mb-1.5"><strong class="text-white">4. 药物相互作用</strong>：多药叠加增加肝脏代谢负担</li><li><strong class="text-white">5. 药物本身副作用</strong>：低钾、水钠潴留、胃肠道反应等</li>
         </ul>
       </div>
-
-      <div class="card" style="border-top:3px solid var(--em);background:rgba(16,185,129,0.03)">
-        <h3 style="font-weight:700;color:var(--em);margin-bottom:1rem">唯一有效的"保肝"方式</h3>
-        <div class="bq" style="font-size:1.05rem;border-left-color:var(--em);background:rgba(16,185,129,0.06)">
-          <strong>抗病毒治疗本身就是最好的"保肝"。</strong>
-        </div>
-        <p style="font-size:.88rem;color:var(--tx);line-height:1.8;margin-top:.75rem">
-          ETV/TDF/TAF通过抑制HBV复制 → 减少免疫介导的肝损伤 → ALT自然恢复正常 → 纤维化逆转或稳定 → HCC风险降低<br><br>
-          <strong style="color:#fff">不需要额外加"保肝药"。抗病毒药物本身就在保护你的肝脏。</strong>
-        </p>
+      <div class="card border-t-[3px] border-t-em bg-em/[.03]">
+        <h3 class="font-bold text-em mb-4">唯一有效的"保肝"方式</h3>
+        <div class="bq" style="border-left-color:#10B981;background:rgba(16,185,129,.06);font-size:1.05rem"><strong>抗病毒治疗本身就是最好的"保肝"。</strong></div>
+        <p class="text-sm text-tx leading-relaxed mt-3">ETV/TDF/TAF通过抑制HBV复制 → 减少免疫介导的肝损伤 → ALT自然恢复正常 → 纤维化逆转或稳定 → HCC风险降低<br><br><strong class="text-white">不需要额外加"保肝药"。抗病毒药物本身就在保护你的肝脏。</strong></p>
       </div>
     </div>
   </div>
 </section>
 
-<div class="sec-div"></div>
+<div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
 
-<!-- ===== 第五部分：药物选择 ===== -->
-<section class="sec" id="drug" style="background:linear-gradient(180deg,var(--bg),rgba(11,24,41,0.3),var(--bg))">
-  <div class="sec-inner">
-    <h2 class="sec-title anim">TDF vs TAF vs ETV——如何选药</h2>
-    <p class="sec-sub anim">TDF ≈ TAF ≈ ETV，疗效基本等效。区别在于长期安全性和价格</p>
-
-    <div class="bq anim">
-      三者均为国际指南推荐的<strong>一线核苷类似物</strong>，抗病毒强度高，耐药屏障高。
-    </div>
-
-    <!-- 药物卡片 -->
-    <div class="drug-grid anim" style="margin-top:2rem">
-      <!-- TDF -->
-      <div class="drug-card" style="border-top:3px solid #0EA5E9">
-        <div class="drug-name">TDF</div>
-        <div class="drug-sub">替诺福韦酯 · Tenofovir Disoproxil Fumarate</div>
-        <div class="drug-row"><span class="drug-label">抗病毒强度</span><span class="drug-val good">⭐⭐⭐⭐⭐</span></div>
-        <div class="drug-row"><span class="drug-label">耐药屏障</span><span class="drug-val good">极高（几乎不耐药）</span></div>
-        <div class="drug-row"><span class="drug-label">肾脏安全性</span><span class="drug-val bad">⚠ 长期可影响eGFR</span></div>
-        <div class="drug-row"><span class="drug-label">骨骼安全性</span><span class="drug-val bad">⚠ 可降低骨密度</span></div>
-        <div class="drug-row"><span class="drug-label">血脂影响</span><span class="drug-val good">轻度降脂效应</span></div>
-        <div class="drug-row"><span class="drug-label">价格</span><span class="drug-val good">💰 最便宜</span></div>
-        <div class="drug-who best">✅ 适合：年轻、肾功能正常、经济敏感者。WHO和大部分发展中国家广泛使用</div>
-        <div class="drug-who note">⚠ 需定期监测肾功能和骨密度</div>
+<!-- 药物选择 -->
+<section class="py-20 px-6 md:py-12 md:px-4" id="drug" style="background:linear-gradient(180deg,#060D19,rgba(11,24,41,.3),#060D19)">
+  <div class="max-w-[1200px] mx-auto">
+    <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">TDF vs TAF vs ETV——如何选药</h2>
+    <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">TDF ≈ TAF ≈ ETV，疗效基本等效。区别在于长期安全性和价格</p>
+    <div class="bq anim">三者均为国际指南推荐的<strong>一线核苷类似物</strong>，抗病毒强度高，耐药屏障高。</div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8 anim">
+      <div class="dc border-t-[3px] border-t-sky-500">
+        <div class="text-xl font-extrabold text-white">TDF</div><div class="text-xs text-tx-d mb-4">替诺福韦酯 · Tenofovir Disoproxil Fumarate</div>
+        <div class="flex justify-between items-center py-2 border-b border-pri/[.06] text-sm"><span class="text-tx-m">抗病毒强度</span><span class="font-semibold text-em">⭐⭐⭐⭐⭐</span></div>
+        <div class="flex justify-between items-center py-2 border-b border-pri/[.06] text-sm"><span class="text-tx-m">耐药屏障</span><span class="font-semibold text-em">极高（几乎不耐药）</span></div>
+        <div class="flex justify-between items-center py-2 border-b border-pri/[.06] text-sm"><span class="text-tx-m">肾脏安全性</span><span class="font-semibold text-rd">⚠ 长期可影响eGFR</span></div>
+        <div class="flex justify-between items-center py-2 border-b border-pri/[.06] text-sm"><span class="text-tx-m">骨骼安全性</span><span class="font-semibold text-rd">⚠ 可降低骨密度</span></div>
+        <div class="flex justify-between items-center py-2 border-b border-pri/[.06] text-sm"><span class="text-tx-m">血脂影响</span><span class="font-semibold text-em">轻度降脂效应</span></div>
+        <div class="flex justify-between items-center py-2 text-sm"><span class="text-tx-m">价格</span><span class="font-semibold text-em">💰 最便宜</span></div>
+        <div class="mt-4 p-3 rounded-[10px] text-[.82rem] leading-relaxed bg-em/[.06] border border-em/10 text-emerald-300">✅ 适合：年轻、肾功能正常、经济敏感者。WHO和大部分发展中国家广泛使用</div>
+        <div class="mt-2 p-3 rounded-[10px] text-[.82rem] leading-relaxed bg-pri/[.05] border border-pri/10 text-[#7DBBDF]">⚠ 需定期监测肾功能和骨密度</div>
       </div>
-
-      <!-- TAF -->
-      <div class="drug-card" style="border-top:3px solid #8B5CF6">
-        <div class="drug-name">TAF</div>
-        <div class="drug-sub">替诺福韦艾拉酚胺 · Tenofovir Alafenamide</div>
-        <div class="drug-row"><span class="drug-label">抗病毒强度</span><span class="drug-val good">⭐⭐⭐⭐⭐</span></div>
-        <div class="drug-row"><span class="drug-label">耐药屏障</span><span class="drug-val good">极高</span></div>
-        <div class="drug-row"><span class="drug-label">肾脏安全性</span><span class="drug-val good">✅ 显著优于TDF</span></div>
-        <div class="drug-row"><span class="drug-label">骨骼安全性</span><span class="drug-val good">✅ 显著优于TDF</span></div>
-        <div class="drug-row"><span class="drug-label">血脂影响</span><span class="drug-val warn">⚠ 换药后TC/LDL可能升高</span></div>
-        <div class="drug-row"><span class="drug-label">价格</span><span class="drug-val warn">💰💰💰 较贵</span></div>
-        <div class="drug-who best">✅ 适合：年龄&gt;50、CKD、骨质疏松、长期治疗预期</div>
-        <div class="drug-who note">TAF不是"更强"，而是"同样强，但更安全"——血浆tenofovir浓度低约90%</div>
+      <div class="dc border-t-[3px] border-t-pu">
+        <div class="text-xl font-extrabold text-white">TAF</div><div class="text-xs text-tx-d mb-4">替诺福韦艾拉酚胺 · Tenofovir Alafenamide</div>
+        <div class="flex justify-between items-center py-2 border-b border-pri/[.06] text-sm"><span class="text-tx-m">抗病毒强度</span><span class="font-semibold text-em">⭐⭐⭐⭐⭐</span></div>
+        <div class="flex justify-between items-center py-2 border-b border-pri/[.06] text-sm"><span class="text-tx-m">耐药屏障</span><span class="font-semibold text-em">极高</span></div>
+        <div class="flex justify-between items-center py-2 border-b border-pri/[.06] text-sm"><span class="text-tx-m">肾脏安全性</span><span class="font-semibold text-em">✅ 显著优于TDF</span></div>
+        <div class="flex justify-between items-center py-2 border-b border-pri/[.06] text-sm"><span class="text-tx-m">骨骼安全性</span><span class="font-semibold text-em">✅ 显著优于TDF</span></div>
+        <div class="flex justify-between items-center py-2 border-b border-pri/[.06] text-sm"><span class="text-tx-m">血脂影响</span><span class="font-semibold text-am">⚠ 换药后TC/LDL可能升高</span></div>
+        <div class="flex justify-between items-center py-2 text-sm"><span class="text-tx-m">价格</span><span class="font-semibold text-am">💰💰💰 较贵</span></div>
+        <div class="mt-4 p-3 rounded-[10px] text-[.82rem] leading-relaxed bg-em/[.06] border border-em/10 text-emerald-300">✅ 适合：年龄&gt;50、CKD、骨质疏松、长期治疗预期</div>
+        <div class="mt-2 p-3 rounded-[10px] text-[.82rem] leading-relaxed bg-pri/[.05] border border-pri/10 text-[#7DBBDF]">TAF不是"更强"，而是"同样强，但更安全"——血浆tenofovir浓度低约90%</div>
       </div>
-
-      <!-- ETV -->
-      <div class="drug-card" style="border-top:3px solid #10B981">
-        <div class="drug-name">ETV</div>
-        <div class="drug-sub">恩替卡韦 · Entecavir</div>
-        <div class="drug-row"><span class="drug-label">抗病毒强度</span><span class="drug-val good">⭐⭐⭐⭐</span></div>
-        <div class="drug-row"><span class="drug-label">耐药屏障</span><span class="drug-val good">高（初治&lt;1%/5年）</span></div>
-        <div class="drug-row"><span class="drug-label">肾脏安全性</span><span class="drug-val good">✅ 肾安全</span></div>
-        <div class="drug-row"><span class="drug-label">骨骼安全性</span><span class="drug-val good">✅ 骨安全</span></div>
-        <div class="drug-row"><span class="drug-label">血脂影响</span><span class="drug-val">中性</span></div>
-        <div class="drug-row"><span class="drug-label">价格</span><span class="drug-val">💰💰 中等</span></div>
-        <div class="drug-who best">✅ 适合：初治患者、对tenofovir不耐受者</div>
-        <div class="drug-who note" style="background:rgba(239,68,68,0.06);border-color:rgba(239,68,68,0.12);color:#FCA5A5">⚠ 既往拉米夫定耐药者耐药风险升高，不首选</div>
+      <div class="dc border-t-[3px] border-t-em">
+        <div class="text-xl font-extrabold text-white">ETV</div><div class="text-xs text-tx-d mb-4">恩替卡韦 · Entecavir</div>
+        <div class="flex justify-between items-center py-2 border-b border-pri/[.06] text-sm"><span class="text-tx-m">抗病毒强度</span><span class="font-semibold text-em">⭐⭐⭐⭐</span></div>
+        <div class="flex justify-between items-center py-2 border-b border-pri/[.06] text-sm"><span class="text-tx-m">耐药屏障</span><span class="font-semibold text-em">高（初治&lt;1%/5年）</span></div>
+        <div class="flex justify-between items-center py-2 border-b border-pri/[.06] text-sm"><span class="text-tx-m">肾脏安全性</span><span class="font-semibold text-em">✅ 肾安全</span></div>
+        <div class="flex justify-between items-center py-2 border-b border-pri/[.06] text-sm"><span class="text-tx-m">骨骼安全性</span><span class="font-semibold text-em">✅ 骨安全</span></div>
+        <div class="flex justify-between items-center py-2 border-b border-pri/[.06] text-sm"><span class="text-tx-m">血脂影响</span><span class="font-semibold text-white">中性</span></div>
+        <div class="flex justify-between items-center py-2 text-sm"><span class="text-tx-m">价格</span><span class="font-semibold text-white">💰💰 中等</span></div>
+        <div class="mt-4 p-3 rounded-[10px] text-[.82rem] leading-relaxed bg-em/[.06] border border-em/10 text-emerald-300">✅ 适合：初治患者、对tenofovir不耐受者</div>
+        <div class="mt-2 p-3 rounded-[10px] text-[.82rem] leading-relaxed bg-rd/[.06] border border-rd/10 text-red-300">⚠ 既往拉米夫定耐药者耐药风险升高，不首选</div>
       </div>
     </div>
-
-    <!-- 药理差异 -->
-    <div class="card anim" style="margin-top:2rem">
-      <h3 style="font-weight:700;color:#fff;margin-bottom:1rem">药理差异与5年数据</h3>
-      <p style="font-size:.88rem;color:var(--tx);line-height:1.8;margin-bottom:1rem">
-        TDF和TAF本质上都是<strong style="color:#fff">tenofovir的前药</strong>，最终活性成分完全相同——tenofovir diphosphate。区别在于前药设计：<br>
-        • <strong style="color:#fff">TDF</strong>：血浆中释放更多tenofovir → 全身暴露高 → 肾小管和骨骼暴露更多<br>
-        • <strong style="color:#fff">TAF</strong>：更精准进入肝细胞，血浆tenofovir浓度低约<strong style="color:var(--acc)">90%</strong> → 同样的肝内疗效，但全身毒性显著降低
-      </p>
-      <div class="ev-box blue">
-        <strong style="color:#7DBBDF">5年随访数据</strong>（Chan et al., J Hepatol 2024）：<br>
-        • 病毒抑制率：TAF 89-92% vs TDF相似——无显著差异<br>
-        • eGFR变化：TAF组下降极小，TDF组下降更明显<br>
-        • 骨密度：TDF组腰椎和髋部骨密度下降显著高于TAF
-      </div>
+    <div class="card mt-8 anim">
+      <h3 class="font-bold text-white mb-4">药理差异与5年数据</h3>
+      <p class="text-sm text-tx leading-relaxed mb-4">TDF和TAF本质上都是<strong class="text-white">tenofovir的前药</strong>，最终活性成分完全相同——tenofovir diphosphate。区别在于前药设计：<br>• <strong class="text-white">TDF</strong>：血浆中释放更多tenofovir → 全身暴露高 → 肾小管和骨骼暴露更多<br>• <strong class="text-white">TAF</strong>：更精准进入肝细胞，血浆tenofovir浓度低约<strong class="text-acc">90%</strong> → 同样的肝内疗效，但全身毒性显著降低</p>
+      <div class="ev ev-b"><strong class="text-[#7DBBDF]">5年随访数据</strong>（Chan et al., J Hepatol 2024）：<br>• 病毒抑制率：TAF 89-92% vs TDF相似——无显著差异<br>• eGFR变化：TAF组下降极小，TDF组下降更明显<br>• 骨密度：TDF组腰椎和髋部骨密度下降显著高于TAF</div>
     </div>
-
-    <!-- 临床决策框架 -->
-    <div class="card anim" style="margin-top:1.5rem">
-      <h3 style="font-weight:700;color:#fff;margin-bottom:1rem">临床决策框架</h3>
-      <div class="grid-3">
-        <div class="ev-box blue">
-          <strong style="color:#7DBBDF">优先选 TDF：</strong><br>
-          • 年轻（&lt;50岁）<br>
-          • 肾功能正常（eGFR ≥ 60）<br>
-          • 无骨质疏松<br>
-          • 经济压力大
-        </div>
-        <div class="ev-box" style="background:rgba(139,92,246,0.05);border:1px solid rgba(139,92,246,0.12)">
-          <strong style="color:#C4B5FD">优先选 TAF：</strong><br>
-          • 年龄 &gt; 50岁<br>
-          • eGFR &lt; 60 或 CKD高危<br>
-          • 糖尿病、高血压肾损害<br>
-          • 骨质疏松或绝经后女性<br>
-          • 需终身治疗的预期
-        </div>
-        <div class="ev-box green">
-          <strong style="color:#6EE7B7">优先选 ETV：</strong><br>
-          • 初治患者<br>
-          • 对tenofovir不耐受<br>
-          • 无既往拉米夫定耐药史
-        </div>
+    <div class="card mt-6 anim">
+      <h3 class="font-bold text-white mb-4">临床决策框架</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="ev ev-b"><strong class="text-[#7DBBDF]">优先选 TDF：</strong><br>• 年轻（&lt;50岁）<br>• 肾功能正常（eGFR ≥ 60）<br>• 无骨质疏松<br>• 经济压力大</div>
+        <div class="ev ev-p"><strong class="text-violet-300">优先选 TAF：</strong><br>• 年龄 &gt; 50岁<br>• eGFR &lt; 60 或 CKD高危<br>• 糖尿病、高血压肾损害<br>• 骨质疏松或绝经后女性<br>• 需终身治疗的预期</div>
+        <div class="ev ev-g"><strong class="text-emerald-300">优先选 ETV：</strong><br>• 初治患者<br>• 对tenofovir不耐受<br>• 无既往拉米夫定耐药史</div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="sec-div"></div>
+<div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
 
-<!-- ===== 第六部分：干扰素 ===== -->
-<section class="sec" style="background:var(--bg)">
-  <div class="sec-inner">
-    <h2 class="sec-title anim">关于干扰素</h2>
-    <p class="sec-sub anim">聚乙二醇干扰素（Peg-IFN-α）——三大指南认可的一线选项之一，但适用人群有限</p>
-
-    <div class="grid-2 anim">
-      <div class="card" style="border-top:3px solid var(--em)">
-        <h3 style="font-weight:700;color:var(--em);margin-bottom:1rem">优点</h3>
-        <ul style="font-size:.88rem;color:var(--tx);line-height:1.9;list-style:none">
-          <li>✓ 疗程有限（通常48周）</li>
-          <li>✓ HBsAg清除率高于NAs</li>
-          <li>✓ HBeAg血清学转换率更高</li>
-          <li>✓ 无耐药问题</li>
-        </ul>
-      </div>
-      <div class="card" style="border-top:3px solid var(--rd)">
-        <h3 style="font-weight:700;color:var(--rd);margin-bottom:1rem">缺点与禁忌</h3>
-        <ul style="font-size:.88rem;color:var(--tx);line-height:1.9;list-style:none">
-          <li>⚠ 副作用显著：发热、乏力、骨髓抑制、抑郁、甲状腺异常、脱发</li>
-          <li>⚠ 需皮下注射给药</li>
-          <li>🚫 失代偿期肝硬化<strong>禁用</strong></li>
-          <li>🚫 自身免疫性疾病、严重精神疾病<strong>禁用</strong></li>
-        </ul>
-      </div>
+<!-- 干扰素 -->
+<section class="py-20 px-6 md:py-12 md:px-4 bg-bg">
+  <div class="max-w-[1200px] mx-auto">
+    <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">关于干扰素</h2>
+    <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">聚乙二醇干扰素（Peg-IFN-α）——三大指南认可的一线选项之一，但适用人群有限</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 anim">
+      <div class="card border-t-[3px] border-t-em"><h3 class="font-bold text-em mb-4">优点</h3><ul class="text-sm text-tx leading-loose list-none"><li>✓ 疗程有限（通常48周）</li><li>✓ HBsAg清除率高于NAs</li><li>✓ HBeAg血清学转换率更高</li><li>✓ 无耐药问题</li></ul></div>
+      <div class="card border-t-[3px] border-t-rd"><h3 class="font-bold text-rd mb-4">缺点与禁忌</h3><ul class="text-sm text-tx leading-loose list-none"><li>⚠ 副作用显著：发热、乏力、骨髓抑制、抑郁、甲状腺异常、脱发</li><li>⚠ 需皮下注射给药</li><li>🚫 失代偿期肝硬化<strong>禁用</strong></li><li>🚫 自身免疫性疾病、严重精神疾病<strong>禁用</strong></li></ul></div>
     </div>
-
-    <div class="card anim" style="margin-top:1.5rem">
-      <h3 style="font-weight:700;color:#fff;margin-bottom:1rem">适合人群</h3>
-      <div class="grid-4">
-        <div class="ev-box green"><strong style="color:#6EE7B7">年轻</strong>（&lt;40岁）</div>
-        <div class="ev-box green"><strong style="color:#6EE7B7">高ALT</strong>（≥2-5×ULN）+ <strong>低DNA</strong>（&lt;2×10⁸）</div>
-        <div class="ev-box green"><strong style="color:#6EE7B7">HBeAg阳性</strong></div>
-        <div class="ev-box green"><strong style="color:#6EE7B7">基因型A或B</strong></div>
+    <div class="card mt-6 anim">
+      <h3 class="font-bold text-white mb-4">适合人群</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="ev ev-g"><strong class="text-emerald-300">年轻</strong>（&lt;40岁）</div><div class="ev ev-g"><strong class="text-emerald-300">高ALT</strong>（≥2-5×ULN）+ <strong>低DNA</strong>（&lt;2×10⁸）</div><div class="ev ev-g"><strong class="text-emerald-300">HBeAg阳性</strong></div><div class="ev ev-g"><strong class="text-emerald-300">基因型A或B</strong></div>
       </div>
-      <div class="bq" style="margin-top:1rem">
-        对大多数慢性乙肝患者，口服核苷类似物（ETV/TDF/TAF）仍是最现实、最易于长期坚持的治疗选择。
+      <div class="bq mt-4">对大多数慢性乙肝患者，口服核苷类似物（ETV/TDF/TAF）仍是最现实、最易于长期坚持的治疗选择。</div>
+    </div>
+  </div>
+</section>
+
+<div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
+
+<!-- 特殊人群 -->
+<section class="py-20 px-6 md:py-12 md:px-4" id="special" style="background:linear-gradient(180deg,#060D19,rgba(11,24,41,.3),#060D19)">
+  <div class="max-w-[1200px] mx-auto">
+    <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">特殊人群</h2>
+    <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">妊娠期、儿童、肾功能不全、肝移植等特殊场景的治疗考量</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 anim">
+      <div class="card border-t-[3px] border-t-pink-500"><h3 class="font-bold text-white mb-4 flex items-center gap-2"><span class="text-pink-500">🤰</span> 妊娠期</h3><ul class="text-sm text-tx leading-loose list-none"><li>• 高病毒载量（DNA &gt; 200,000 IU/mL）的孕妇在<strong class="text-white">妊娠24-28周</strong>应启动抗病毒治疗以阻断母婴传播</li><li>• <strong class="text-em">首选TDF</strong>（妊娠安全性数据最充分）</li><li>• TAF数据有限但逐渐积累</li><li>• ETV妊娠数据不足，不作首选</li><li>• 产后停TDF后可能出现ALT反弹，需密切监测</li></ul></div>
+      <div class="card border-t-[3px] border-t-sky-500"><h3 class="font-bold text-white mb-4 flex items-center gap-2"><span class="text-sky-500">👶</span> 儿童和青少年</h3><ul class="text-sm text-tx leading-loose list-none"><li>• EASL 2025：有明显肝炎活动的儿童可考虑治疗</li><li>• 首选ETV或TDF（需按年龄和体重分层给药）</li><li>• 大多数儿童处于免疫耐受期，可暂不治疗但需定期监测</li></ul></div>
+      <div class="card border-t-[3px] border-t-am"><h3 class="font-bold text-white mb-4 flex items-center gap-2"><span class="text-am">🫘</span> 肾功能不全</h3><ul class="text-sm text-tx leading-loose list-none"><li>• 避免或慎用TDF</li><li>• <strong class="text-em">首选TAF或ETV</strong></li><li>• 需根据eGFR调整ETV剂量</li><li>• TAF在eGFR &lt; 15的透析患者中数据有限</li></ul></div>
+      <div class="card border-t-[3px] border-t-pri"><h3 class="font-bold text-white mb-4 flex items-center gap-2"><span class="text-pri">🏥</span> 肝移植后</h3><ul class="text-sm text-tx leading-loose list-none"><li>• <strong class="text-white">终身抗病毒治疗</strong>（防止移植肝再感染）</li><li>• 通常联合乙肝免疫球蛋白（HBIG）</li><li>• 首选ETV或TDF/TAF</li></ul></div>
+      <div class="card border-t-[3px] border-t-em"><h3 class="font-bold text-white mb-4 flex items-center gap-2"><span class="text-em">👨‍👩‍👧</span> 家属和性伴筛查与疫苗</h3><ul class="text-sm text-tx leading-loose list-none"><li>• 所有HBsAg阳性者的<strong class="text-white">一级家属和性伴侣</strong>都应筛查</li><li>• 未感染者应<strong class="text-em">接种乙肝疫苗</strong>——这是预防HBV传播最有效的方法</li><li>• WHO 2024强调：家庭成员筛查和疫苗接种应作为患者管理的一部分</li></ul></div>
+      <div class="card border-t-[3px] border-t-rd"><h3 class="font-bold text-white mb-4 flex items-center gap-2"><span class="text-rd">⚠️</span> 免疫抑制相关HBV再激活预防</h3><ul class="text-sm text-tx leading-loose list-none"><li>• 接受免疫抑制治疗前<strong class="text-white">必须筛查</strong>HBsAg和anti-HBc</li><li>• HBsAg阳性：免疫抑制开始前<strong class="text-rd">至少2周</strong>启动预防性抗病毒</li><li>• anti-HBc阳性但HBsAg阴性：高风险方案（如利妥昔单抗）也建议预防性抗病毒</li><li>• 预防性抗病毒应持续至免疫抑制结束后<strong class="text-white">至少6-12个月</strong></li></ul></div>
+    </div>
+  </div>
+</section>
+
+<div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
+
+<!-- 总结 -->
+<section class="py-20 px-6 md:py-12 md:px-4 bg-bg">
+  <div class="max-w-[1200px] mx-auto">
+    <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">你需要记住的几件事</h2>
+    <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">基于WHO 2024、EASL 2025、AASLD 2025/2026三大国际指南的循证共识</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 anim">
+      <div class="rounded-[18px] p-8 bg-em/[.05] border border-em/10">
+        <h3 class="text-lg font-bold text-em flex items-center gap-2 mb-5">✅ 该做的</h3>
+        <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-em shrink-0 mt-0.5">1.</span> 找肝病科/感染科专科医生——不要自己判断是否需要治疗</div>
+        <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-em shrink-0 mt-0.5">2.</span> 定期复查——即使暂不治疗，也要每6个月复查一次（HBV DNA + ALT）</div>
+        <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-em shrink-0 mt-0.5">3.</span> HCC筛查——高危人群应做腹部超声±AFP，每6个月</div>
+        <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-em shrink-0 mt-0.5">4.</span> 一旦符合治疗指征，尽早启动抗病毒——每一天的延误都是肝纤维化的累积</div>
+        <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-em shrink-0 mt-0.5">5.</span> 坚持用药，不要自行停药——停药反弹可致肝衰竭</div>
+        <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-em shrink-0 mt-0.5">6.</span> 戒酒——酒精与HBV协同促进纤维化和HCC</div>
+        <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-em shrink-0 mt-0.5">7.</span> 接种甲肝疫苗——慢乙肝患者合并甲肝可致重症肝炎</div>
+      </div>
+      <div class="rounded-[18px] p-8 bg-rd/[.05] border border-rd/10">
+        <h3 class="text-lg font-bold text-rd flex items-center gap-2 mb-5">❌ 不该做的</h3>
+        <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-rd shrink-0 mt-0.5">1.</span> 不要吃"保肝药"替代抗病毒治疗——没有任何保肝药被国际指南推荐用于慢乙肝</div>
+        <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-rd shrink-0 mt-0.5">2.</span> 不要盯着"表面抗原转阴"——持续病毒抑制才是真正的获益</div>
+        <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-rd shrink-0 mt-0.5">3.</span> 不要自行停药</div>
+        <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-rd shrink-0 mt-0.5">4.</span> 不要听信"偏方""中药转阴"——没有RCT证据支持</div>
+        <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-rd shrink-0 mt-0.5">5.</span> 不要因为"没有症状"就不复查——慢乙肝被称为"沉默的杀手"</div>
+        <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-rd shrink-0 mt-0.5">6.</span> 不要因为ALT正常就以为"肝没事"——ALT正常不等于肝脏没有损伤</div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="sec-div"></div>
-
-<!-- ===== 第七部分：特殊人群 ===== -->
-<section class="sec" id="special" style="background:linear-gradient(180deg,var(--bg),rgba(11,24,41,0.3),var(--bg))">
-  <div class="sec-inner">
-    <h2 class="sec-title anim">特殊人群</h2>
-    <p class="sec-sub anim">妊娠期、儿童、肾功能不全、肝移植等特殊场景的治疗考量</p>
-
-    <div class="grid-2 anim">
-      <!-- 妊娠期 -->
-      <div class="card" style="border-top:3px solid #EC4899">
-        <h3 style="font-weight:700;color:#fff;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem">
-          <span style="color:#EC4899">🤰</span> 妊娠期
-        </h3>
-        <ul style="font-size:.86rem;color:var(--tx);line-height:1.9;list-style:none">
-          <li>• 高病毒载量（DNA &gt; 200,000 IU/mL）的孕妇在<strong style="color:#fff">妊娠24-28周</strong>应启动抗病毒治疗以阻断母婴传播</li>
-          <li>• <strong style="color:var(--em)">首选TDF</strong>（妊娠安全性数据最充分）</li>
-          <li>• TAF数据有限但逐渐积累</li>
-          <li>• ETV妊娠数据不足，不作首选</li>
-          <li>• 产后停TDF后可能出现ALT反弹，需密切监测</li>
-        </ul>
-      </div>
-
-      <!-- 儿童和青少年 -->
-      <div class="card" style="border-top:3px solid #0EA5E9">
-        <h3 style="font-weight:700;color:#fff;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem">
-          <span style="color:#0EA5E9">👶</span> 儿童和青少年
-        </h3>
-        <ul style="font-size:.86rem;color:var(--tx);line-height:1.9;list-style:none">
-          <li>• EASL 2025：有明显肝炎活动的儿童可考虑治疗</li>
-          <li>• 首选ETV或TDF（需按年龄和体重分层给药）</li>
-          <li>• 大多数儿童处于免疫耐受期，可暂不治疗但需定期监测</li>
-        </ul>
-      </div>
-
-      <!-- 肾功能不全 -->
-      <div class="card" style="border-top:3px solid var(--am)">
-        <h3 style="font-weight:700;color:#fff;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem">
-          <span style="color:var(--am)">🫘</span> 肾功能不全
-        </h3>
-        <ul style="font-size:.86rem;color:var(--tx);line-height:1.9;list-style:none">
-          <li>• 避免或慎用TDF</li>
-          <li>• <strong style="color:var(--em)">首选TAF或ETV</strong></li>
-          <li>• 需根据eGFR调整ETV剂量</li>
-          <li>• TAF在eGFR &lt; 15的透析患者中数据有限</li>
-        </ul>
-      </div>
-
-      <!-- 肝移植 -->
-      <div class="card" style="border-top:3px solid var(--pri)">
-        <h3 style="font-weight:700;color:#fff;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem">
-          <span style="color:var(--pri)">🏥</span> 肝移植后
-        </h3>
-        <ul style="font-size:.86rem;color:var(--tx);line-height:1.9;list-style:none">
-          <li>• <strong style="color:#fff">终身抗病毒治疗</strong>（防止移植肝再感染）</li>
-          <li>• 通常联合乙肝免疫球蛋白（HBIG）</li>
-          <li>• 首选ETV或TDF/TAF</li>
-        </ul>
-      </div>
-
-      <!-- 家属筛查 -->
-      <div class="card" style="border-top:3px solid var(--em)">
-        <h3 style="font-weight:700;color:#fff;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem">
-          <span style="color:var(--em)">👨‍👩‍👧</span> 家属和性伴筛查与疫苗
-        </h3>
-        <ul style="font-size:.86rem;color:var(--tx);line-height:1.9;list-style:none">
-          <li>• 所有HBsAg阳性者的<strong style="color:#fff">一级家属和性伴侣</strong>都应筛查</li>
-          <li>• 未感染者应<strong style="color:var(--em)">接种乙肝疫苗</strong>——这是预防HBV传播最有效的方法</li>
-          <li>• WHO 2024强调：家庭成员筛查和疫苗接种应作为患者管理的一部分</li>
-        </ul>
-      </div>
-
-      <!-- 免疫抑制 -->
-      <div class="card" style="border-top:3px solid var(--rd)">
-        <h3 style="font-weight:700;color:#fff;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem">
-          <span style="color:var(--rd)">⚠️</span> 免疫抑制相关HBV再激活预防
-        </h3>
-        <ul style="font-size:.86rem;color:var(--tx);line-height:1.9;list-style:none">
-          <li>• 接受免疫抑制治疗前<strong style="color:#fff">必须筛查</strong>HBsAg和anti-HBc</li>
-          <li>• HBsAg阳性：免疫抑制开始前<strong style="color:var(--rd)">至少2周</strong>启动预防性抗病毒</li>
-          <li>• anti-HBc阳性但HBsAg阴性：高风险方案（如利妥昔单抗）也建议预防性抗病毒</li>
-          <li>• 预防性抗病毒应持续至免疫抑制结束后<strong style="color:#fff">至少6-12个月</strong></li>
-        </ul>
-      </div>
+<!-- Footer -->
+<footer class="pt-16 px-6 pb-8 border-t border-white/[.04] bg-bg-card/40">
+  <div class="max-w-[1200px] mx-auto">
+    <div class="p-6 rounded-2xl bg-am/[.05] border border-am/15 my-8 anim">
+      <h4 class="text-am font-bold mb-2 flex items-center gap-2">⚕️ 免责声明</h4>
+      <p class="text-sm text-[#D4A84A] leading-relaxed">本文为基于循证医学的健康科普，不构成医疗诊断或治疗建议。所有治疗决策应由肝病科/感染科专业医师根据患者完整病史和检查综合判断。如有健康问题，请前往正规医疗机构就诊。</p>
     </div>
-  </div>
-</section>
-
-<div class="sec-div"></div>
-
-<!-- ===== 总结 ===== -->
-<section class="sec" style="background:var(--bg)">
-  <div class="sec-inner">
-    <h2 class="sec-title anim">你需要记住的几件事</h2>
-    <p class="sec-sub anim">基于WHO 2024、EASL 2025、AASLD 2025/2026三大国际指南的循证共识</p>
-
-    <div class="summary-grid anim">
-      <div class="summary-col do">
-        <h3>✅ 该做的</h3>
-        <div class="summary-item"><span>1.</span> 找肝病科/感染科专科医生——不要自己判断是否需要治疗</div>
-        <div class="summary-item"><span>2.</span> 定期复查——即使暂不治疗，也要每6个月复查一次（HBV DNA + ALT）</div>
-        <div class="summary-item"><span>3.</span> HCC筛查——高危人群应做腹部超声±AFP，每6个月</div>
-        <div class="summary-item"><span>4.</span> 一旦符合治疗指征，尽早启动抗病毒——每一天的延误都是肝纤维化的累积</div>
-        <div class="summary-item"><span>5.</span> 坚持用药，不要自行停药——停药反弹可致肝衰竭</div>
-        <div class="summary-item"><span>6.</span> 戒酒——酒精与HBV协同促进纤维化和HCC</div>
-        <div class="summary-item"><span>7.</span> 接种甲肝疫苗——慢乙肝患者合并甲肝可致重症肝炎</div>
-      </div>
-      <div class="summary-col dont">
-        <h3>❌ 不该做的</h3>
-        <div class="summary-item"><span>1.</span> 不要吃"保肝药"替代抗病毒治疗——没有任何保肝药被国际指南推荐用于慢乙肝</div>
-        <div class="summary-item"><span>2.</span> 不要盯着"表面抗原转阴"——持续病毒抑制才是真正的获益</div>
-        <div class="summary-item"><span>3.</span> 不要自行停药</div>
-        <div class="summary-item"><span>4.</span> 不要听信"偏方""中药转阴"——没有RCT证据支持</div>
-        <div class="summary-item"><span>5.</span> 不要因为"没有症状"就不复查——慢乙肝被称为"沉默的杀手"</div>
-        <div class="summary-item"><span>6.</span> 不要因为ALT正常就以为"肝没事"——ALT正常不等于肝脏没有损伤</div>
-      </div>
+    <h3 class="text-sm font-semibold text-tx-m mt-8 mb-4">参考循证指南</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 anim">
+      <a href="https://www.who.int/publications/i/item/9789240090903" target="_blank" rel="noopener" class="p-4 rounded-xl bg-white/[.03] border border-white/[.05] transition-colors hover:bg-white/[.06]"><div class="font-semibold text-tx text-sm mb-1">WHO 2024 指南</div><div class="text-xs text-tx-d leading-normal">Guidelines for the prevention, diagnosis, care and treatment for people with chronic hepatitis B infection</div></a>
+      <a href="https://doi.org/10.1016/j.jhep.2025.03.018" target="_blank" rel="noopener" class="p-4 rounded-xl bg-white/[.03] border border-white/[.05] transition-colors hover:bg-white/[.06]"><div class="font-semibold text-tx text-sm mb-1">EASL 2025 临床实践指南</div><div class="text-xs text-tx-d leading-normal">EASL Clinical Practice Guidelines on chronic hepatitis B (J Hepatol, 2025)</div></a>
+      <a href="https://doi.org/10.1097/HEP.0000000000001549" target="_blank" rel="noopener" class="p-4 rounded-xl bg-white/[.03] border border-white/[.05] transition-colors hover:bg-white/[.06]"><div class="font-semibold text-tx text-sm mb-1">AASLD-IDSA 2025/2026</div><div class="text-xs text-tx-d leading-normal">AASLD-IDSA Practice Guideline on Treatment of Chronic Hepatitis B (Hepatology 2026;83:974-997)</div></a>
     </div>
-  </div>
-</section>
-
-<!-- ===== Footer ===== -->
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="disclaim anim">
-      <h4>⚕️ 免责声明</h4>
-      <p>本文为基于循证医学的健康科普，不构成医疗诊断或治疗建议。所有治疗决策应由肝病科/感染科专业医师根据患者完整病史和检查综合判断。如有健康问题，请前往正规医疗机构就诊。</p>
-    </div>
-
-    <h3 style="font-size:.9rem;font-weight:600;color:var(--tx-m);margin:2rem 0 1rem">参考循证指南</h3>
-    <div class="footer-refs anim">
-      <a href="https://www.who.int/publications/i/item/9789240090903" target="_blank" rel="noopener" class="footer-ref">
-        <div class="title">WHO 2024 指南</div>
-        <div class="desc">Guidelines for the prevention, diagnosis, care and treatment for people with chronic hepatitis B infection</div>
-      </a>
-      <a href="https://doi.org/10.1016/j.jhep.2025.03.018" target="_blank" rel="noopener" class="footer-ref">
-        <div class="title">EASL 2025 临床实践指南</div>
-        <div class="desc">EASL Clinical Practice Guidelines on chronic hepatitis B (J Hepatol, 2025)</div>
-      </a>
-      <a href="https://doi.org/10.1097/HEP.0000000000001549" target="_blank" rel="noopener" class="footer-ref">
-        <div class="title">AASLD-IDSA 2025/2026</div>
-        <div class="desc">AASLD-IDSA Practice Guideline on Treatment of Chronic Hepatitis B (Hepatology 2026;83:974-997)</div>
-      </a>
-    </div>
-
-    <h3 style="font-size:.9rem;font-weight:600;color:var(--tx-m);margin:2rem 0 1rem">参考文献</h3>
-    <div style="font-size:.78rem;color:var(--tx-d);line-height:1.8">
+    <h3 class="text-sm font-semibold text-tx-m mt-8 mb-4">参考文献</h3>
+    <div class="text-xs text-tx-d leading-relaxed">
       <p>4. Chan HL, et al. (2024). Long-term efficacy and safety of TAF vs TDF in CHB: 5-year results. <em>J Hepatol</em>.</p>
       <p>5. Rambaldi A, et al. (2007). Milk thistle for alcoholic and/or hepatitis B or C virus liver diseases. <em>Cochrane Database Syst Rev</em>.</p>
       <p>6. Fried MW, et al. (2012). Effect of silymarin on liver disease in patients with chronic hepatitis C. <em>JAMA</em>, 308(3), 274-282.</p>
       <p>7. Lieber CS, et al. (2003). Effect of polyenylphosphatidylcholine on hepatic fibrosis. <em>Alcohol Clin Exp Res</em>, 27(11), 1765-1772.</p>
       <p>8. Chen CJ, et al. (2006). Risk of HCC across a biological gradient of serum HBV DNA level (REVEAL-HBV). <em>JAMA</em>, 295(1), 65-73.</p>
     </div>
-
-    <div class="footer-copy">
+    <div class="text-center text-xs text-tx-d mt-8">
       <p>CHB Evidence-Based Guide · 基于国际循证指南的慢性乙肝科普</p>
-      <p style="margin-top:.3rem">本文更新至2026年4月。指南可能随时更新，请以最新版本为准。</p>
-      <p style="margin-top:.3rem">如有健康问题，请前往正规医疗机构肝病科/感染科就诊。</p>
+      <p class="mt-1">本文更新至2026年4月。指南可能随时更新，请以最新版本为准。</p>
+      <p class="mt-1">如有健康问题，请前往正规医疗机构肝病科/感染科就诊。</p>
     </div>
   </div>
 </footer>
 
 <script>
-// === Nav scroll ===
 const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>{nav.classList.toggle('s',window.scrollY>40)},{passive:true});
-
-// === Mobile menu ===
-const mobBtn=document.getElementById('mobBtn');
-const navMenu=document.getElementById('navMenu');
-const backdrop=document.getElementById('navBackdrop');
-const hamburgerSVG='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
-const closeSVG='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>';
-function openMenu(){
-  navMenu.classList.add('open');
-  backdrop.classList.add('open');
-  mobBtn.innerHTML=closeSVG;
-  mobBtn.setAttribute('aria-label','关闭菜单');
-  document.body.classList.add('menu-open');
-}
-function closeMenu(){
-  navMenu.classList.remove('open');
-  backdrop.classList.remove('open');
-  mobBtn.innerHTML=hamburgerSVG;
-  mobBtn.setAttribute('aria-label','菜单');
-  document.body.classList.remove('menu-open');
-}
+const mobBtn=document.getElementById('mobBtn'),navMenu=document.getElementById('navMenu'),backdrop=document.getElementById('navBackdrop');
+const hSVG='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
+const cSVG='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+function openMenu(){navMenu.classList.add('open');backdrop.classList.add('open');mobBtn.innerHTML=cSVG;mobBtn.setAttribute('aria-label','关闭菜单');document.body.classList.add('menu-open')}
+function closeMenu(){navMenu.classList.remove('open');backdrop.classList.remove('open');mobBtn.innerHTML=hSVG;mobBtn.setAttribute('aria-label','菜单');document.body.classList.remove('menu-open')}
 mobBtn.addEventListener('click',()=>navMenu.classList.contains('open')?closeMenu():openMenu());
 backdrop.addEventListener('click',closeMenu);
-navMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
-  if(window.innerWidth<=1100) closeMenu();
-}));
-
-// === Scroll animations ===
-const animEls=document.querySelectorAll('.anim');
-const io=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
-},{threshold:0.08,rootMargin:'0px 0px -40px 0px'});
-animEls.forEach(el=>io.observe(el));
-
-// === Smooth scroll for anchor links ===
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{
-    const id=a.getAttribute('href');
-    if(id&&id!=='#'){
-      const t=document.querySelector(id);
-      if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}
-    }
-  });
-});
+navMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{if(window.innerWidth<=1100)closeMenu()}));
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.anim').forEach(el=>io.observe(el));
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const id=a.getAttribute('href');if(id&&id!=='#'){const t=document.querySelector(id);if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}})});
 </script>
 </body>
 </html>
