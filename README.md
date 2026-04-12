@@ -38,6 +38,10 @@
 
 配套视频讲解已发布于 Bilibili 和 YouTube，两个页面导航栏均可直达 Bilibili 版：
 
+**中文科普视频**（点击播放 ▶️）：
+
+[![慢性乙肝循证科普视频](https://img.youtube.com/vi/vosr4Nce4Sg/maxresdefault.jpg)](https://www.youtube.com/watch?v=vosr4Nce4Sg)
+
 | 平台 | 语言 | 链接 |
 |------|------|------|
 | Bilibili | 中文 | 👉 [慢性乙肝循证科普视频](https://www.bilibili.com/video/BV11oDXBQE1M/) |
