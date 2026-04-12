@@ -56,16 +56,17 @@ a:hover{text-decoration:underline}
 .nav-links a:hover{color:#fff}
 .nav-links a:hover::after{width:100%}
 .nav-mob-btn{display:none;background:none;border:none;color:#D6DEE8;cursor:pointer;padding:4px}
-.nav-mob{display:none;padding:1rem 0;position:absolute;top:100%;left:0;right:0;background:rgba(6,13,25,0.96);backdrop-filter:blur(24px) saturate(1.2);-webkit-backdrop-filter:blur(24px) saturate(1.2);border-top:1px solid rgba(46,139,192,0.1);box-shadow:0 12px 40px rgba(0,0,0,0.3);border-radius:0 0 16px 16px;max-height:70vh;overflow-y:auto;z-index:999}
-.nav-mob a{display:block;padding:.7rem 1.5rem;color:#A0B4C8;font-size:.9rem;border-radius:8px}
-.nav-mob a:hover{background:rgba(255,255,255,0.04);color:#fff}
+.nav-mob-overlay{position:fixed;inset:0;top:56px;background:rgba(6,13,25,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:998;opacity:0;visibility:hidden;transition:opacity .3s var(--ease),visibility .3s;padding:1.5rem 1rem 2rem;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.nav-mob-overlay.open{opacity:1;visibility:visible}
+.nav-mob-overlay a{display:flex;align-items:center;gap:.75rem;padding:.85rem 1rem;color:#A0B4C8;font-size:1rem;font-weight:500;border-radius:12px;transition:background .2s,color .2s}
+.nav-mob-overlay a:hover,.nav-mob-overlay a:active{background:rgba(255,255,255,0.06);color:#fff;text-decoration:none}
+.nav-mob-overlay a .nav-icon{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
 @media(max-width:768px){
   .nav{padding:.7rem 1rem}
   .nav.s{padding:.5rem 1rem}
-  .nav-inner{padding:0}
   .nav-links{display:none}
-  .nav-mob-btn{display:block}
-  .nav-mob.open{display:flex;flex-direction:column;gap:.15rem;padding:.8rem .75rem}
+  .nav-mob-btn{display:flex;align-items:center;justify-content:center;width:40px;height:40px}
+  body.menu-open{overflow:hidden}
 }
 
 /* ========== Hero ========== */
@@ -282,19 +283,19 @@ a:hover{text-decoration:underline}
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
   </div>
-  <div class="nav-mob" id="mobMenu">
-    <a href="index.html" style="color:#38BDF8">🩺 自我筛查</a>
-    <a href="#goal">治疗目标</a>
-    <a href="#trend">国际趋势</a>
-    <a href="#who">分层决策</a>
-    <a href="#followup">复查管理</a>
-    <a href="#liver">保肝药真相</a>
-    <a href="#drug">一线药物</a>
-    <a href="#special">特殊人群</a>
-    <a href="慢性乙肝循证科普-何时启动抗病毒治疗.md" target="_blank" style="color:var(--acc)">📄 科普全文</a>
-    <a href="https://www.bilibili.com/video/BV11oDXBQE1M/?vd_source=e10f8a317b6dc3ad48e9516cdc77beee" target="_blank" style="color:var(--acc)">🎬 科普视频</a>
-  </div>
 </nav>
+<div class="nav-mob-overlay" id="mobMenu">
+  <a href="index.html"><span class="nav-icon" style="background:rgba(56,189,248,0.1)">🩺</span> 自我筛查</a>
+  <a href="#goal"><span class="nav-icon" style="background:rgba(16,185,129,0.1)">🎯</span> 治疗目标</a>
+  <a href="#trend"><span class="nav-icon" style="background:rgba(99,102,241,0.1)">📈</span> 国际趋势</a>
+  <a href="#who"><span class="nav-icon" style="background:rgba(245,158,11,0.1)">📋</span> 分层决策</a>
+  <a href="#followup"><span class="nav-icon" style="background:rgba(46,139,192,0.1)">🔄</span> 复查管理</a>
+  <a href="#liver"><span class="nav-icon" style="background:rgba(239,68,68,0.1)">💊</span> 保肝药真相</a>
+  <a href="#drug"><span class="nav-icon" style="background:rgba(139,92,246,0.1)">💉</span> 一线药物</a>
+  <a href="#special"><span class="nav-icon" style="background:rgba(236,72,153,0.1)">👥</span> 特殊人群</a>
+  <a href="慢性乙肝循证科普-何时启动抗病毒治疗.pdf" target="_blank"><span class="nav-icon" style="background:rgba(56,189,248,0.1)">📄</span> 科普全文</a>
+  <a href="https://www.bilibili.com/video/BV11oDXBQE1M/?vd_source=e10f8a317b6dc3ad48e9516cdc77beee" target="_blank"><span class="nav-icon" style="background:rgba(239,68,68,0.1)">🎬</span> 科普视频</a>
+</div>
 
 <!-- ===== HERO ===== -->
 <section class="hero">
@@ -1221,16 +1222,19 @@ const mobBtn=document.getElementById('mobBtn');
 const mobMenu=document.getElementById('mobMenu');
 const hamburgerSVG='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
 const closeSVG='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+function closeMenu(){
+  mobMenu.classList.remove('open');
+  mobBtn.innerHTML=hamburgerSVG;
+  mobBtn.setAttribute('aria-label','菜单');
+  document.body.classList.remove('menu-open');
+}
 mobBtn.addEventListener('click',()=>{
   const isOpen=mobMenu.classList.toggle('open');
   mobBtn.innerHTML=isOpen?closeSVG:hamburgerSVG;
   mobBtn.setAttribute('aria-label',isOpen?'关闭菜单':'菜单');
+  document.body.classList.toggle('menu-open',isOpen);
 });
-mobMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
-  mobMenu.classList.remove('open');
-  mobBtn.innerHTML=hamburgerSVG;
-  mobBtn.setAttribute('aria-label','菜单');
-}));
+mobMenu.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',closeMenu));
 
 // === Scroll animations ===
 const animEls=document.querySelectorAll('.anim');
