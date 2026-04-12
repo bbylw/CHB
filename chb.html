@@ -57,18 +57,24 @@ a:hover{text-decoration:underline}
 .nav-menu a:hover::after{width:100%}
 .nav-mob-btn{display:none;background:none;border:none;color:#D6DEE8;cursor:pointer;width:40px;height:40px;align-items:center;justify-content:center;border-radius:10px;transition:background .2s}
 .nav-mob-btn:hover{background:rgba(255,255,255,0.06)}
+.nav-mob-btn:focus-visible{outline:2px solid rgba(56,189,248,0.7);outline-offset:2px}
 /* Mobile overlay */
 .nav-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:998;opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s}
 .nav-backdrop.open{opacity:1;visibility:visible}
 @media(max-width:768px){
   .nav{padding:.7rem 1rem}
   .nav.s{padding:.55rem 1rem}
+  .nav-inner{gap:.75rem}
+  .nav-brand{font-size:.92rem;max-width:calc(100vw - 76px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .nav-brand svg{flex-shrink:0}
   .nav-mob-btn{display:flex}
-  .nav-menu{position:fixed;top:0;right:0;bottom:0;width:280px;max-width:80vw;background:rgba(8,16,30,0.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);flex-direction:column;align-items:stretch;gap:2px;padding:5rem 1.25rem 2rem;z-index:999;transform:translateX(100%);transition:transform .4s var(--ease);box-shadow:-8px 0 40px rgba(0,0,0,0.4)}
+  .nav-menu{position:fixed;top:0;right:0;bottom:0;width:300px;max-width:86vw;background:rgba(8,16,30,0.98);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);flex-direction:column;align-items:stretch;gap:2px;padding:5rem 1.1rem calc(1.2rem + env(safe-area-inset-bottom));z-index:999;transform:translateX(100%);transition:transform .4s var(--ease),visibility .4s var(--ease);box-shadow:-8px 0 40px rgba(0,0,0,0.4);border-left:1px solid rgba(46,139,192,0.14);max-height:100vh;overflow-y:auto;overscroll-behavior:contain;visibility:hidden}
   .nav-menu.open{transform:translateX(0)}
+  .nav-menu.open{visibility:visible}
   .nav-menu a{font-size:.95rem;padding:.75rem .85rem;border-radius:10px;transition:background .2s,color .2s}
   .nav-menu a::after{display:none}
   .nav-menu a:hover,.nav-menu a:active{background:rgba(255,255,255,0.06);color:#fff}
+  .nav-menu a:focus-visible{outline:2px solid rgba(56,189,248,0.65);outline-offset:2px}
   body.menu-open{overflow:hidden}
 }
 
@@ -282,7 +288,7 @@ a:hover{text-decoration:underline}
       <a href="慢性乙肝循证科普-何时启动抗病毒治疗.pdf" target="_blank" style="color:var(--acc)">📄 科普全文</a>
       <a href="https://www.bilibili.com/video/BV11oDXBQE1M/?vd_source=e10f8a317b6dc3ad48e9516cdc77beee" target="_blank" style="color:var(--acc)">🎬 科普视频</a>
     </div>
-    <button class="nav-mob-btn" id="mobBtn" aria-label="菜单">
+    <button class="nav-mob-btn" id="mobBtn" aria-label="菜单" aria-controls="navMenu" aria-expanded="false">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
   </div>
@@ -1220,6 +1226,7 @@ function openMenu(){
   backdrop.classList.add('open');
   mobBtn.innerHTML=closeSVG;
   mobBtn.setAttribute('aria-label','关闭菜单');
+  mobBtn.setAttribute('aria-expanded','true');
   document.body.classList.add('menu-open');
 }
 function closeMenu(){
@@ -1227,11 +1234,14 @@ function closeMenu(){
   backdrop.classList.remove('open');
   mobBtn.innerHTML=hamburgerSVG;
   mobBtn.setAttribute('aria-label','菜单');
+  mobBtn.setAttribute('aria-expanded','false');
   document.body.classList.remove('menu-open');
 }
 mobBtn.addEventListener('click',()=>navMenu.classList.contains('open')?closeMenu():openMenu());
 backdrop.addEventListener('click',closeMenu);
 navMenu.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',closeMenu));
+window.addEventListener('keydown',e=>{if(e.key==='Escape'&&navMenu.classList.contains('open'))closeMenu()});
+window.addEventListener('resize',()=>{if(window.innerWidth>768&&navMenu.classList.contains('open'))closeMenu()});
 
 // === Scroll animations ===
 const animEls=document.querySelectorAll('.anim');
