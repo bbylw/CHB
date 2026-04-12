@@ -59,7 +59,6 @@ a:hover{text-decoration:underline}
 .nav-mob-btn:hover,.nav-mob-btn:active{background:rgba(46,139,192,0.25);border-color:rgba(46,139,192,0.35);color:#fff}
 .nav-mob-btn::after{content:'';position:absolute;inset:0;border-radius:12px;box-shadow:0 0 0 0 rgba(46,139,192,0.4);animation:mobPulse 2.5s ease-out 1.5s 3;opacity:0}
 @keyframes mobPulse{0%{opacity:.7;box-shadow:0 0 0 0 rgba(46,139,192,0.5)}70%{opacity:0;box-shadow:0 0 0 12px rgba(46,139,192,0)}100%{opacity:0;box-shadow:0 0 0 0 rgba(46,139,192,0)}}
-.nav-more-btn{display:none}
 /* Mobile overlay */
 .nav-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s}
 .nav-backdrop.open{opacity:1;visibility:visible}
@@ -67,17 +66,12 @@ a:hover{text-decoration:underline}
   .nav{padding:.7rem 1rem}
   .nav.s{padding:.55rem 1rem}
   .nav-mob-btn{display:flex}
-  .nav-menu{position:fixed;top:0;right:0;bottom:0;width:min(85vw,320px);background:rgba(8,16,30,0.98);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);flex-direction:column;align-items:stretch;gap:2px;padding:calc(5rem + env(safe-area-inset-top)) 1.25rem calc(2rem + env(safe-area-inset-bottom));z-index:1001;transform:translateX(100%);transition:transform .4s var(--ease);box-shadow:-8px 0 40px rgba(0,0,0,0.4)}
+  .nav-menu{position:fixed;top:0;right:0;bottom:0;width:min(85vw,320px);background:rgba(8,16,30,0.98);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);flex-direction:column;align-items:stretch;gap:2px;padding:calc(5rem + env(safe-area-inset-top)) 1.25rem calc(2rem + env(safe-area-inset-bottom));z-index:1001;transform:translateX(100%);transition:transform .4s var(--ease);box-shadow:-8px 0 40px rgba(0,0,0,0.4);overflow-y:auto;-webkit-overflow-scrolling:touch}
   .nav-menu.open{transform:translateX(0)}
   .nav-menu a{font-size:.95rem;padding:.75rem .85rem;border-radius:10px;transition:background .2s,color .2s}
   .nav-menu a::after{display:none}
   .nav-menu a:hover,.nav-menu a:active{background:rgba(255,255,255,0.06);color:#fff}
-  .nav-more-btn{display:flex;align-items:center;justify-content:center;font-size:.82rem;color:var(--tx-m);padding:.65rem .85rem;border:none;background:none;cursor:pointer;border-radius:10px;transition:background .2s,color .2s;font-family:inherit}
-  .nav-more-btn:hover,.nav-more-btn:active{background:rgba(255,255,255,0.06);color:#fff}
-  .nav-more-btn[aria-expanded="true"]::after{content:' ▴'}
-  .nav-more{display:none;flex-direction:column;gap:2px}
-  .nav-more.show{display:flex}
-  body.menu-open{position:fixed;inset:0;width:100%;overflow:hidden}
+  body.menu-open{overflow:hidden}
 }
 
 /* ========== Hero ========== */
@@ -283,15 +277,12 @@ a:hover{text-decoration:underline}
       <a href="#goal">🎯 治疗目标</a>
       <a href="#who">📋 分层决策</a>
       <a href="#drug">💉 一线药物</a>
-      <button class="nav-more-btn" id="navMoreBtn" aria-expanded="false">更多内容 ▾</button>
-      <div class="nav-more" id="navMore">
-        <a href="#trend">📈 国际趋势</a>
-        <a href="#followup">🔄 复查管理</a>
-        <a href="#liver">💊 保肝药真相</a>
-        <a href="#special">👥 特殊人群</a>
-        <a href="慢性乙肝循证科普-何时启动抗病毒治疗.pdf" target="_blank" style="color:var(--acc)">📄 科普全文</a>
-        <a href="https://www.bilibili.com/video/BV11oDXBQE1M/?vd_source=e10f8a317b6dc3ad48e9516cdc77beee" target="_blank" style="color:var(--acc)">🎬 科普视频</a>
-      </div>
+      <a href="#trend">📈 国际趋势</a>
+      <a href="#followup">🔄 复查管理</a>
+      <a href="#liver">💊 保肝药真相</a>
+      <a href="#special">👥 特殊人群</a>
+      <a href="慢性乙肝循证科普-何时启动抗病毒治疗.pdf" target="_blank" style="color:var(--acc)">📄 科普全文</a>
+      <a href="https://www.bilibili.com/video/BV11oDXBQE1M/?vd_source=e10f8a317b6dc3ad48e9516cdc77beee" target="_blank" style="color:var(--acc)">🎬 科普视频</a>
     </div>
     <button class="nav-mob-btn" id="mobBtn" aria-label="菜单">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -1218,23 +1209,20 @@ a:hover{text-decoration:underline}
 <script>
 // === Nav scroll ===
 const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>{nav.classList.toggle('s',window.scrollY>40)});
+window.addEventListener('scroll',()=>{nav.classList.toggle('s',window.scrollY>40)},{passive:true});
 
 // === Mobile menu ===
 const mobBtn=document.getElementById('mobBtn');
 const navMenu=document.getElementById('navMenu');
 const backdrop=document.getElementById('navBackdrop');
-let scrollY=0;
 const hamburgerSVG='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
 const closeSVG='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>';
 function openMenu(){
-  scrollY=window.scrollY;
   navMenu.classList.add('open');
   backdrop.classList.add('open');
   mobBtn.innerHTML=closeSVG;
   mobBtn.setAttribute('aria-label','关闭菜单');
   document.body.classList.add('menu-open');
-  document.body.style.top='-'+scrollY+'px';
 }
 function closeMenu(){
   navMenu.classList.remove('open');
@@ -1242,34 +1230,12 @@ function closeMenu(){
   mobBtn.innerHTML=hamburgerSVG;
   mobBtn.setAttribute('aria-label','菜单');
   document.body.classList.remove('menu-open');
-  document.body.style.top='';
-  window.scrollTo(0,scrollY);
 }
 mobBtn.addEventListener('click',()=>navMenu.classList.contains('open')?closeMenu():openMenu());
 backdrop.addEventListener('click',closeMenu);
-navMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
-
-// Mobile: auto-hint nav on first visit
-if(window.innerWidth<=768){
-  const hinted=sessionStorage.getItem('navHinted');
-  if(!hinted){
-    setTimeout(()=>{
-      openMenu();
-      setTimeout(()=>{closeMenu();sessionStorage.setItem('navHinted','1')},1800);
-    },1200);
-  }
-}
-// Nav more toggle
-const navMoreBtn=document.getElementById('navMoreBtn');
-const navMore=document.getElementById('navMore');
-if(navMoreBtn&&navMore){
-  navMoreBtn.addEventListener('click',()=>{
-    const expanded=navMoreBtn.getAttribute('aria-expanded')==='true';
-    navMoreBtn.setAttribute('aria-expanded',!expanded);
-    navMore.classList.toggle('show');
-    navMoreBtn.textContent=expanded?'更多内容 ▾':'收起 ▴';
-  });
-}
+navMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+  if(window.innerWidth<=768) closeMenu();
+}));
 
 // === Scroll animations ===
 const animEls=document.querySelectorAll('.anim');
