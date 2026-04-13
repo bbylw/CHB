@@ -64,7 +64,11 @@ a{color:#38BDF8;text-decoration:none}a:hover{text-decoration:underline}
 .anim-d1{transition-delay:.08s}.anim-d2{transition-delay:.16s}.anim-d3{transition-delay:.24s}.anim-d4{transition-delay:.32s}
 .fp{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(46,139,192,.06),transparent 70%);animation:fl 20s infinite ease-in-out;will-change:transform;pointer-events:none}
 @keyframes fl{0%,100%{transform:translate(0,0) rotate(0)}33%{transform:translate(25px,-25px) rotate(120deg)}66%{transform:translate(-18px,18px) rotate(240deg)}}
-@media(max-width:768px){.card{padding:1.35rem;border-radius:16px}.p2,.p3,.p4{width:100%}.hero{padding:5rem 1rem 3rem}.pyr{padding:1.25rem 1rem}}
+@media(max-width:768px){.card{padding:1.35rem;border-radius:16px}.p2,.p3,.p4{width:100%}.hero{padding:5rem 1rem 3rem}.pyr{padding:1.25rem 1rem}
+.tbl-mobile-wrap{display:block}.tbl-mobile-wrap table,.tbl-mobile-wrap thead,.tbl-mobile-wrap tbody,.tbl-mobile-wrap tr,.tbl-mobile-wrap th,.tbl-mobile-wrap td{display:block}.tbl-mobile-wrap thead{display:none}
+.tbl-mobile-wrap tr{margin-bottom:.75rem;border-radius:12px;overflow:hidden;border:1px solid rgba(46,139,192,.1);background:rgba(11,24,41,.4)}
+.tbl-mobile-wrap td{padding:.55rem 1rem;border-bottom:1px solid rgba(46,139,192,.06);text-align:left;position:relative;padding-left:40%}.tbl-mobile-wrap td:last-child{border-bottom:none}
+.tbl-mobile-wrap td::before{content:attr(data-label);position:absolute;left:1rem;top:.55rem;font-weight:600;color:#C4D0DC;font-size:.78rem;white-space:nowrap}}
 @media(max-width:375px){.hero{padding:4.5rem .875rem 2.5rem}.pyr{padding:1rem .875rem}}
 .mob-btn:focus-visible,.nav-menu a:focus-visible{outline:2px solid #38BDF8;outline-offset:2px}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.anim{opacity:1;transform:none}.fp{display:none}html{scroll-behavior:auto}}
@@ -260,13 +264,13 @@ a{color:#38BDF8;text-decoration:none}a:hover{text-decoration:underline}
           <div class="flex-1">
             <div class="flex items-center gap-2 flex-wrap mb-2"><h3 class="text-lg font-bold text-white">③ HBV DNA升高 + ALT升高（"免疫清除期"）</h3><span class="inline-flex items-center px-3 py-0.5 rounded-full text-[11px] font-semibold text-white bg-am">经典指征</span></div>
             <p class="text-sm text-tx mb-3">最经典的治疗指征——机体正在攻击被感染的肝细胞，病毒在复制，肝脏在损伤。此时治疗获益最确定。</p>
-            <div class="overflow-x-auto rounded-2xl border border-pri/10 mt-4">
+            <div class="overflow-x-auto rounded-2xl border border-pri/10 mt-4 tbl-mobile-wrap">
               <table class="tbl">
                 <thead><tr><th>指南</th><th>HBeAg阳性 DNA阈值</th><th>HBeAg阴性 DNA阈值</th><th>ALT标准</th><th>ALT ULN定义</th></tr></thead>
                 <tbody>
-                  <tr><td class="font-semibold text-white">WHO 2024</td><td>&gt; 2,000 IU/mL</td><td>&gt; 2,000 IU/mL</td><td>&gt; ULN（持续异常）</td><td>倾向男30/女19</td></tr>
-                  <tr><td class="font-semibold text-white">EASL 2025</td><td>≥ 20,000 IU/mL</td><td>≥ 2,000 IU/mL</td><td>&gt; ULN</td><td>结合综合判断</td></tr>
-                  <tr><td class="font-semibold text-white">AASLD 2025</td><td>≥ 20,000 IU/mL</td><td>≥ 2,000 IU/mL</td><td>≥ 2×ULN</td><td>男35 / 女25</td></tr>
+                  <tr><td data-label="指南" class="font-semibold text-white">WHO 2024</td><td data-label="HBeAg⊕ DNA阈值">&gt; 2,000 IU/mL</td><td data-label="HBeAg⊖ DNA阈值">&gt; 2,000 IU/mL</td><td data-label="ALT标准">&gt; ULN（持续异常）</td><td data-label="ALT ULN定义">倾向男30/女19</td></tr>
+                  <tr><td data-label="指南" class="font-semibold text-white">EASL 2025</td><td data-label="HBeAg⊕ DNA阈值">≥ 20,000 IU/mL</td><td data-label="HBeAg⊖ DNA阈值">≥ 2,000 IU/mL</td><td data-label="ALT标准">&gt; ULN</td><td data-label="ALT ULN定义">结合综合判断</td></tr>
+                  <tr><td data-label="指南" class="font-semibold text-white">AASLD 2025</td><td data-label="HBeAg⊕ DNA阈值">≥ 20,000 IU/mL</td><td data-label="HBeAg⊖ DNA阈值">≥ 2,000 IU/mL</td><td data-label="ALT标准">≥ 2×ULN</td><td data-label="ALT ULN定义">男35 / 女25</td></tr>
                 </tbody>
               </table>
             </div>
