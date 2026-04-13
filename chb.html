@@ -64,7 +64,9 @@ a{color:#38BDF8;text-decoration:none}a:hover{text-decoration:underline}
 .anim-d1{transition-delay:.08s}.anim-d2{transition-delay:.16s}.anim-d3{transition-delay:.24s}.anim-d4{transition-delay:.32s}
 .fp{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(46,139,192,.06),transparent 70%);animation:fl 20s infinite ease-in-out;will-change:transform;pointer-events:none}
 @keyframes fl{0%,100%{transform:translate(0,0) rotate(0)}33%{transform:translate(25px,-25px) rotate(120deg)}66%{transform:translate(-18px,18px) rotate(240deg)}}
-@media(max-width:768px){.card{padding:1.35rem;border-radius:16px}.p2,.p3,.p4{width:100%}}
+@media(max-width:768px){.card{padding:1.35rem;border-radius:16px}.p2,.p3,.p4{width:100%}.hero{padding:5rem 1rem 3rem}.pyr{padding:1.25rem 1rem}}
+@media(max-width:375px){.hero{padding:4.5rem .875rem 2.5rem}.pyr{padding:1rem .875rem}}
+.mob-btn:focus-visible,.nav-menu a:focus-visible{outline:2px solid #38BDF8;outline-offset:2px}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.anim{opacity:1;transform:none}.fp{display:none}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -90,7 +92,7 @@ a{color:#38BDF8;text-decoration:none}a:hover{text-decoration:underline}
       <a href="慢性乙肝循证科普-何时启动抗病毒治疗.pdf" target="_blank" class="text-acc relative text-sm font-medium whitespace-nowrap transition-colors">📄 科普全文</a>
       <a href="https://www.bilibili.com/video/BV11oDXBQE1M/?vd_source=e10f8a317b6dc3ad48e9516cdc77beee" target="_blank" class="text-acc relative text-sm font-medium whitespace-nowrap transition-colors">🎬 科普视频</a>
     </div>
-    <button class="mob-btn hidden bg-pri-l/10 border border-pri-l/20 text-tx cursor-pointer w-11 h-11 items-center justify-center rounded-xl transition-all relative overflow-hidden hover:bg-pri-l/25 hover:text-white" id="mobBtn" aria-label="菜单">
+    <button class="mob-btn hidden bg-pri-l/10 border border-pri-l/20 text-tx cursor-pointer w-11 h-11 items-center justify-center rounded-xl transition-all relative overflow-hidden hover:bg-pri-l/25 hover:text-white" id="mobBtn" aria-label="菜单" aria-controls="navMenu" aria-expanded="false">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
   </div>
@@ -126,7 +128,7 @@ a{color:#38BDF8;text-decoration:none}a:hover{text-decoration:underline}
 </section>
 
 <!-- 治疗目标 -->
-<section class="py-20 px-6 md:py-12 md:px-4 bg-bg" id="goal">
+<section class="py-12 px-4 md:py-20 md:px-6 bg-bg" id="goal">
   <div class="max-w-[1200px] mx-auto">
     <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">治疗的目标不是"转阴"</h2>
     <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">三大国际指南的共识非常明确——抗病毒治疗的核心目标是长期抑制病毒复制</p>
@@ -172,7 +174,7 @@ a{color:#38BDF8;text-decoration:none}a:hover{text-decoration:underline}
 <div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
 
 <!-- 国际趋势 -->
-<section class="py-20 px-6 md:py-12 md:px-4" id="trend" style="background:linear-gradient(180deg,#060D19,rgba(11,24,41,.3),#060D19)">
+<section class="py-12 px-4 md:py-20 md:px-6" id="trend" style="background:linear-gradient(180deg,#060D19,rgba(11,24,41,.3),#060D19)">
   <div class="max-w-[1200px] mx-auto">
     <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">2024-2025 国际趋势：扩大治疗</h2>
     <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">过去治少了，现在要治更多人——WHO 2024 和 EASL 2025 的最大变化是大幅降低治疗门槛</p>
@@ -206,7 +208,7 @@ a{color:#38BDF8;text-decoration:none}a:hover{text-decoration:underline}
 <div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
 
 <!-- 分层治疗决策 -->
-<section class="py-20 px-6 md:py-12 md:px-4 bg-bg" id="who">
+<section class="py-12 px-4 md:py-20 md:px-6 bg-bg" id="who">
   <div class="max-w-[1200px] mx-auto">
     <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">分层治疗决策</h2>
     <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">谁必须治？谁可以等？——按优先级从高到低排列，优先级越高，越需要立即治疗</p>
@@ -328,7 +330,7 @@ a{color:#38BDF8;text-decoration:none}a:hover{text-decoration:underline}
 <div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
 
 <!-- 复查管理 -->
-<section class="py-20 px-6 md:py-12 md:px-4" id="followup" style="background:linear-gradient(180deg,#060D19,rgba(11,24,41,.3),#060D19)">
+<section class="py-12 px-4 md:py-20 md:px-6" id="followup" style="background:linear-gradient(180deg,#060D19,rgba(11,24,41,.3),#060D19)">
   <div class="max-w-[1200px] mx-auto">
     <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">慢性乙肝是终身管理</h2>
     <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">复查至关重要——疾病自然史可以在任何阶段发生转变</p>
@@ -371,12 +373,12 @@ a{color:#38BDF8;text-decoration:none}a:hover{text-decoration:underline}
 <div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
 
 <!-- 保肝药 -->
-<section class="py-20 px-6 md:py-12 md:px-4 bg-bg" id="liver">
+<section class="py-12 px-4 md:py-20 md:px-6 bg-bg" id="liver">
   <div class="max-w-[1200px] mx-auto">
     <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">关于"保肝药"——循证医学的结论</h2>
     <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">这一节可能颠覆很多人的认知</p>
     <div class="bq danger anim text-base">翻遍 WHO 2024、EASL 2025、AASLD-IDSA 2025/2026 三大指南全文：<strong>没有任何一项"保肝药"被推荐用于慢性乙肝的治疗。一个字都没提。</strong>这不是"疏忽"——如果有高质量证据支持，它一定会被纳入。没有纳入，就是因为证据不支持。</div>
-    <div class="p-8 rounded-[18px] border border-am/15 my-8 anim" style="background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(239,68,68,.04))">
+    <div class="p-5 md:p-8 rounded-[18px] border border-am/15 my-8 anim" style="background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(239,68,68,.04))">
       <h4 class="text-am font-bold text-base mb-2 flex items-center gap-2">🔥 核心比喻：关掉烟雾报警器 ≠ 灭火</h4>
       <p class="text-[.92rem] leading-relaxed text-[#C4D0DC]">房子着火了（HBV引起的肝炎），烟雾报警器响了（ALT升高）。保肝药做的事情是——<strong class="text-rd">关掉烟雾报警器</strong>（降ALT），而不是灭火（抗病毒）。火还在烧，只是你听不到警报了。</p>
     </div>
@@ -414,7 +416,7 @@ a{color:#38BDF8;text-decoration:none}a:hover{text-decoration:underline}
 <div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
 
 <!-- 药物选择 -->
-<section class="py-20 px-6 md:py-12 md:px-4" id="drug" style="background:linear-gradient(180deg,#060D19,rgba(11,24,41,.3),#060D19)">
+<section class="py-12 px-4 md:py-20 md:px-6" id="drug" style="background:linear-gradient(180deg,#060D19,rgba(11,24,41,.3),#060D19)">
   <div class="max-w-[1200px] mx-auto">
     <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">TDF vs TAF vs ETV——如何选药</h2>
     <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">TDF ≈ TAF ≈ ETV，疗效基本等效。区别在于长期安全性和价格</p>
@@ -473,7 +475,7 @@ a{color:#38BDF8;text-decoration:none}a:hover{text-decoration:underline}
 <div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
 
 <!-- 干扰素 -->
-<section class="py-20 px-6 md:py-12 md:px-4 bg-bg">
+<section class="py-12 px-4 md:py-20 md:px-6 bg-bg">
   <div class="max-w-[1200px] mx-auto">
     <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">关于干扰素</h2>
     <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">聚乙二醇干扰素（Peg-IFN-α）——三大指南认可的一线选项之一，但适用人群有限</p>
@@ -494,7 +496,7 @@ a{color:#38BDF8;text-decoration:none}a:hover{text-decoration:underline}
 <div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
 
 <!-- 特殊人群 -->
-<section class="py-20 px-6 md:py-12 md:px-4" id="special" style="background:linear-gradient(180deg,#060D19,rgba(11,24,41,.3),#060D19)">
+<section class="py-12 px-4 md:py-20 md:px-6" id="special" style="background:linear-gradient(180deg,#060D19,rgba(11,24,41,.3),#060D19)">
   <div class="max-w-[1200px] mx-auto">
     <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">特殊人群</h2>
     <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">妊娠期、儿童、肾功能不全、肝移植等特殊场景的治疗考量</p>
@@ -512,12 +514,12 @@ a{color:#38BDF8;text-decoration:none}a:hover{text-decoration:underline}
 <div class="h-px max-w-[600px] mx-auto" style="background:linear-gradient(90deg,transparent,rgba(46,139,192,.15),transparent)"></div>
 
 <!-- 总结 -->
-<section class="py-20 px-6 md:py-12 md:px-4 bg-bg">
+<section class="py-12 px-4 md:py-20 md:px-6 bg-bg">
   <div class="max-w-[1200px] mx-auto">
     <h2 class="stl text-[clamp(1.6rem,4vw,2.4rem)] font-extrabold text-white tracking-tight text-center mb-2 anim">你需要记住的几件事</h2>
     <p class="text-center text-tx-m text-[.95rem] max-w-[640px] mx-auto mb-14 leading-relaxed anim">基于WHO 2024、EASL 2025、AASLD 2025/2026三大国际指南的循证共识</p>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 anim">
-      <div class="rounded-[18px] p-8 bg-em/[.05] border border-em/10">
+      <div class="rounded-[18px] p-5 md:p-8 bg-em/[.05] border border-em/10">
         <h3 class="text-lg font-bold text-em flex items-center gap-2 mb-5">✅ 该做的</h3>
         <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-em shrink-0 mt-0.5">1.</span> 找肝病科/感染科专科医生——不要自己判断是否需要治疗</div>
         <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-em shrink-0 mt-0.5">2.</span> 定期复查——即使暂不治疗，也要每6个月复查一次（HBV DNA + ALT）</div>
@@ -527,7 +529,7 @@ a{color:#38BDF8;text-decoration:none}a:hover{text-decoration:underline}
         <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-em shrink-0 mt-0.5">6.</span> 戒酒——酒精与HBV协同促进纤维化和HCC</div>
         <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-em shrink-0 mt-0.5">7.</span> 接种甲肝疫苗——慢乙肝患者合并甲肝可致重症肝炎</div>
       </div>
-      <div class="rounded-[18px] p-8 bg-rd/[.05] border border-rd/10">
+      <div class="rounded-[18px] p-5 md:p-8 bg-rd/[.05] border border-rd/10">
         <h3 class="text-lg font-bold text-rd flex items-center gap-2 mb-5">❌ 不该做的</h3>
         <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-rd shrink-0 mt-0.5">1.</span> 不要吃"保肝药"替代抗病毒治疗——没有任何保肝药被国际指南推荐用于慢乙肝</div>
         <div class="flex items-start gap-2 py-2 text-sm leading-relaxed"><span class="text-rd shrink-0 mt-0.5">2.</span> 不要盯着"表面抗原转阴"——持续病毒抑制才是真正的获益</div>
@@ -575,11 +577,13 @@ window.addEventListener('scroll',()=>{nav.classList.toggle('s',window.scrollY>40
 const mobBtn=document.getElementById('mobBtn'),navMenu=document.getElementById('navMenu'),backdrop=document.getElementById('navBackdrop');
 const hSVG='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
 const cSVG='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>';
-function openMenu(){navMenu.classList.add('open');backdrop.classList.add('open');mobBtn.innerHTML=cSVG;mobBtn.setAttribute('aria-label','关闭菜单');document.body.classList.add('menu-open')}
-function closeMenu(){navMenu.classList.remove('open');backdrop.classList.remove('open');mobBtn.innerHTML=hSVG;mobBtn.setAttribute('aria-label','菜单');document.body.classList.remove('menu-open')}
+function openMenu(){navMenu.classList.add('open');backdrop.classList.add('open');mobBtn.innerHTML=cSVG;mobBtn.setAttribute('aria-label','关闭菜单');mobBtn.setAttribute('aria-expanded','true');navMenu.setAttribute('aria-hidden','false');document.body.classList.add('menu-open');navMenu.querySelector('a')?.focus()}
+function closeMenu(){navMenu.classList.remove('open');backdrop.classList.remove('open');mobBtn.innerHTML=hSVG;mobBtn.setAttribute('aria-label','菜单');mobBtn.setAttribute('aria-expanded','false');navMenu.setAttribute('aria-hidden','true');document.body.classList.remove('menu-open')}
 mobBtn.addEventListener('click',()=>navMenu.classList.contains('open')?closeMenu():openMenu());
 backdrop.addEventListener('click',closeMenu);
 navMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{if(window.innerWidth<=1100)closeMenu()}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&navMenu.classList.contains('open')){closeMenu();mobBtn.focus()}});
+window.addEventListener('resize',()=>{if(window.innerWidth>1100&&navMenu.classList.contains('open'))closeMenu()},{passive:true});
 const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.anim').forEach(el=>io.observe(el));
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const id=a.getAttribute('href');if(id&&id!=='#'){const t=document.querySelector(id);if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}})});
